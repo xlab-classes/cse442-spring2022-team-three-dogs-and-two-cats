@@ -1,0 +1,297 @@
+.container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+}
+.header {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  background-color: #d6e4ea;
+}
+.webname {
+  font-size: 24px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.navlink {
+  display: contents;
+}
+.homebutton {
+  fill: #88cad9;
+  width: 30px;
+  display: flex;
+  padding: 0px;
+  align-self: flex-end;
+  transition: 0.3s;
+  margin-left: 10px;
+  border-width: 0px;
+  border-radius: 0px;
+  margin-bottom: 18px;
+  text-decoration: none;
+}
+.homebutton:hover {
+  fill: #7ebac7;
+  border: none;
+  border-radius: 0px;
+}
+.createaccount {
+  width: 375px;
+  height: 431px;
+  display: flex;
+  margin-top: 4%;
+  align-items: flex-start;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: column;
+  background-color: #e1e2e8;
+}
+.title {
+  font-size: 20px;
+  align-self: center;
+  margin-top: 20px;
+}
+.email {
+  font-size: 14px;
+  align-self: flex-start;
+  margin-top: 5px;
+  margin-left: 35px;
+}
+.emailtextbox {
+  width: 306px;
+  height: 30px;
+  font-size: 14px;
+  align-self: center;
+  margin-top: 5px;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  background-color: var(--dl-color-gray-white);
+}
+.username {
+  font-size: 14px;
+  align-self: flex-start;
+  margin-top: 10px;
+  margin-left: 35px;
+}
+.usernametextbox {
+  width: 306px;
+  height: 30px;
+  font-size: 14px;
+  align-self: center;
+  margin-top: 5px;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  background-color: var(--dl-color-gray-white);
+}
+.names {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  margin-top: 10px;
+  align-items: flex-start;
+  margin-left: 35px;
+  justify-content: flex-start;
+}
+.firstname {
+  font-size: 14px;
+  align-self: flex-start;
+}
+.lastname {
+  font-size: 14px;
+  align-self: flex-start;
+  margin-left: 94px;
+}
+.namestextbox {
+  flex: 0 0 auto;
+  width: auto;
+  height: 30px;
+  display: flex;
+  margin-top: 5px;
+  align-items: flex-start;
+  margin-left: 35px;
+  justify-content: flex-start;
+}
+.firstnametextbox {
+  width: 140px;
+  height: 30px;
+  font-size: 14px;
+  align-self: center;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  background-color: var(--dl-color-gray-white);
+}
+.lastnametextbox {
+  width: 140px;
+  height: 30px;
+  font-size: 14px;
+  align-self: center;
+  margin-left: 25px;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  background-color: var(--dl-color-gray-white);
+}
+.password {
+  font-size: 14px;
+  align-self: flex-start;
+  margin-top: 10px;
+  margin-left: 35px;
+}
+.passwordtextbox {
+  width: 306px;
+  height: 30px;
+  font-size: 14px;
+  align-self: center;
+  margin-top: 5px;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  background-color: var(--dl-color-gray-white);
+}
+.retypepass {
+  font-size: 14px;
+  align-self: flex-start;
+  margin-top: 10px;
+  margin-left: 35px;
+}
+.retypepasstextbox {
+  width: 306px;
+  height: 30px;
+  font-size: 14px;
+  align-self: center;
+  margin-top: 5px;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  background-color: var(--dl-color-gray-white);
+}
+.checkboxes {
+  flex: 0 0 auto;
+  width: auto;
+  height: 10px;
+  display: flex;
+  margin-top: 10px;
+  align-items: flex-start;
+  margin-left: 35px;
+  margin-bottom: 3px;
+  justify-content: flex-start;
+}
+.instructor {
+  flex: 0 0 auto;
+  width: auto;
+  height: 10px;
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.checkbox {
+  width: 13px;
+  height: 13px;
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: var(--dl-color-gray-white);
+}
+.instructortext {
+  font-size: 14px;
+  align-self: center;
+  margin-top: 3px;
+  margin-left: 5px;
+}
+.student {
+  flex: 0 0 auto;
+  width: auto;
+  height: 10px;
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-start;
+  margin-left: 50%;
+  justify-content: flex-start;
+}
+.checkbox1 {
+  width: 13px;
+  height: 13px;
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: var(--dl-color-gray-white);
+}
+.studenttext {
+  font-size: 14px;
+  align-self: center;
+  margin-top: 3px;
+  margin-left: 5px;
+}
+.buttons {
+  flex: 0 0 auto;
+  width: auto;
+  height: 30px;
+  display: flex;
+  align-self: center;
+  margin-top: 10px;
+  align-items: flex-start;
+  margin-left: 0px;
+  justify-content: flex-start;
+}
+.signupbutton {
+  width: 90px;
+  height: 30px;
+  display: flex;
+  align-self: center;
+  transition: 0.3s;
+  align-items: flex-start;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  flex-direction: column;
+  text-decoration: none;
+  background-color: #88cad9;
+}
+.signupbutton:hover {
+  border: none;
+  display: flex;
+  background-color: #7ebac7;
+}
+.siguptext {
+  color: var(--dl-color-gray-white);
+  font-size: 14px;
+  align-self: center;
+  margin-top: 7px;
+  margin-left: 0px;
+}
+.navlink1 {
+  display: contents;
+}
+.cancelbutton {
+  width: 90px;
+  height: 30px;
+  display: flex;
+  align-self: center;
+  transition: 0.3s;
+  align-items: flex-start;
+  margin-left: 30px;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  flex-direction: column;
+  text-decoration: none;
+  background-color: #88cad9;
+}
+.cancelbutton:hover {
+  border: none;
+  display: flex;
+  background-color: #7ebac7;
+}
+.canceltext {
+  color: var(--dl-color-gray-white);
+  font-size: 14px;
+  align-self: center;
+  margin-top: 7px;
+  margin-left: 0px;
+}
