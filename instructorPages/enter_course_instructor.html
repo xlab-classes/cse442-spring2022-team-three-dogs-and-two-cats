@@ -2,7 +2,9 @@
 
 <html lang="en">
   <head>
-    <title>project</title>
+    <title>enter_course_instructor - project</title>
+    <meta property="og:title" content="enter_course_instructor - project" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
     <meta property="twitter:card" content="summary_large_image" />
@@ -14,6 +16,7 @@
         font-family: Inter;
         font-size: 16px;
       }
+
       body {
         font-weight: 400;
         font-style:normal;
@@ -23,14 +26,40 @@
         line-height: 1.15;
         color: var(--dl-color-gray-black);
         background-color: var(--dl-color-gray-white);
+
       }
     </style>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
     />
+    <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
-    <div id="app"></div>
+    <div>
+      <link href="enter_course_instructor.css" rel="stylesheet" />
+
+      <div class="enter_course_instructor-container">
+        <div class="enter_course_instructor-header">
+          <span class="enter_course_instructor-coursename">
+            <span>Course Name</span>
+          </span>
+          <a
+            href="home_instructor.html"
+            class="enter_course_instructor-navlink"
+          >
+            <svg
+              viewBox="0 0 1024 1024"
+              class="enter_course_instructor-homebutton"
+            >
+              <path
+                d="M512 128c0 0-263.936 227.84-411.435 351.232-8.661 7.851-15.232 19.285-15.232 32.768 0 23.595 19.072 42.667 42.667 42.667h85.333v298.667c0 23.595 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.115 42.667-42.667v-170.667h170.667v170.667c0 23.552 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.072 42.667-42.667v-298.667h85.333c23.595 0 42.667-19.072 42.667-42.667 0-13.483-6.571-24.917-16.341-32.768-146.475-123.392-410.325-351.232-410.325-351.232z"
+              ></path>
+            </svg>
+          </a>
+          <span class="enter_course_instructor-name"><span>Name</span></span>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

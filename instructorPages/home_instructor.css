@@ -1,4 +1,4 @@
-.container {
+.home_instructor-container {
   width: 100%;
   display: flex;
   overflow: auto;
@@ -6,7 +6,7 @@
   align-items: center;
   flex-direction: column;
 }
-.header {
+.home_instructor-header {
   flex: 0 0 auto;
   width: 100%;
   height: 120px;
@@ -16,12 +16,12 @@
   justify-content: flex-start;
   background-color: #d6e4ea;
 }
-.webname {
+.home_instructor-webname {
   font-size: 24px;
   margin-left: 20px;
   margin-bottom: 20px;
 }
-.homebutton {
+.home_instructor-homebutton {
   fill: #88cad9;
   width: 30px;
   display: flex;
@@ -33,22 +33,22 @@
   border-radius: 0px;
   margin-bottom: 18px;
 }
-.homebutton:hover {
+.home_instructor-homebutton:hover {
   fill: #7ebac7;
   border: none;
   border-radius: 0px;
 }
-.name {
+.home_instructor-name {
   right: 20px;
   bottom: 20px;
   position: absolute;
   font-size: 14px;
   transition: 0.3s;
 }
-.name:hover {
+.home_instructor-name:hover {
   color: #00778e;
 }
-.center {
+.home_instructor-center {
   flex: 1;
   width: 707px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-direction: column;
   background-color: #efefef;
 }
-.coursesheader {
+.home_instructor-coursesheader {
   flex: 0 0 auto;
   width: auto;
   height: auto;
@@ -67,20 +67,20 @@
   align-items: flex-start;
   justify-content: center;
 }
-.yourcourses {
+.home_instructor-yourcourses {
   font-size: 20px;
   align-self: flex-start;
 }
-.createclassbutton {
+.home_instructor-createclassbutton {
   font-size: 12px;
   align-self: center;
   transition: 0.3s;
   margin-left: 415px;
 }
-.createclassbutton:hover {
+.home_instructor-createclassbutton:hover {
   color: #88cad9;
 }
-.sort {
+.home_instructor-sort {
   flex: 0 0 auto;
   width: auto;
   height: auto;
@@ -91,13 +91,13 @@
   margin-right: 32px;
   justify-content: center;
 }
-.sortby {
+.home_instructor-sortby {
   font-size: 12px;
   align-self: flex-start;
   margin-top: auto;
   margin-bottom: auto;
 }
-.sortoptions {
+.home_instructor-sortoptions {
   flex: 0 0 auto;
   width: 120px;
   height: 18px;
@@ -109,14 +109,14 @@
   justify-content: flex-start;
   background-color: var(--dl-color-gray-white);
 }
-.newtoold {
+.home_instructor-newtoold {
   font-size: 12px;
   align-self: flex-start;
   margin-top: auto;
   margin-left: 5px;
   margin-bottom: auto;
 }
-.coursesection {
+.home_instructor-coursesection {
   width: 643px;
   height: 90px;
   display: flex;
@@ -130,22 +130,22 @@
   justify-content: center;
   background-color: var(--dl-color-gray-white);
 }
-.course {
+.home_instructor-course {
   display: flex;
   align-self: center;
   align-items: center;
   flex-direction: row;
   justify-content: center;
 }
-.coursename {
+.home_instructor-coursename {
   font-size: 18px;
   align-self: center;
   margin-right: 380px;
 }
-.navlink {
+.home_instructor-navlink {
   display: contents;
 }
-.enterbutton {
+.home_instructor-enterbutton {
   width: 50px;
   height: 18px;
   display: flex;
@@ -159,16 +159,16 @@
   text-decoration: none;
   background-color: #88cad9;
 }
-.enterbutton:hover {
+.home_instructor-enterbutton:hover {
   background-color: #7ebac7;
 }
-.enter {
+.home_instructor-enter {
   color: var(--dl-color-gray-white);
   font-size: 12px;
   align-self: center;
   margin-right: 0px;
 }
-.deletebutton {
+.home_instructor-deletebutton {
   width: 50px;
   height: 18px;
   display: flex;
@@ -181,22 +181,16 @@
   justify-content: center;
   background-color: #88cad9;
 }
-.deletebutton:hover {
+.home_instructor-deletebutton:hover {
   background-color: #7ebac7;
 }
-.delete {
+.home_instructor-delete {
   color: var(--dl-color-gray-white);
   font-size: 12px;
   align-self: center;
 }
-.code {
+.home_instructor-code {
   font-size: 12px;
   align-self: flex-start;
   margin-left: 20px;
-}
-.templogout {
-  top: 0px;
-  right: 0px;
-  position: absolute;
-  font-size: 14px;
 }

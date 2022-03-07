@@ -1,4 +1,4 @@
-.container {
+.enter_course_student-container {
   width: 100%;
   display: flex;
   overflow: auto;
@@ -6,7 +6,7 @@
   align-items: center;
   flex-direction: column;
 }
-.header {
+.enter_course_student-header {
   flex: 0 0 auto;
   width: 100%;
   height: 120px;
@@ -16,15 +16,15 @@
   justify-content: flex-start;
   background-color: #d6e4ea;
 }
-.coursename {
+.enter_course_student-coursename {
   font-size: 24px;
   margin-left: 20px;
   margin-bottom: 20px;
 }
-.navlink {
+.enter_course_student-navlink {
   display: contents;
 }
-.homebutton {
+.enter_course_student-homebutton {
   fill: #88cad9;
   width: 30px;
   display: flex;
@@ -37,18 +37,18 @@
   margin-bottom: 18px;
   text-decoration: none;
 }
-.homebutton:hover {
+.enter_course_student-homebutton:hover {
   fill: #7ebac7;
   border: none;
   border-radius: 0px;
 }
-.name {
+.enter_course_student-name {
   right: 20px;
   bottom: 20px;
   position: absolute;
   font-size: 14px;
   transition: 0.3s;
 }
-.name:hover {
+.enter_course_student-name:hover {
   color: #00778e;
 }

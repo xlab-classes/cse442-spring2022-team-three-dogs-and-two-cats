@@ -1,4 +1,4 @@
-.container {
+.retrieve_username-container {
   width: 100%;
   display: flex;
   overflow: auto;
@@ -6,7 +6,7 @@
   align-items: center;
   flex-direction: column;
 }
-.header {
+.retrieve_username-header {
   flex: 0 0 auto;
   width: 100%;
   height: 120px;
@@ -16,15 +16,15 @@
   justify-content: flex-start;
   background-color: #d6e4ea;
 }
-.webname {
+.retrieve_username-webname {
   font-size: 24px;
   margin-left: 20px;
   margin-bottom: 20px;
 }
-.navlink {
+.retrieve_username-navlink {
   display: contents;
 }
-.homebutton {
+.retrieve_username-homebutton {
   fill: #88cad9;
   width: 30px;
   display: flex;
@@ -37,12 +37,12 @@
   margin-bottom: 18px;
   text-decoration: none;
 }
-.homebutton:hover {
+.retrieve_username-homebutton:hover {
   fill: #7ebac7;
   border: none;
   border-radius: 0px;
 }
-.resetpassword {
+.retrieve_username-retrieveusername {
   width: 375px;
   height: 212px;
   display: flex;
@@ -53,24 +53,24 @@
   flex-direction: column;
   background-color: #E1E2E8;
 }
-.title {
+.retrieve_username-title {
   font-size: 20px;
   align-self: center;
   margin-top: 20px;
 }
-.desc {
+.retrieve_username-desc {
   font-size: 14px;
   align-self: flex-start;
   margin-top: 5px;
   margin-left: 35px;
 }
-.email {
+.retrieve_username-email {
   font-size: 14px;
   align-self: flex-start;
   margin-top: 10px;
   margin-left: 35px;
 }
-.emailtextbox {
+.retrieve_username-emailtextbox {
   width: 306px;
   height: 30px;
   font-size: 14px;
@@ -80,7 +80,7 @@
   border-radius: var(--dl-radius-radius-radius4);
   background-color: var(--dl-color-gray-white);
 }
-.buttons {
+.retrieve_username-buttons {
   flex: 0 0 auto;
   width: auto;
   height: 30px;
@@ -91,7 +91,7 @@
   margin-left: 0px;
   justify-content: flex-start;
 }
-.resetbutton {
+.retrieve_username-retrievebutton {
   width: 90px;
   height: 30px;
   display: flex;
@@ -104,22 +104,22 @@
   text-decoration: none;
   background-color: #88cad9;
 }
-.resetbutton:hover {
+.retrieve_username-retrievebutton:hover {
   border: none;
   display: flex;
   background-color: #7ebac7;
 }
-.resettext {
+.retrieve_username-retrievetext {
   color: var(--dl-color-gray-white);
   font-size: 14px;
   align-self: center;
   margin-top: 7px;
   margin-left: 0px;
 }
-.navlink1 {
+.retrieve_username-navlink1 {
   display: contents;
 }
-.cancelbutton {
+.retrieve_username-cancelbutton {
   width: 90px;
   height: 30px;
   display: flex;
@@ -133,12 +133,12 @@
   text-decoration: none;
   background-color: #88cad9;
 }
-.cancelbutton:hover {
+.retrieve_username-cancelbutton:hover {
   border: none;
   display: flex;
   background-color: #7ebac7;
 }
-.canceltext {
+.retrieve_username-canceltext {
   color: var(--dl-color-gray-white);
   font-size: 14px;
   align-self: center;
