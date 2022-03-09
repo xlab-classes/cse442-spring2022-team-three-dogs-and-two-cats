@@ -52,29 +52,45 @@
             ></path>
           </svg>
         </div>
-        <div class="home_login-login">
-          <span class="home_login-title">Log In</span>
-          <span class="home_login-username">Username</span>
-          <input type="text" class="home_login-usernametextbox input" />
-          <a href="retrieve_username.html" class="home_login-forgotusername">
-            Forgot Username?
-          </a>
-          <span class="home_login-password">Password</span>
-          <input type="text" class="home_login-passwordtextbox input" />
-          <a href="reset_password.html" class="home_login-forgotpassword">
-            Forgot Password?
-          </a>
-          <div class="home_login-rememberme">
-            <div class="home_login-remembermecheckbox"></div>
-            <span class="home_login-remembermetext">Remember Me</span>
+
+        <form action="/login" method="get" id="login-form">
+          <div class="home_login-login">
+            <span class="home_login-title">Log In</span>
+
+            <!-- enter username -->
+            <span class="home_login-username">
+              <label for="username"> Username</label>
+            </span>
+            <input type="text" name="username" id="username" class="home_login-usernametextbox input" require>
+
+            <a href="retrieve_username.html" class="home_login-forgotusername">
+              Forgot Username?
+            </a>
+
+            <!-- enter password -->
+            <span class="home_login-password">
+              <label for="password"> Password</label>
+              </span>
+            <input type="text" name="password" id="password" class="home_login-passwordtextbox input" required>
+
+            <a href="reset_password.html" class="home_login-forgotpassword">
+              Forgot Password?
+            </a>
+            <div class="home_login-rememberme">
+              <div class="home_login-remembermecheckbox"></div>
+              <span class="home_login-remembermetext">Remember Me</span>
+            </div>
+            <!-- click login button -->
+            <div class="home_login-loginbutton">
+              <input type="submit" value="Login" class="home_login-logintext">
+            </div>
+
+            <a href="sign_up.html" class="home_login-signup">
+              Don&apos;t have an account? Sign up!
+            </a>
           </div>
-          <div class="home_login-loginbutton">
-            <span class="home_login-logintext">Login</span>
-          </div>
-          <a href="sign_up.html" class="home_login-signup">
-            Don&apos;t have an account? Sign up!
-          </a>
-        </div>
+        </form>
+
         <a href="../instructorPages/home_instructor.html" class="home_login-templogininstructor">
           Temp Login Instructor
         </a>
