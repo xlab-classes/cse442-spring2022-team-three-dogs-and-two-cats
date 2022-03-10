@@ -4,24 +4,8 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $mysqli = new mysqli("oceanus.cse.buffalo.edu", "johnbudn", "50382208", "cse442_2022_spring_team_n_db");
 
-// $username =$_GET['username'];
-// $password = $_GET['password'];
-// $result = $mysqli->query("SELECT * FROM user where username = '$username' and password = '$password'");
-// if($result->num_rows >0){
-// echo "User validated";
-// $col = $result->fetch_assoc();  
-// if($col["is_professor"] == 0)
-// echo " User is student";
-// else
-// echo " User is Professor";
-// }
-// else
-// echo "User not validated";
-// $mysqli->close();
 $username = "";
 $password = "";
-// $username_err = "";
-// $password_err = "";
 $login_err = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])){
@@ -31,9 +15,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])){
         exit();
     }    
     // Check if username is empty   
-    if (isset($_POST["username"]) && isseet($_POST["password"])){
+    if (isset($_POST["username"]) && isset($_POST["password"])){
         $username = $_POST["username"]
         $password = $_POST["password"]
+        print $username;
+        print $password;
 
         $result = $mysqli->query("SELECT * FROM user where username = '$username' and password = '$password'");
 
