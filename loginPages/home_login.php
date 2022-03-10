@@ -7,6 +7,8 @@ $mysqli = new mysqli("oceanus.cse.buffalo.edu", "johnbudn", "50382208", "cse442_
 $username = "";
 $password = "";
 $login_err = "";
+$result = "";
+$col = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])){
     $mysqli = new mysqli("oceanus.cse.buffalo.edu", "johnbudn", "50382208", "cse442_2022_spring_team_n_db");  

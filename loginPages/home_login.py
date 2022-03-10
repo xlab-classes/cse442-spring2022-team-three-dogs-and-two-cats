@@ -1,8 +1,8 @@
 import mysql.connector
 
-def main():
+def login():
 
-    mydb = mysql.connector.connect(user='xliu95', password='50306778',host='oceanus.cse.buffalo.edu',database='cse442_2022_spring_team_n_db')
+    mydb = mysql.connector.connect(user='qinranwa', password='50307911',host='oceanus.cse.buffalo.edu',database='cse442_2022_spring_team_n_db')
 
     mycursor = mydb.cursor()
     
@@ -15,5 +15,3 @@ def main():
 
     mydb.close()
 
-if __name__ == "__main__":
-    main()

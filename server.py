@@ -1,6 +1,8 @@
 import socketserver
 import sys
 import os
+from loginPages import home_login as hl
+
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
 
@@ -13,9 +15,17 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         request = received_data.decode()
         r = request.split(" ")
 
+        if r[0] == 'POST':
+            print("post received")
+            print(request)
+            
+            print(received_data)
+            if r[1] == "/login":
+                login = request.split("/r/n/r/n")
+                print(login[1])
+
         sys.stdout.flush()
         sys.stderr.flush()
-
 
 
 if __name__=="__main__":
