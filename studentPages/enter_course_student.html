@@ -59,7 +59,30 @@
               ></path>
             </svg>
           </a>
-          <span class="enter_course_student-name"><span>Name</span></span>
+          <div class="enter_course_student-name">
+            <button onclick="nameDropdownFunc()" class="dropbtn">Name</button>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="#">Account settings</a>
+              <a href="#">Messages</a>
+              <a href="#">Log out</a>
+            </div>
+            <script> function nameDropdownFunc() {
+                document.getElementById("myDropdown").classList.toggle("show");
+              }
+              window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn')) {
+                  var dropdowns = document.getElementsByClassName("dropdown-content");
+                  var i;
+                  for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                      openDropdown.classList.remove('show');
+                    }
+                  }
+                }
+              } 
+            </script>
+          </div>
         </div>
       </div>
     </div>
