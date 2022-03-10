@@ -11,7 +11,6 @@ $result = "";
 $col = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])){
-    $mysqli = new mysqli("oceanus.cse.buffalo.edu", "johnbudn", "50382208", "cse442_2022_spring_team_n_db");  
     if (mysqli_connect_errno()) {
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
         exit();

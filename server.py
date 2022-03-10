@@ -14,15 +14,27 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
         request = received_data.decode()
         r = request.split(" ")
+        print(request)
 
         if r[0] == 'POST':
             print("post received")
             print(request)
-            
+
             print(received_data)
             if r[1] == "/login":
                 login = request.split("/r/n/r/n")
                 print(login[1])
+
+        elif r[1] == "/":
+            print("get root")
+            #html
+            file_name = "loginPages/home_login.html"
+            html_file = open(file_name, "r")
+            content = html_file.read()
+            file_size = os.path.getsize(file_name)
+            html_file.close()
+            response = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8 \r\nX-Content-Type-Options: nosniff\r\nContent-Length: " + str(file_size) + "\r\n\r\n" + content
+            self.request.sendall(response.encode())
 
         sys.stdout.flush()
         sys.stderr.flush()
