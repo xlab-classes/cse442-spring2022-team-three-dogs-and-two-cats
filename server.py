@@ -48,7 +48,6 @@ if __name__=="__main__":
     server = socketserver.ThreadingTCPServer((host, port), MyTCPHandler)
 
     server.serve_forever()
-
     # print("Listening on port" + str(port))
     sys.stdout.flush()
     sys.stderr.flush()
