@@ -28,7 +28,7 @@ const HomeLogin = () => {
     console.log(password)
     // history.push("/home_instructor")
     // window.location.reload(false);
-    axios.post('http://127.0.0.1:5000/',{username:username, password:password}).then(
+    axios.post('http://128.205.32.39:5100/',{username:username, password:password}).then(
       response=>{
           console.log(response)
 
@@ -37,7 +37,7 @@ const HomeLogin = () => {
              SetStudent(true)
              console.log('Student login passed', response);
               // onNameChange(response.data.username)   
-              history.push("/home_instructor")
+              history.push("/home_student")
               window.location.reload(false);
 
           }
