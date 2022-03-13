@@ -1,12 +1,45 @@
-from flask import Flask
+from flask import Flask,request, jsonify
+from flask_cors import CORS, cross_origin
+from .home_login import home_login
 
-api = Flask(__name__)
+# from flaskext.mysql import MySQL
+# import json
+# import os
+# from dotenv import load_dotenv
+# import logging
 
-@api.route('/profile')
-def my_profile():
-    response_body = {
-        "name": "Nagato",
-        "about" :"Hello! I'm a full stack developer that loves python and javascript"
-    }
+# APP_ROOT = os.path.join(os.path.dirname(__file__), '..')   # refers to application_top
+# dotenv_path = os.path.join(APP_ROOT, '.env')
+# load_dotenv(dotenv_path)
 
-    return response_body
+# mysql_host = os.getenv("DB_HOST")
+# mysql_port = os.getenv("DB_PORT")
+# mysql_dbname = os.getenv("DB_DATABASE")
+# mysql_user = os.getenv("DB_USERNAME")
+# mysql_password = os.getenv("DB_PASSWORD")
+
+# connection = None
+# CONNECTION_TIMEOUT = 5000
+
+# print(mysql_host)
+# print(mysql_port)
+# print(mysql_dbname)
+# print(mysql_user)
+
+
+
+app = Flask(__name__)
+
+app.register_blueprint(home_login)
+
+CORS(app)
+
+
+
+    
+
+if __name__ == '__main__':
+    app.run(debug=False)
+
+
+   

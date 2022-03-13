@@ -16,20 +16,12 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Route
-          exact
-          component={EnterCourseInstructor}
-          path="/enter_course_instructor"
-        />
+        <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
         <Route exact component={ResetPassword} path="/reset_password" />
         <Route exact component={RetrieveUsername} path="/retrieve_username" />
         <Route exact component={HomeInstructor} path="/home_instructor" />
         <Route exact component={HomeLogin} path="/" />
-        <Route
-          exact
-          component={EnterCourseStudent}
-          path="/enter_course_student"
-        />
+        <Route exact component={EnterCourseStudent} path="/enter_course_student" />
         <Route exact component={HomeStudent} path="/home_student" />
         <Route exact component={SignUp} path="/sign_up" />
       </div>
