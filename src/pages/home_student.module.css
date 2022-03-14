@@ -45,9 +45,6 @@
   font-size: 14px;
   transition: 0.3s;
 }
-.name:hover {
-  color: #00778e;
-}
 .center {
   flex: 1;
   width: 707px;
@@ -211,10 +208,4 @@
   font-size: 12px;
   align-self: flex-start;
   margin-left: 20px;
-}
-.templogout {
-  top: 0px;
-  right: 0px;
-  position: absolute;
-  font-size: 14px;
 }
