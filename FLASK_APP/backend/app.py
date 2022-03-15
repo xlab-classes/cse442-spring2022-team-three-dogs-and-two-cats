@@ -4,7 +4,7 @@ from flask_cors import CORS, cross_origin
 from .sign_up import sign_up
 from .home_login import home_login
 
-# from flaskext.mysql import MySQL
+from flaskext.mysql import MySQL
 # import json
 # import os
 # from dotenv import load_dotenv
@@ -27,6 +27,15 @@ from .home_login import home_login
 # print(mysql_port)
 # print(mysql_dbname)
 # print(mysql_user)
+
+app = Flask(__name__)
+app.config['MYSQL_DATABASE_HOST'] = 'oceanus.cse.buffalo.edu'
+app.config['MYSQL_DATABASE_USER'] = 'johnbudn'
+app.config['MYSQL_DATABASE_PASSWORD'] = '50382208'
+app.config['MYSQL_DATABASE_DB'] = 'cse442_2022_spring_team_n_db'
+
+global mysql
+mysql = MySQL(app)
 
 
 app = Flask(__name__)

@@ -1,9 +1,10 @@
 from flask import Flask,request, jsonify
 from flask_cors import CORS, cross_origin
+
 from flask import Blueprint
 
-
 home_login = Blueprint('home_login', __name__)
+
 @home_login.route("/", methods=['POST','GET'])
 # @cross_origin()
 def login():
@@ -16,6 +17,15 @@ def login():
     else:
         response = jsonify({"result":"Student", "username":username})
     # response.headers.add("Access-Control-Allow-Origin", "*")
-    print(data)
-    print(response.data)
+    print(data)  
+    
+    from .app import mysql
+    cursor = mysql.connect().cursor()
+    cursor.execute("SELECT * from user WHERE username = 'DemoStudent'")
+    print(cursor.fetchone())
+    cursor.close()
+
+   
+
+
     return response
