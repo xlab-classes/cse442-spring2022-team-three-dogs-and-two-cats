@@ -33,7 +33,7 @@ const HomeLogin = () => {
     console.log(password)
     // history.push("/home_instructor")
     // window.location.reload(false);
-    axios.post('http://128.205.32.39:5100/ ',{username:username, password:password}).then(
+    axios.post('http://128.205.245.8:5100/ ',{username:username, password:password}).then(
       response=>{
           console.log(response)
 

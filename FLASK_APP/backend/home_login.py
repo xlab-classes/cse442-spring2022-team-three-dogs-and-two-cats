@@ -14,7 +14,8 @@ def login():
     if username == '' or password == '':
         response = jsonify(result="username or password cannot be empty")
     else:
-        response = jsonify(result="Student")
+        response = jsonify({"result":"Student", "username":username})
     # response.headers.add("Access-Control-Allow-Origin", "*")
     print(data)
+    print(response.data)
     return response
