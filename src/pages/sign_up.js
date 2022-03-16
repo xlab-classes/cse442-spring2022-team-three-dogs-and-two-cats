@@ -119,7 +119,7 @@ const Signup = () => {
           <span>Password</span>
         </span>
         <input
-          type="text"
+          type="password"
           className={` ${styles['passwordtextbox']} ${projectStyles['input']} `}
           onChange={(e)=>{
             setPassword(e.target.value)
@@ -129,7 +129,7 @@ const Signup = () => {
           <span>Retype Password</span>
         </span>
         <input
-          type="text"
+          type="password"
           className={` ${styles['retypepasstextbox']} ${projectStyles['input']} `}
           onChange={(e)=>{
             setPassword2(e.target.value)
