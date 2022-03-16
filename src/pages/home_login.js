@@ -120,9 +120,9 @@ const HomeLogin = () => {
         />
 
       {/* Here is forgot username */} 
-        <Link to="/retrieve_username" className={styles['forgotusername']}>
+        {/* <Link to="/retrieve_username" className={styles['forgotusername']}>
           Forgot Username?
-        </Link>
+        </Link> */}
 
       {/* Here is input for password */} 
         <span className={styles['password']}>Password</span>
@@ -136,15 +136,15 @@ const HomeLogin = () => {
         />
 
       {/* Here is for reset password */}
-        <Link to="/reset_password" className={styles['forgotpassword']}>
+        {/* <Link to="/reset_password" className={styles['forgotpassword']}>
           Forgot Password?
-        </Link>
+        </Link> */}
 
       {/* Here id rememberme */}
-        <div className={styles['rememberme']}>
+        {/* <div className={styles['rememberme']}>
           <div className={styles['remembermecheckbox']}></div>
           <span className={styles['remembermetext']}>Remember Me</span>
-        </div>
+        </div> */}
 
       {/* Changed div to button submit */}
       {empty
