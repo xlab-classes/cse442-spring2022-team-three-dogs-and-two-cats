@@ -12,17 +12,39 @@ def login():
     data = request.get_json()
     username = data['username']
     password = data['password']
-    if username == '' or password == '':
-        response = jsonify(result="username or password cannot be empty")
-    else:
-        response = jsonify({"result":"Student", "username":username})
-    # response.headers.add("Access-Control-Allow-Origin", "*")
-    print(data)  
+ 
     
     from .app import mysql
     cursor = mysql.connect().cursor()
-    cursor.execute("SELECT * from user WHERE username = 'DemoStudent'")
-    print(cursor.fetchone())
+
+
+    if username == '' or password == '':
+        response = jsonify(result="username or password cannot be empty")
+
+    else:
+        
+        query = """ SELECT * from user WHERE username = %s AND password = %s """
+        tuple1 = (username, password)
+        cursor.execute(query,tuple1)
+        check_data = cursor.fetchone()
+        print(check_data)
+        # userLength = cursor.fetchone()[0]
+        
+        # print(userLength)
+
+        if check_data is None:
+            print("Invalid username or password")
+            response = jsonify({"result":"Invalid username or password"})
+
+        else :
+            if check_data[5] == 1:
+                response = jsonify({"result":"Professor", "username":username})
+
+            else:
+                response = jsonify({"result":"Student", "username":username})
+            
+    print(data) 
+
     cursor.close()
 
    

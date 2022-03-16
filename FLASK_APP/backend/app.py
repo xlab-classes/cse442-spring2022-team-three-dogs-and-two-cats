@@ -1,32 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 
-from .sign_up import sign_up
+
 from .home_login import home_login
 
 from flaskext.mysql import MySQL
-# import json
-# import os
-# from dotenv import load_dotenv
-# import logging
-
-# APP_ROOT = os.path.join(os.path.dirname(__file__), '..')   # refers to application_top
-# dotenv_path = os.path.join(APP_ROOT, '.env')
-# load_dotenv(dotenv_path)
-
-# mysql_host = os.getenv("DB_HOST")
-# mysql_port = os.getenv("DB_PORT")
-# mysql_dbname = os.getenv("DB_DATABASE")
-# mysql_user = os.getenv("DB_USERNAME")
-# mysql_password = os.getenv("DB_PASSWORD")
-
-# connection = None
-# CONNECTION_TIMEOUT = 5000
-
-# print(mysql_host)
-# print(mysql_port)
-# print(mysql_dbname)
-# print(mysql_user)
 
 app = Flask(__name__)
 app.config['MYSQL_DATABASE_HOST'] = 'oceanus.cse.buffalo.edu'
@@ -42,7 +20,6 @@ app = Flask(__name__)
 
 app.register_blueprint(home_login)
 
-app.register_blueprint(sign_up)
 
 CORS(app)
 

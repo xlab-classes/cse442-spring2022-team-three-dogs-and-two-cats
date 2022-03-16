@@ -33,7 +33,7 @@ const HomeLogin = () => {
     console.log(password)
     // history.push("/home_instructor")
     // window.location.reload(false);
-    axios.post('http://128.205.245.8:5100/ ',{username:username, password:password}).then(
+    axios.post('http://128.205.32.39:5100/',{username:username, password:password}).then(
       response=>{
           console.log(response)
 
@@ -43,7 +43,6 @@ const HomeLogin = () => {
             console.log('Student login passed', response);
             history.push("/home_student")
             window.location.reload(false);
-
           }
 
           // Check if user is a professor
@@ -57,15 +56,13 @@ const HomeLogin = () => {
           else if (response.data.result === "username or password cannot be empty"){
             console.log(response.data);
             setEmpty(true);
-            setAlert(true);
-
           }
 
           // else return error
           else{
               console.log(response.data);
               setError(true);
-              // setAlert(true);
+              setAlert(true);
   
           }
 
@@ -95,7 +92,14 @@ const HomeLogin = () => {
     <Alert show={alert} className={styles["alert"]}>
     <span className={styles["closebtn"]} onClick={()=>{setAlert(false)}}>&times;</span> 
         <p>
-          Invalid username or password
+        Invalid account information, please check ur password or username again!
+        </p>
+    </Alert>
+
+    <Alert show={empty} className={styles["alert"]}>
+    <span className={styles["closebtn"]} onClick={()=>{setEmpty(false)}}>&times;</span> 
+        <p>
+        Username or password cannot be empty.
         </p>
     </Alert>
 
@@ -123,7 +127,6 @@ const HomeLogin = () => {
       {/* Here is input for password */} 
         <span className={styles['password']}>Password</span>
         <input
-          type="text"
           className={` ${styles['passwordtextbox']} ${projectStyles['input']} `}
           type="password"
           onChange={(e)=>{
@@ -145,7 +148,7 @@ const HomeLogin = () => {
 
       {/* Changed div to button submit */}
       {empty
-        ?<button className={styles['loginbutton']} onClick={() => setAlert(true)}>
+        ?<button className={styles['loginbutton']}>
           <span className={styles['logintext']}>Login</span>
         </button> 
         
