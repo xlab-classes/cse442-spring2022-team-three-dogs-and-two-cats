@@ -92,7 +92,7 @@ const HomeLogin = () => {
     <Alert show={alert} className={styles["alert"]}>
     <span className={styles["closebtn"]} onClick={()=>{setAlert(false)}}>&times;</span> 
         <p>
-        Invalid account information, please check ur password or username again!
+        Invalid account information, please check your username or password again!
         </p>
     </Alert>
 
@@ -153,7 +153,7 @@ const HomeLogin = () => {
         </button> 
         
         
-        :<button type="submit" className={styles['loginbutton']} type="submit">
+        :<button type="submit" className={styles['loginbutton']}>
         <span className={styles['logintext']}>Login</span>
         </button> 
       }
@@ -164,13 +164,6 @@ const HomeLogin = () => {
         </Link>
       </form>
 
-      {/*temp link */}
-      <Link to="/home_instructor" className={styles['templogininstructor']}>
-        Temp Login Instructor
-      </Link>
-      <Link to="/home_student" className={styles['temploginstudent']}>
-        Temp Login Student
-      </Link>
     </div>
   )
 }
