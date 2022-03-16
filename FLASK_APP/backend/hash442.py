@@ -16,15 +16,20 @@ def digest(input):
 
 #Compares a plaintext input with a record in user table. Returns true if hash matches, false otherwise. Returns false on no DB match
 def compareUserHash(userInput, _username):
-    from app import mysql
+    from .app import mysql
     cursor = mysql.connect().cursor()
-    cursor.execute("SELECT password, salt FROM user password WHERE username = '"+_username+"'")
+    print( "username is " ,_username)
+    # cursor.execute("SELECT password, salt FROM user password WHERE username = '"+_username+"'")
+    cursor.execute("SELECT password, salt FROM user WHERE username = %s",_username)
     storedHashObj = cursor.fetchone()
+    print("storedHashObj" , storedHashObj)
     
-    if storedHashObj:  
+    if storedHashObj: 
+        print("here")
         storedHash = storedHashObj[0]
         salt = storedHashObj[1]
         userHash = toHash(userInput, salt)
+        print(userHash)
         return digest(userHash[0]) + salt == storedHash + salt
     else:
         return False
