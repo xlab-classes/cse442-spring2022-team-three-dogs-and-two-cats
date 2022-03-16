@@ -18,7 +18,7 @@ def digest(input):
 def compareUserHash(userInput, _username):
     from app import mysql
     cursor = mysql.connect().cursor()
-    cursor.execute("SELECT password, salt FROM user password WHERE username = '"+_username+"'")
+    cursor.execute("SELECT password, salt FROM user WHERE username = '"+_username+"'")
     storedHashObj = cursor.fetchone()
     
     if storedHashObj:  
