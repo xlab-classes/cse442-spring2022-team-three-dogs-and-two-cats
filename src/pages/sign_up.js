@@ -101,14 +101,14 @@ const Signup = () => {
         </div>
         <div className={styles['namestextbox']}>
           <input
-            type="password"
+            type="text"
             className={` ${styles['firstnametextbox']} ${projectStyles['input']} `}
             onChange={(e)=>{
             setFirstName(e.target.value);
           }}
           />
           <input
-            type="password"
+            type="text"
             className={` ${styles['lastnametextbox']} ${projectStyles['input']} `}
             onChange={(e)=>{
             setLastName(e.target.value)
