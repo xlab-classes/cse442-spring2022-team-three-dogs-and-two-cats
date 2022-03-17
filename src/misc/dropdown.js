@@ -16,7 +16,7 @@ const name_dropdown = () => {
         <ul>
           <li>Account Settings</li>
           <li>Messages</li>
-          <li className="logout"><a href="/">Log Out</a></li>
+          <a href="/"><li className="logout">Log Out</li></a>
         </ul>
       </div>
       }
