@@ -1,0 +1,217 @@
+.container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.header {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  position: relative;
+  align-items: flex-end;
+  justify-content: flex-start;
+  background-color: #d6e4ea;
+}
+.webname {
+  font-size: 24px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.homebutton {
+  fill: #88cad9;
+  width: 30px;
+  display: flex;
+  padding: 0px;
+  align-self: flex-end;
+  transition: 0.3s;
+  margin-left: 10px;
+  border-width: 0px;
+  border-radius: 0px;
+  margin-bottom: 18px;
+}
+.homebutton:hover {
+  fill: #7ebac7;
+  border: none;
+  border-radius: 0px;
+}
+.login {
+  width: 375px;
+  height: 282px;
+  display: flex;
+  align-self: center;
+  margin-top: 6%;
+  align-items: flex-start;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: column;
+  background-color: #E1E2E8;
+}
+.title {
+  font-size: 20px;
+  align-self: center;
+  margin-top: 20px;
+}
+.username {
+  font-size: 14px;
+  align-self: flex-start;
+  margin-top: 5px;
+  margin-left: 35px;
+}
+.usernametextbox {
+  width: 306px;
+  height: 30px;
+  font-size: 14px;
+  align-self: center;
+  margin-top: 5px;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  background-color: var(--dl-color-gray-white);
+}
+
+.forgotusername {
+  font-size: 10px;
+  align-self: flex-end;
+  margin-top: 5px;
+  transition: 0.3s;
+  margin-right: 35px;
+  text-decoration: none;
+}
+.forgotusername:hover {
+  color: #00778e;
+}
+.password {
+  font-size: 14px;
+  align-self: flex-start;
+  /* add  margin-top: 5px;*/
+  margin-top: 5px;
+  margin-left: 35px;
+}
+.passwordtextbox {
+  width: 306px;
+  height: 30px;
+  font-size: 14px;
+  align-self: center;
+  margin-top: 5px;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  background-color: var(--dl-color-gray-white);
+}
+.forgotpassword {
+  font-size: 10px;
+  align-self: flex-end;
+  margin-top: 5px;
+  transition: 0.3s;
+  margin-right: 35px;
+  text-decoration: none;
+}
+.forgotpassword:hover {
+  color: #00778e;
+}
+.rememberme {
+  flex: 0 0 auto;
+  width: auto;
+  height: 10px;
+  display: flex;
+  align-self: flex-start;
+  margin-top: 0px;
+  align-items: flex-start;
+  margin-left: 35px;
+  margin-bottom: 5px;
+  justify-content: flex-start;
+}
+.remembermecheckbox {
+  width: 13px;
+  height: 13px;
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: var(--dl-color-gray-white);
+}
+.remembermetext {
+  font-size: 14px;
+  align-self: center;
+  margin-top: 3px;
+  margin-left: 5px;
+}
+.loginbutton {
+  width: 306px;
+  height: 30px;
+  display: flex;
+  align-self: center;
+  /* margin-top 10->20 */
+  margin-top: 15px;
+  transition: 0.3s;
+  align-items: flex-start;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius4);
+  flex-direction: column;
+  text-decoration: none;
+  background-color: #88cad9;
+}
+.loginbutton:hover {
+  border: none;
+  display: flex;
+  background-color: #7ebac7;
+}
+.logintext {
+  color: var(--dl-color-gray-white);
+  font-size: 14px;
+  align-self: center;
+  font-style: normal;
+  margin-top: 7px;
+  font-weight: 400;
+  margin-left: 0px;
+}
+.signup {
+  padding: 0px;
+  font-size: 14px;
+  align-self: flex-start;
+  margin-top: 10px;
+  transition: 0.3s;
+  margin-left: 35px;
+  border-width: 0px;
+  border-radius: 0px;
+  text-decoration: none;
+  background-color: transparent;
+}
+.signup:hover {
+  color: #00778e;
+  border: none;
+  background-color: transparent;
+}
+.templogininstructor {
+  font-size: 14px;
+  align-self: center;
+  text-decoration: none;
+}
+.temploginstudent {
+  font-size: 14px;
+  align-self: center;
+  text-decoration: none;
+}
+.alert {
+  padding: 20px;
+  width: 100%;
+  background-color: #ffaab6;
+  color: rgb(107, 76, 76);
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
