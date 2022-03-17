@@ -1,6 +1,7 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Switch,BrowserRouter as Router, Route } from 'react-router-dom'
+import axios from 'axios';
 
 import './style.module.css'
 import EnterCourseInstructor from './pages/enter_course_instructor'
@@ -13,25 +14,45 @@ import HomeStudent from './pages/home_student'
 import SignUp from './pages/sign_up'
 
 const App = () => {
+  const [name,setName] = useState('');
+  useEffect(() => {
+    axios.get('/').then(
+      res => {
+        console.log("This is the get request from login \n",res)
+        setName(res.data.username)
+      },
+      err => {
+        console.log(err);
+        setName('')
+      })
+    },[])
+
   return (
     <Router>
       <div>
-        <Route
-          exact
-          component={EnterCourseInstructor}
-          path="/enter_course_instructor"
-        />
+        {name ?(
+        <Switch>
+        <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
         <Route exact component={ResetPassword} path="/reset_password" />
         <Route exact component={RetrieveUsername} path="/retrieve_username" />
         <Route exact component={HomeInstructor} path="/home_instructor" />
         <Route exact component={HomeLogin} path="/" />
-        <Route
-          exact
-          component={EnterCourseStudent}
-          path="/enter_course_student"
-        />
+        <Route exact component={EnterCourseStudent} path="/enter_course_student" />
         <Route exact component={HomeStudent} path="/home_student" />
         <Route exact component={SignUp} path="/sign_up" />
+        </Switch> )
+        :(   
+        <Switch>
+          <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
+          <Route exact component={ResetPassword} path="/reset_password" />
+          <Route exact component={RetrieveUsername} path="/retrieve_username" />
+          <Route exact component={HomeInstructor} path="/home_instructor" />
+          <Route exact component={HomeLogin} path="/" />
+          <Route exact component={EnterCourseStudent} path="/enter_course_student" />
+          <Route exact component={HomeStudent} path="/home_student" />
+          <Route exact component={SignUp} path="/sign_up" />
+        </Switch> )
+    }
       </div>
     </Router>
   )

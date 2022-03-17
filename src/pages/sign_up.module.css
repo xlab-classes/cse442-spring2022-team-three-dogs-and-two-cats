@@ -259,7 +259,7 @@
   display: flex;
   background-color: #7ebac7;
 }
-.siguptext {
+.signuptext {
   color: var(--dl-color-gray-white);
   font-size: 14px;
   align-self: center;
