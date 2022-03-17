@@ -71,7 +71,6 @@
   border-radius: var(--dl-radius-radius-radius4);
   background-color: var(--dl-color-gray-white);
 }
-
 .forgotusername {
   font-size: 10px;
   align-self: flex-end;
@@ -86,8 +85,6 @@
 .password {
   font-size: 14px;
   align-self: flex-start;
-  /* add  margin-top: 5px;*/
-  margin-top: 5px;
   margin-left: 35px;
 }
 .passwordtextbox {
@@ -143,8 +140,7 @@
   height: 30px;
   display: flex;
   align-self: center;
-  /* margin-top 10->20 */
-  margin-top: 15px;
+  margin-top: 10px;
   transition: 0.3s;
   align-items: flex-start;
   border-width: 0px;
@@ -193,25 +189,4 @@
   font-size: 14px;
   align-self: center;
   text-decoration: none;
-}
-.alert {
-  padding: 20px;
-  width: 100%;
-  background-color: #ffaab6;
-  color: rgb(107, 76, 76);
-}
-
-.closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.closebtn:hover {
-  color: black;
 }
