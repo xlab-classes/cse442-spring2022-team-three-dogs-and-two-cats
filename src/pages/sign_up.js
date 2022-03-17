@@ -24,7 +24,7 @@ const Signup = () => {
 
   const signup= (e) =>{
     e.preventDefault();
-    axios.post('http://128.205.32.39:5100/sign_up',{email:email, username:username, firstname:firstname, lastname:lastname, password:password, password2:password2, professor:professor, student:student}).then(
+    axios.post('http://cheshire.cse.buffalo.edu:3000/sign_up',{email:email, username:username, firstname:firstname, lastname:lastname, password:password, password2:password2, professor:professor, student:student}).then(
       response=>{
           if (response.data.result === 'Student'){
              console.log('Student account created successfully', response);
@@ -101,14 +101,14 @@ const Signup = () => {
         </div>
         <div className={styles['namestextbox']}>
           <input
-            type="text"
+            type="password"
             className={` ${styles['firstnametextbox']} ${projectStyles['input']} `}
             onChange={(e)=>{
             setFirstName(e.target.value);
           }}
           />
           <input
-            type="text"
+            type="password"
             className={` ${styles['lastnametextbox']} ${projectStyles['input']} `}
             onChange={(e)=>{
             setLastName(e.target.value)
@@ -144,7 +144,7 @@ const Signup = () => {
           </div>
         </div>
         <div className={styles['buttons']}>
-            <button type="submit" className={styles['signupbutton']}>
+            <button type="submit" className={styles['signupbutton']} type="submit">
                 <span className={styles['signuptext']}>Sign Up</span>
             </button>
           <Link to="/" className={styles['navlink1']}>
