@@ -24,19 +24,43 @@ const Signup = () => {
 
   const signup= (e) =>{
     e.preventDefault();
-    axios.post('http://128.205.32.39:5100/',{email:email, username:username, firstname:firstname, lastname:lastname, password:password, password2:password2, professor:professor, student:student}).then(
+
+    //http://128.205.32.39:5100, http://127.0.0.1:5000
+    axios.post('http://128.205.32.39:5100/sign_up',{email:email, username:username, firstname:firstname, lastname:lastname, password:password, password2:password2, professor:professor, student:student}).then(
+
       response=>{
           if (response.data.result === 'Student'){
              console.log('Student account created successfully', response);
              history.push("/");
              window.location.reload(false);
           }
-          // Check if user is a professor
           else if (response.data.result === 'Professor'){
              console.log('Professor account created successfully', response);
              history.push("/");
              window.location.reload(false);
           }
+          else if (response.data.result === 'email'){
+             window.alert("Please input a valid email address");
+          }
+          else if (response.data.result === 'username'){
+             window.alert("Please input a valid username");
+          }
+          else if (response.data.result === 'firstname'){
+             window.alert("Please input your first name");
+          }
+          else if (response.data.result === 'lastname'){
+             window.alert("Please input your last name");
+          }
+          else if (response.data.result === 'password'){
+             window.alert("Please input a valid password");
+          }
+          else if (response.data.result === 'password2'){
+             window.alert("Passwords do not match");
+          }
+          else if (response.data.result === 'account'){
+             window.alert("Please select an instructors account or a students account");
+          }
+
       })
 
   }
@@ -101,14 +125,14 @@ const Signup = () => {
         </div>
         <div className={styles['namestextbox']}>
           <input
-            type="password"
+            type="text"
             className={` ${styles['firstnametextbox']} ${projectStyles['input']} `}
             onChange={(e)=>{
             setFirstName(e.target.value);
           }}
           />
           <input
-            type="password"
+            type="text"
             className={` ${styles['lastnametextbox']} ${projectStyles['input']} `}
             onChange={(e)=>{
             setLastName(e.target.value)
