@@ -3,7 +3,9 @@ from flask import Blueprint
 from flask_cors import CORS
 from flaskext.mysql import MySQL
 from .hash442 import *
+
 import re
+
 
 sign_up = Blueprint('sign_up', __name__)
 su = Flask(__name__)

@@ -3,6 +3,11 @@ import '../misc/dropdown.css'
 
 const name_dropdown = () => {
   const [visible, setVisible] = React.useState(false)
+  const logout =()=>{
+    console.log("Logout")
+    localStorage.clear()
+    }
+
   
   return (
     <div className='dropdown_container'>
@@ -16,7 +21,9 @@ const name_dropdown = () => {
         <ul>
           <li>Account Settings</li>
           <li>Messages</li>
-          <a href="/"><li className="logout">Log Out</li></a>
+          <a href="/">
+            <li onClick={logout} className="logout">Log Out</li>
+          </a>
         </ul>
       </div>
       }

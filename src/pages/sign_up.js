@@ -24,8 +24,10 @@ const Signup = () => {
 
   const signup= (e) =>{
     e.preventDefault();
+
     //http://128.205.32.39:5100, http://127.0.0.1:5000
     axios.post('http://128.205.32.39:5100/sign_up',{email:email, username:username, firstname:firstname, lastname:lastname, password:password, password2:password2, professor:professor, student:student}).then(
+
       response=>{
           if (response.data.result === 'Student'){
              console.log('Student account created successfully', response);
