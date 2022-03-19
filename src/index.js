@@ -15,10 +15,16 @@ import SignUp from './pages/sign_up'
 
 const App = () => {
   const [name,setName] = useState('');
+  const [token, setToken] = useState(false);
   useEffect(() => {
-    axios.get('/').then(
+    axios.get('http://128.205.245.162:5100/',{token:localStorage.getItem('token')}).then(
       res => {
         console.log("This is the get request from login \n",res)
+        if (localStorage.getItem('token')){
+          console.log(localStorage.getItem('token'))
+          setToken(true)
+        }
+        
         setName(res.data.username)
       },
       err => {
@@ -30,7 +36,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        {name ?(
+        {token ?(
         <Switch>
         <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
         <Route exact component={ResetPassword} path="/reset_password" />
@@ -43,13 +49,7 @@ const App = () => {
         </Switch> )
         :(   
         <Switch>
-          <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
-          <Route exact component={ResetPassword} path="/reset_password" />
-          <Route exact component={RetrieveUsername} path="/retrieve_username" />
-          <Route exact component={HomeInstructor} path="/home_instructor" />
           <Route exact component={HomeLogin} path="/" />
-          <Route exact component={EnterCourseStudent} path="/enter_course_student" />
-          <Route exact component={HomeStudent} path="/home_student" />
           <Route exact component={SignUp} path="/sign_up" />
         </Switch> )
     }
