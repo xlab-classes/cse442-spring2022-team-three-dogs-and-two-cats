@@ -4,6 +4,9 @@ from flask_cors import CORS
 from flaskext.mysql import MySQL
 from .hash442 import *
 
+import re
+
+
 sign_up = Blueprint('sign_up', __name__)
 su = Flask(__name__)
 mysql = MySQL()
@@ -19,20 +22,21 @@ mysql.init_app(su)
 def signup():
     data = request.get_json()
     print(data)
-    if data['email'] == "":
-        print("Please input your email")
-    elif data['username'] == "":
-        print("Please input a username")
-    elif data['firstname'] == "":
-        print("Please input your first name")
-    elif data['lastname'] == "":
-        print("Please input your last name")
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if not re.fullmatch(regex, data['email']):
+        return jsonify(result="email")
+    elif data['username'].strip().replace(" ", "") == "":
+        return jsonify(result="username")
+    elif data['firstname'].strip().replace(" ", "") == "":
+        return jsonify(result="firstname")
+    elif data['lastname'].strip().replace(" ", "") == "":
+        return jsonify(result="lastname")
     elif data['password'] == "":
-        print("Please input a password")
+        return jsonify(result="password")
     elif data['password'] != data['password2']:
-        print("Passwords do not match")
+        return jsonify(result="password2")
     elif data['professor'] is False and data['student'] is False:
-        print("Please select an instructors account or a students account")
+        return jsonify(result="account")
     else:
         conn1 = mysql.connect()
         checkusernames = conn1.cursor()
@@ -55,14 +59,16 @@ def signup():
         hashed = toHash(data['password'])
         if data['professor'] is True:
             sql = "INSERT INTO user (username, password, salt, first_name, last_name, email, is_professor) VALUES (%s, %s, %s, %s, %s, %s, %s) "
-            val = (data['username'], digest(hashed[0]), hashed[1], data['firstname'], data['lastname'], data['email'], '1')
+            val = (
+            data['username'], digest(hashed[0]), hashed[1], data['firstname'], data['lastname'], data['email'], '1')
             cursor.execute(sql, val)
             conn3.commit()
             response = jsonify(result="Professor")
             return response
         else:
             sql = "INSERT INTO user (username, password, salt, first_name, last_name, email, is_professor) VALUES (%s, %s, %s, %s, %s, %s, %s) "
-            val = (data['username'], digest(hashed[0]), hashed[1], data['firstname'], data['lastname'], data['email'], '0')
+            val = (
+            data['username'], digest(hashed[0]), hashed[1], data['firstname'], data['lastname'], data['email'], '0')
             cursor.execute(sql, val)
             conn3.commit()
             response = jsonify(result="Student")

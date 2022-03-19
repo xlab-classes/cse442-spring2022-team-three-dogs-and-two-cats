@@ -13,13 +13,24 @@ import EnterCourseStudent from './pages/enter_course_student'
 import HomeStudent from './pages/home_student'
 import SignUp from './pages/sign_up'
 
+
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 const App = () => {
   const [name,setName] = useState('');
+  const [token, setToken] = useState(false);
+  const [professor, setProfessor] = useState(false);
+  
   useEffect(() => {
-    axios.get('/').then(
+    axios.get('http://128.205.32.39:5100/').then(
       res => {
         console.log("This is the get request from login \n",res)
-        setName(res.data.username)
+        console.log(localStorage.getItem('token'))
+        if (localStorage.getItem('token')){
+          setToken(true)
+          if (res.data.result == "Professor"){
+            setProfessor(true)
+          }
+        }      
       },
       err => {
         console.log(err);
@@ -30,26 +41,31 @@ const App = () => {
   return (
     <Router>
       <div>
-        {name ?(
-        <Switch>
-        <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
-        <Route exact component={ResetPassword} path="/reset_password" />
-        <Route exact component={RetrieveUsername} path="/retrieve_username" />
-        <Route exact component={HomeInstructor} path="/home_instructor" />
-        <Route exact component={HomeLogin} path="/" />
-        <Route exact component={EnterCourseStudent} path="/enter_course_student" />
-        <Route exact component={HomeStudent} path="/home_student" />
-        <Route exact component={SignUp} path="/sign_up" />
-        </Switch> )
+        {token ?(
+          professor?(
+            <Switch>
+            <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
+            <Route exact component={ResetPassword} path="/reset_password" />
+            <Route exact component={RetrieveUsername} path="/retrieve_username" />
+            <Route exact component={HomeLogin} path="/" />
+            <Route exact component={HomeInstructor} path="/home_instructor" />
+            <Route exact component={SignUp} path="/sign_up" />
+            </Switch>
+          )
+          :(
+            <Switch>
+            <Route exact component={ResetPassword} path="/reset_password" />
+            <Route exact component={RetrieveUsername} path="/retrieve_username" />
+            <Route exact component={HomeStudent} path="/home_student" />
+            <Route exact component={HomeLogin} path="/" />
+            <Route exact component={EnterCourseStudent} path="/enter_course_student" />
+            <Route exact component={SignUp} path="/sign_up" />
+            </Switch>
+          )
+       )
         :(   
         <Switch>
-          <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
-          <Route exact component={ResetPassword} path="/reset_password" />
-          <Route exact component={RetrieveUsername} path="/retrieve_username" />
-          <Route exact component={HomeInstructor} path="/home_instructor" />
-          <Route exact component={HomeLogin} path="/" />
-          <Route exact component={EnterCourseStudent} path="/enter_course_student" />
-          <Route exact component={HomeStudent} path="/home_student" />
+          <Route exact component={HomeLogin} path="/"/>
           <Route exact component={SignUp} path="/sign_up" />
         </Switch> )
     }

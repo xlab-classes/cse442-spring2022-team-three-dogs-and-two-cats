@@ -27,14 +27,18 @@ const HomeLogin = () => {
   const [alert, setAlert] = useState(false);
 
   const login= (e) =>{
+
     e.preventDefault();
     // test submmit button
     console.log(username)
     console.log(password)
     // history.push("/home_instructor")
     // window.location.reload(false);
+    
+    //server
     axios.post('http://128.205.32.39:5100/',{username:username, password:password}).then(
-    // axios.post('http://127.0.0.1:5000/',{username:username, password:password}).then(
+    //local
+    // axios.post('http://128.205.245.15:5100/',{username:username, password:password}).then(
 
       response=>{
           console.log(response)
@@ -43,6 +47,7 @@ const HomeLogin = () => {
           if (response.data.result === 'Student'){
             setStudent(true)
             console.log('Student login passed', response);
+            localStorage.setItem('token',response.data.token);
             history.push("/home_student")
             window.location.reload(false);
           }
@@ -50,7 +55,9 @@ const HomeLogin = () => {
           // Check if user is a professor
           else if (response.data.result === 'Professor'){
             setStudent(false)
-            console.log('Student login passed', response);
+            console.log('Professor login passed', response);
+            // console.log('header is',response.headers[Set-Cookie])
+            localStorage.setItem('token',response.data.token);
             history.push("/home_instructor");
             window.location.reload(false);
           }
