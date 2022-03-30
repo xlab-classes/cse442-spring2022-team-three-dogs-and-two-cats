@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import projectStyles from '../style.module.css'
 import styles from './home_student.module.css'
-
 import Dropdown from "../misc/dropdown"
 
 const HomeStudent = () => {
@@ -30,6 +29,8 @@ const HomeStudent = () => {
       <div className={styles['center']}>
         <div className={styles['coursesheader']}>
           <span className={styles['yourcourses']}>Your Courses</span>
+
+          {/* join new class */}
           <input
             type="text"
             placeholder="Enter Class Code"
@@ -38,6 +39,7 @@ const HomeStudent = () => {
           <div className={styles['joinbutton']}>
             <span className={styles['join']}>Join</span>
           </div>
+
         </div>
         <div className={styles['sort']}>
           <span className={styles['sortby']}>Sory By</span>
@@ -46,6 +48,8 @@ const HomeStudent = () => {
           </div>
         </div>
         <div className={styles['coursesection']}>
+          
+          {/* a course */}
           <div className={styles['course']}>
             <span className={styles['coursename']}>Course Name</span>
             <Link to="/enter_course_student" className={styles['navlink']}>
@@ -58,6 +62,7 @@ const HomeStudent = () => {
             </div>
           </div>
           <span className={styles['code']}>Code: ######</span>
+
         </div>
       </div>
     </div>
