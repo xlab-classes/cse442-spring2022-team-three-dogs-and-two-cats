@@ -36,9 +36,9 @@ const HomeLogin = () => {
     // window.location.reload(false);
     
     //server
-    axios.post('http://128.205.32.39:5100/',{username:username, password:password}).then(
+    // axios.post('http://128.205.32.39:5100/',{username:username, password:password}).then(
     //local
-    // axios.post('http://128.205.245.15:5100/ ',{username:username, password:password}).then(
+    axios.post('http://127.0.0.1:5000/ ',{username:username, password:password}).then(
 
       response=>{
           console.log(response)
@@ -50,6 +50,7 @@ const HomeLogin = () => {
             localStorage.setItem('token',response.data.token);
             history.push("/home_student")
             window.location.reload(false);
+            axios.defaults.headers.common['username'] = response.data.username
           }
 
           // Check if user is a professor
@@ -60,6 +61,7 @@ const HomeLogin = () => {
             localStorage.setItem('token',response.data.token);
             history.push("/home_instructor");
             window.location.reload(false);
+            axios.defaults.headers.common['username'] = response.data.username
           }
 
           else if (response.data.result === "username or password cannot be empty"){
@@ -168,7 +170,7 @@ const HomeLogin = () => {
       }
 
       {/* Signup link */}
-        <Link to="/sign_up" className={styles['signup']}>
+        <Link to="/sign_up" className={styles['signup']} style={{color:'black'}}>
           Don&apos;t have an account? Sign up!
         </Link>
       </form>
