@@ -59,7 +59,7 @@ def home_inst():
                     result = cursor.fetchone()
                 
                 #Create new class in DB
-                cursor.execute("INSERT INTO class VALUES (%s,%s,%s, %s, %s)", (newClassCode, class_name, "DemoProf", class_size, "0"))
+                cursor.execute("INSERT INTO class VALUES (%s,%s,%s, %s, %s)", (newClassCode, class_name, username, class_size, "0"))
                 cursor.connection.commit()
                 response = jsonify(result = "Class created", class_code = newClassCode)
     
