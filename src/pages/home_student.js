@@ -1,11 +1,47 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, {useState} from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import projectStyles from '../style.module.css'
 import styles from './home_student.module.css'
 import Dropdown from "../misc/dropdown"
+import Studentcourse from '../misc/student_course'
+import axios from 'axios'
 
 const HomeStudent = () => {
+  
+  const classes = [
+    {
+      class_code: "code1",
+      class_name: "Class1"
+    },
+    {
+      class_code: "code2",
+      class_name: "Class2"
+    },
+    {
+      class_code: "12345",
+      class_name: "Intro to Intro"
+    },
+    {
+      class_code: "########",
+      class_name: "Course Name"
+    },
+  ]
+
+
+  function joinClass(event) {
+    event.preventDefault()
+    const code = event.target.classcode.value
+    
+    if (tempclasscode.includes(code)) {
+      console.log(code + ": valid class code")
+    }
+    else {
+      console.log(code + ": invalid class code")
+    }
+  }
+
+
   return (
     <div className={styles['container']}>
       <Helmet>
@@ -27,7 +63,9 @@ const HomeStudent = () => {
 
       </div>
       <div className={styles['center']}>
-        <div className={styles['coursesheader']}>
+
+        {/* join class form */}
+        <form className={styles['coursesheader']} onSubmit={joinClass}>
           <span className={styles['yourcourses']}>Your Courses</span>
 
           {/* join new class */}
@@ -35,35 +73,27 @@ const HomeStudent = () => {
             type="text"
             placeholder="Enter Class Code"
             className={` ${styles['entercode']} ${projectStyles['input']} `}
+            name="classcode"
           />
-          <div className={styles['joinbutton']}>
+          <button className={styles['joinbutton']} type="submit">
             <span className={styles['join']}>Join</span>
-          </div>
+          </button>
+        </form>
+        {/* ------------------------------- */}
 
-        </div>
         <div className={styles['sort']}>
           <span className={styles['sortby']}>Sory By</span>
           <div className={styles['sortoptions']}>
             <span className={styles['newtoold']}>New to Old</span>
           </div>
         </div>
-        <div className={styles['coursesection']}>
+        
+        {/* load courses */}
+        {classes.map(e =>
+        <Studentcourse class_code={e.class_code} class_name={e.class_name}/>
+        )}
+        {/* ------------------------------- */}
           
-          {/* a course */}
-          <div className={styles['course']}>
-            <span className={styles['coursename']}>Course Name</span>
-            <Link to="/enter_course_student" className={styles['navlink']}>
-              <div className={styles['enterbutton']}>
-                <span className={styles['enter']}>Enter</span>
-              </div>
-            </Link>
-            <div className={styles['group']}>
-              <span className={styles['nogroup']}>No Group</span>
-            </div>
-          </div>
-          <span className={styles['code']}>Code: ######</span>
-
-        </div>
       </div>
     </div>
   )
