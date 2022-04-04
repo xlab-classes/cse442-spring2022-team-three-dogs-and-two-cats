@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { Link , useHistory} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+
+import styles1 from 'bootstrap/dist/css/bootstrap.css';
 import styles from './home_instructor.module.css'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import { RiTeamLine } from 'react-icons/ri';
 import { Container, Col, Row, Form, Card, FormGroup, InputGroup, FormControl, ControlLabel} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import axios from 'axios';
 
 
 
 import Dropdown from "../misc/dropdown"
+import { render } from 'react-dom'
 
 const HomeInstructor = () => {
 
@@ -37,7 +39,7 @@ const HomeInstructor = () => {
       window.alert('Please Enter a Class Size');
     }
     else{
-      axios.post('http://localhost:5100/home_instructor',{classname:classname, classsize:classsize}).then(
+      axios.post('http://127.0.0.1:5000/home_instructor',{classname:classname, classsize:classsize}).then(
       (response)=>{
         console.log(response)
           
@@ -46,14 +48,16 @@ const HomeInstructor = () => {
     }
 
   }
-    
 
-  
 
   return (
 
+
     
-    <><div className={styles['container']}>
+    <>
+
+
+    <div className={styles['container']}>
       <Helmet>
         <title>home_instructor - project</title>
         <meta property="og:title" content="home_instructor - project" />
@@ -75,8 +79,8 @@ const HomeInstructor = () => {
       <div className={styles['center']}>
           <div className={styles['coursesheader']}>
             <span className={styles['yourcourses']}>Your Courses</span>
-            <Button onClick={handleShow} >
-              <span className={styles['createclassbutton']}>Create New Class</span>
+            <Button onClick={handleShow} className={styles['createclassbutton']}>
+              Create New Class
             </Button>
           </div>
 
@@ -111,7 +115,7 @@ const HomeInstructor = () => {
           
         </div>
     </div>
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} className={styles1}>
         <Form onSubmit={submitHandler} >
           <Modal.Header closeButton>
             <Modal.Title>Create a New Class</Modal.Title>
@@ -139,10 +143,10 @@ const HomeInstructor = () => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose} >
+            <Button variant="secondary" className={styles['closebutton']} onClick={handleClose} >
               Close
             </Button>
-            <Button variant="primary" type="submit" onClick={submitHandler}>
+            <Button variant="primary" type="submit" className={styles['savechangebutton']} onClick={submitHandler}>
               Save Changes
             </Button>
           </Modal.Footer>
