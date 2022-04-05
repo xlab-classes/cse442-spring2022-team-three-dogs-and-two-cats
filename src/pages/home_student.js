@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import projectStyles from '../style.module.css'
@@ -8,15 +8,14 @@ import Studentcourse from '../misc/student_course'
 import axios from 'axios'
 
 const HomeStudent = () => {
-  
-  const classes = [
+
+  const [class_code, setClasscode] = useState('')
+  const [class_name, setClassname] = useState('')
+
+  const entry = [
     {
       class_code: "code1",
       class_name: "Class1"
-    },
-    {
-      class_code: "code2",
-      class_name: "Class2"
     },
     {
       class_code: "12345",
@@ -29,16 +28,20 @@ const HomeStudent = () => {
   ]
 
 
-  function joinClass(event) {
+  function submitHandler(event) {
     event.preventDefault()
     const code = event.target.classcode.value
-    
-    if (tempclasscode.includes(code)) {
-      console.log(code + ": valid class code")
-    }
-    else {
-      console.log(code + ": invalid class code")
-    }
+    //class_code = event.target.classcode.value
+    console.log(code)
+    console.log(class_code)
+
+    axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
+      response => {
+        console.log("hiiiii")
+        console.log(response)
+      })
+      .catch(err => { console.log(err) })
+
   }
 
 
@@ -58,14 +61,14 @@ const HomeStudent = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown/>
+          <Dropdown />
         </span>
 
       </div>
       <div className={styles['center']}>
 
         {/* join class form */}
-        <form className={styles['coursesheader']} onSubmit={joinClass}>
+        <form className={styles['coursesheader']} onSubmit={submitHandler}>
           <span className={styles['yourcourses']}>Your Courses</span>
 
           {/* join new class */}
@@ -87,13 +90,13 @@ const HomeStudent = () => {
             <span className={styles['newtoold']}>New to Old</span>
           </div>
         </div>
-        
+
         {/* load courses */}
-        {classes.map(e =>
-        <Studentcourse class_code={e.class_code} class_name={e.class_name}/>
+        {entry.map(e =>
+          <Studentcourse class_code={e.class_code} class_name={e.class_name} />
         )}
         {/* ------------------------------- */}
-          
+
       </div>
     </div>
   )
