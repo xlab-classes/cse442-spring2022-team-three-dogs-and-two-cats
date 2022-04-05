@@ -38,6 +38,7 @@ def home_inst():
    
         case 'OPTIONS':
             response = jsonify(result = "200")
+            response.headers.add('Access-Control-Allow-Origin', '*')
         
         case 'POST':
             data = request.get_json()
