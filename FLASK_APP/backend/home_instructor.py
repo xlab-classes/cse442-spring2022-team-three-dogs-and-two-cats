@@ -65,7 +65,7 @@ def home_inst():
                 cursor.execute("INSERT INTO class VALUES (%s,%s,%s, %s, %s)", (newClassCode, class_name, username, class_size, "0"))
                 cursor.connection.commit()
                 response = jsonify(result = "Class created", class_code = newClassCode)
-    
+    print(data)
     cursor.close()
     return response
 

@@ -39,9 +39,17 @@ const HomeInstructor = () => {
       window.alert('Please Enter a Class Size');
     }
     else{
+      setShow(false);
       axios.post('http://127.0.0.1:5000/home_instructor',{classname:classname, classsize:classsize}).then(
       (response)=>{
+        // console.log(response)
+        // console.log("js")
+          
+      })
+      axios.options('http://127.0.0.1:5000/home_instructor').then(
+      (response)=>{
         console.log(response)
+        console.log("js")
           
       })
       .catch(err=>{ console.log(err) });
