@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Switch,BrowserRouter as Router, Route,useHistory,Redirect } from 'react-router-dom'
 import { browserHistory } from 'react-router'
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import './style.module.css'
@@ -16,7 +17,6 @@ import HomeStudent from './pages/home_student'
 import SignUp from './pages/sign_up'
 
 
-axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 const App = () => {
   const [name,setName] = useState('');
   const [token, setToken] = useState(false);
@@ -25,7 +25,8 @@ const App = () => {
   
   
   useEffect(() => {
-    axios.get('http://128.205.32.39:5100/').then(
+    // axios.get('http://128.205.32.39:5100/').then(
+      axios.get('http://127.0.0.1:5000/').then(
       res => {
         console.log("This is the get request from login \n",res)
         console.log(localStorage.getItem('token'))
@@ -44,14 +45,18 @@ const App = () => {
         if (res.data.result == "Professor"){
           setProfessor(true)
           setToken(true)
+          setName(res.data.username)
         }
         else if (res.data.result == "Student"){
           setProfessor(false)
           setToken(true)
+          setName(res.data.username)
         }
         else{
           setToken(false)
         }
+        setName(res.data.username)
+        console.log(res.data.username)
        
       },
       err => {
@@ -92,7 +97,7 @@ const App = () => {
 
                   {/* <Redirect to="/home_student" /> */}
                 {/* </Route> */}
-                <Route exact component={EnterCourseStudent} path="/enter_course_student" />
+                <Route exact path="/enter_course_student" component={()=><EnterCourseStudent name={name} />} />
                 <Route exact component={SignUp} path="/sign_up" />
                 </Switch>)
           }
@@ -109,5 +114,5 @@ const App = () => {
   </Router>
   )
 }
-
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 ReactDOM.render(<App />, document.getElementById('app'))

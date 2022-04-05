@@ -1,5 +1,9 @@
 import React from 'react'
 import '../misc/dropdown.css'
+import ListGroup from 'react-bootstrap/ListGroup'
+import { Container } from 'react-bootstrap'
+import Card from 'react-bootstrap/Card'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 const name_dropdown = () => {
   const [visible, setVisible] = React.useState(false)
@@ -18,13 +22,22 @@ const name_dropdown = () => {
       
       {visible &&
       <div className="dropdown">
-        <ul>
+       
+
+          <Dropdown>
+              <Dropdown.Item action >Account Settings</Dropdown.Item>
+              <Dropdown.Item action >Messages </Dropdown.Item>
+              <Dropdown.Item action  href="/"  className="logout" onClick={logout}>Log Out</Dropdown.Item>    
+          </Dropdown>
+   
+        
+        {/* <ul>
           <li>Account Settings</li>
           <li>Messages</li>
           <a href="/">
             <li onClick={logout} className="logout">Log Out</li>
           </a>
-        </ul>
+        </ul> */}
       </div>
       }
 

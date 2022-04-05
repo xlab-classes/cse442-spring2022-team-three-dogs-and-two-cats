@@ -1,11 +1,50 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useHistory} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styles from './enter_course_student.module.css'
+import student_group_list from './student_group_list'
+import { RiTeamLine } from 'react-icons/ri';
+
 
 import Dropdown from "../misc/dropdown"
+import ListGroup from 'react-bootstrap/ListGroup'
+import { Container,Col,Row,Form, Card} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import FormCheck from 'react-bootstrap/FormCheck'
+import axios from 'axios';
 
-const EnterCourseStudent = () => {
+
+const EnterCourseStudent = ({name}) => {
+  const [section, Setsection] = useState('');
+  const [groupname, Setgroupname] = useState('');
+  const [groupsize, Setgroupsize] = useState('');
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+  const submitHandler= (e) =>{
+    e.preventDefault();
+    console.log(section)
+    console.log(groupname)
+    console.log(groupsize)
+    axios.post('http://127.0.0.1:5000/enter_course_student',{name:name,section:section, groupname:groupname, groupsize:groupsize}).then(
+      (response)=>{
+        console.log(response)
+         
+      })
+      .catch(err=>{ console.log(err) });
+      }
+
+
+
+  // const group_list = friends.map((group) =>
+  // <student_group_list/>
+  // );
+
+  
   return (
     <div className={styles['container']}>
       <Helmet>
@@ -26,8 +65,100 @@ const EnterCourseStudent = () => {
         <span className={styles['name']}>
           <Dropdown/>
         </span>
+    </div>
+  
 
-      </div>
+
+  <div className={styles['center']}>
+    <div className={styles['coursesheader']}>   
+      <RiTeamLine onClick={handleShow} type="button" className={styles['createclassicon']}/>
+      <span onClick={handleShow} type="button" className={styles['createclassbutton']}>
+      Create a group 
+      </span>
+    </div>
+  
+    <ListGroup >
+      <ListGroup.Item className={styles['coursesection']}>
+      <Container >
+      <Row >
+        <Col md={7} > Group name: hhhh  </Col>
+        <Col  md={{ span: 2, offset: 2 }}>
+          <Button className = {styles['list_iterm_button']} variant="outline-secondary">Request to join</Button>
+        </Col>
+      </Row>
+
+      <Row xs="auto">
+        <Col style={{fontSize:12}}>Group size:</Col>
+        <Col style={{fontSize:12}}>Current size:</Col>
+        <Col style={{fontSize:12}}>Section number:</Col>
+      </Row>
+
+      <Row >
+        <Col style={{fontSize:13}} md={8}className={styles['listcontainer']} > Description:</Col>
+      </Row>
+
+      <Row >
+        <Col style={{fontSize:13}} md={7}className={styles['listcontainer']} > hi, we are hhh group. we are looking for one more groupmember hhh hhh hhh hhh hhh hhh hhh hhhh hhhh hhh hhhh hhh hh hhh hhh .</Col>
+        <Col  md={{ span: 2, offset: 3 }} style={{ color:"grey",fontSize:10 }}>See more details</Col>
+      </Row>  
+      
+      </Container>
+        </ListGroup.Item>
+    </ListGroup>
+    </div>
+
+
+
+    <Modal show={show} onHide={handleClose}>
+      <Form onSubmit={submitHandler}>
+        <Modal.Header style={{color:'grey'}} closeButton>
+          <Modal.Title>Create a new group</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Section number</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Type your section number here"
+                onChange={(e)=>Setsection(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Group name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Type your group name here"
+                onChange={(e)=>Setgroupname(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Max group size</Form.Label>
+              <Form.Control
+                type="number"
+                min="2"
+                placeholder="Type your max group size here"
+                onChange={(e)=>Setgroupsize(e.target.value)}
+              />
+
+            </Form.Group>
+            <Form.Check 
+              type="switch"
+              id="custom-switch"
+              label="Private (must request to join)"
+            />
+           
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="outline-info" type="submit"  onClick={handleClose}>Save Changes</Button>
+        </Modal.Footer>
+        </Form>
+      </Modal>
+
+
     </div>
   )
 }
