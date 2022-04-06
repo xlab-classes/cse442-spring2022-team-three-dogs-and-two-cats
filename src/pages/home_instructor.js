@@ -93,7 +93,7 @@ const HomeInstructor = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown name={username}/>
+          <Dropdown username={username}/>
         </span>
       </div>
     
