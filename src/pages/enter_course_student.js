@@ -27,6 +27,7 @@ const EnterCourseStudent = ({name}) => {
   const [groupSize, setGroupSize] = useState(0);
   const [isPrivate, setPrivate] = useState('off');
   const [isPublic, setPublic] = useState(true);
+  const [className, setClassName] = useState('');
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -73,7 +74,8 @@ const EnterCourseStudent = ({name}) => {
         if (isApiSubscribed) {
         console.log(res)
         console.log(res.data[0])
-        setGroups(res.data)
+        setGroups(res.data.response_list)
+        setClassName(res.data.className)
         console.log(groups)
       }
     },
@@ -173,7 +175,7 @@ const EnterCourseStudent = ({name}) => {
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['coursename']}>
-          <span>Course Name</span>
+          <span>{className}</span>
         </span>
         <Link to="/home_student" className={styles['navlink']}>
           <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>

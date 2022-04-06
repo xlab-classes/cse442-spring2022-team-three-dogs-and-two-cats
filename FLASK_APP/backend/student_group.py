@@ -29,6 +29,7 @@ def create_new_group():
         response_list = []
         myresult = list(cursor.fetchall())
         for x in myresult:
+ 
             response_dic = {}
             response_dic['groupCode'] = x[0]
             response_dic['classCode'] = x[1]
@@ -41,7 +42,13 @@ def create_new_group():
             response_dic['groupName'] = x[8]
             response_list.append(response_dic)
             # print("response_list",response_list)
-        response = jsonify(response_list)
+
+        query = """ SELECT class_name from class WHERE class_code = %s"""
+        tuple2 = class_code
+        cursor.execute(query,tuple2)
+        class_name = cursor.fetchone()
+
+        response = jsonify({"response_list":response_list,"className":class_name})
         return response
 
 
@@ -73,23 +80,25 @@ def create_new_group():
         cursor.execute(sql_update_group_code, val)  
 
 
-        query = """ SELECT * from our_group WHERE class_code = %s"""
-        tuple1 = class_code
-        cursor.execute(query,tuple1)
-        myresult = list(cursor.fetchall())
-        for x in myresult:
-            print(x)
+        # query = """ SELECT * from our_group WHERE class_code = %s"""
+        # tuple1 = class_code
+        # cursor.execute(query,tuple1)
+        # myresult = list(cursor.fetchall())
+        # for x in myresult:
+        #     print(x)
 
-        query = """ SELECT * From user_class_group"""
-        tuple1 = class_code
-        cursor.execute(query)
-        myresult = list(cursor.fetchall())
+        # query = """ SELECT * From user_class_group"""
+        # tuple1 = class_code
+        # cursor.execute(query)
+        # myresult = list(cursor.fetchall())
         
-        for x in myresult:
-            print(x)
+        # for x in myresult:
+        #     print(x)
 
 
         cursor.connection.commit()
         response = jsonify({"group_code":group_code,"currentSize":current_group_size}) 
         print(data)
-        return response
+   
+
+    return response
