@@ -15,6 +15,7 @@ import HomeLogin from './pages/home_login'
 import EnterCourseStudent from './pages/enter_course_student'
 import HomeStudent from './pages/home_student'
 import SignUp from './pages/sign_up'
+import GroupProfile from './pages/group_profile'
 
 
 const App = () => {
@@ -77,9 +78,6 @@ const App = () => {
                 <Route exact component={ResetPassword} path="/reset_password" />
                 <Route exact component={RetrieveUsername} path="/retrieve_username" />
                 <Redirect exact from="/" to="/home_instructor" />
-                {/* <Route exact component={HomeLogin} path="/">
-                  <Redirect push to="/home_instructor" />
-                </Route> */}
                 <Route exact component={HomeInstructor} path="/home_instructor" />
               </Switch>)
               
@@ -92,16 +90,12 @@ const App = () => {
                 {console.log("student" + professor)}
                 <Route exact component={HomeStudent} path="/home_student" />
                 <Redirect exact from="/" to="/home_student" />
-                {/* <Route exact component={HomeLogin} path="/"> */}
-                  {/* <Redirect push to="/home_student" /> */}
-
-                  {/* <Redirect to="/home_student" /> */}
-                {/* </Route> */}
                 <Route exact path="/enter_course_student" component={()=><EnterCourseStudent name={name} />} />
+                <Route exact path='/group_profile' component = {GroupProfile} />
                 <Route exact component={SignUp} path="/sign_up" />
                 </Switch>)
           }
-          {/* {console.log("professor is true "+ professor)} */}
+          
           </Switch>
      )
       :(   

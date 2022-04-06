@@ -11,7 +11,7 @@ from .hash442 import *
 
 
 student_group = Blueprint('student_group', __name__)
-class_code = '123abc'
+# class_code = ''
 
 # @cross_origin()
 @student_group.route("/enter_course_student", methods=['POST','GET'])
@@ -19,7 +19,10 @@ def create_new_group():
     from .app import mysql
     cursor = mysql.connect().cursor()
     if request.method == 'GET':
-        print("i am get")
+        class_code = request.args.get("classCode")
+        print("opt_param is",class_code)
+        
+        
         query = """ SELECT * from our_group WHERE class_code = %s"""
         tuple1 = class_code
         cursor.execute(query,tuple1)
@@ -37,7 +40,7 @@ def create_new_group():
             response_dic['description'] = x[7]
             response_dic['groupName'] = x[8]
             response_list.append(response_dic)
-            print("response_list",response_list)
+            # print("response_list",response_list)
         response = jsonify(response_list)
         return response
 
@@ -49,8 +52,9 @@ def create_new_group():
         section = data['section']
         group_name = data['groupName']
         max_group_size = data['groupSize']
-        current_group_size = int(max_group_size) - 1
+        current_group_size = 1
         ifpublic = data['isPublic']
+        class_code = data['classCode']
        
        
         sql_insert_our_group = "INSERT INTO our_group (class_code,section_id,owner,max_group_size,current_group_size,is_public, description,group_name) VALUES ( %s, %s, %s, %s, %s,%s,%s,%s) "
@@ -62,30 +66,30 @@ def create_new_group():
         group_code = cursor.fetchone()[0]
      
 
-        print("max group_code is ",group_code)
+        # print("max group_code is ",group_code)
 
-        sql_insert_user_class_group= "INSERT INTO user_class_group (username,class_code,group_code) VALUES (%s, %s, %s) "
-        val = ( owner, class_code, group_code)
-        cursor.execute(sql_insert_user_class_group, val)
+        sql_update_group_code = "UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s"
+        val = (group_code, owner,class_code)
+        cursor.execute(sql_update_group_code, val)  
 
 
-        # query = """ SELECT * from our_group WHERE class_code = %s"""
-        # tuple1 = class_code
-        # cursor.execute(query,tuple1)
-        # myresult = list(cursor.fetchall())
-        # for x in myresult:
-        #     print(x)
+        query = """ SELECT * from our_group WHERE class_code = %s"""
+        tuple1 = class_code
+        cursor.execute(query,tuple1)
+        myresult = list(cursor.fetchall())
+        for x in myresult:
+            print(x)
 
-        # query = """ SELECT * From user_class_group"""
-        # tuple1 = class_code
-        # cursor.execute(query)
-        # myresult = list(cursor.fetchall())
+        query = """ SELECT * From user_class_group"""
+        tuple1 = class_code
+        cursor.execute(query)
+        myresult = list(cursor.fetchall())
         
-        # for x in myresult:
-        #     print(x)
+        for x in myresult:
+            print(x)
 
 
         cursor.connection.commit()
-        response = jsonify({"class_code":class_code}) 
+        response = jsonify({"group_code":group_code,"currentSize":current_group_size}) 
         print(data)
         return response
