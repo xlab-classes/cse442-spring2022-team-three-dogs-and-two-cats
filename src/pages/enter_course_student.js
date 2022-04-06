@@ -183,7 +183,7 @@ const EnterCourseStudent = ({name}) => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown/>
+          <Dropdown username={name}/>
         </span>
     </div>
   
