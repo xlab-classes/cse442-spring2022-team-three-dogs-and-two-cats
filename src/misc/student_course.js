@@ -10,7 +10,7 @@ const Studentcourse = (props) => {
                 
                 <span className={styles['coursename']}>{props.class_name}</span>
                 
-                <Link to="/enter_course_student">
+                <Link code={props.class_code} to="/enter_course_student">
                     <div className={styles['enterbutton']}>
                         <span className={styles['enter']}>Enter</span>
                     </div>

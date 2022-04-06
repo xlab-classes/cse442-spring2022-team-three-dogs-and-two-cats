@@ -15,7 +15,9 @@ import FormCheck from 'react-bootstrap/FormCheck'
 import axios from 'axios';
 
 
-const EnterCourseStudent = ({name}) => {
+const EnterCourseStudent = (props, {name}) => {
+  const currClassCode = props.code
+
   const [section, setSection] = useState('');
   const [groupName, setGroupName] = useState('');
   const [groupSize, setGroupSize] = useState(0);
