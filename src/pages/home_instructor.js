@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link , useHistory} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button'
 import { Container, Col, Row, Form, Card, FormGroup, InputGroup, FormControl, ControlLabel} from 'react-bootstrap';
 
 import axios from 'axios';
+import ProfClass from '../misc/prof_class'
 
 
 
@@ -19,13 +20,30 @@ const HomeInstructor = () => {
 
   const [classname, Setclassname] = useState('');
   const [classsize, Setclasssize] = useState('');
+  const [classeslist, setClasses] = useState([])
+  const [username, setUsername] = useState('')
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // sent get request when you opens the page
+  useEffect(() => {
+    axios.get('http://127.0.0.1:5000/home_instructor').then(
+      (response) => {
+        setClasses(response.data.listOut)
+        setUsername(response.data.userOut)
+        // console.log(response.userOut)
+        // console.log(response.listOut)
+        console.log(response.data.userOut)
+        console.log(response.data.listOut)
+      })
+    .catch(err=>{ console.log(err) })
+    },[])
 
   
+  // call this function when you click "save changes" in the popup window 
+
   const submitHandler= (e) =>{
 
     e.preventDefault();
@@ -42,15 +60,12 @@ const HomeInstructor = () => {
       setShow(false);
       axios.post('http://127.0.0.1:5000/home_instructor',{classname:classname, classsize:classsize}).then(
       (response)=>{
-        // console.log(response)
-        // console.log("js")
-          
-      })
-      axios.options('http://127.0.0.1:5000/home_instructor').then(
-      (response)=>{
-        console.log(response)
-        console.log("js")
-          
+        // sent another get request after the class is created
+        axios.get('http://127.0.0.1:5000/home_instructor').then(
+          (response) => {
+            setClasses(response.data.listOut)
+            setUsername(response.data.userOut)
+          })
       })
       .catch(err=>{ console.log(err) });
     }
@@ -58,12 +73,10 @@ const HomeInstructor = () => {
   }
 
 
+
   return (
 
-
-    
     <>
-
 
     <div className={styles['container']}>
       <Helmet>
@@ -80,7 +93,7 @@ const HomeInstructor = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown />
+          <Dropdown name={username}/>
         </span>
       </div>
     
@@ -104,25 +117,16 @@ const HomeInstructor = () => {
               </span>
             </div>
           </div>
-
-          <div className={styles['coursesection']}>
-            <div className={styles['course']}>
-              <span className={styles['coursename']}>Course Name</span>
-              <Link to="/enter_course_instructor" className={styles['navlink']}>
-                <div className={styles['enterbutton']}>
-                  <span className={styles['enter']}>Enter</span>
-                </div>
-              </Link>
-              <div className={styles['deletebutton']}>
-                <span className={styles['delete']}>Delete</span>
-              </div>
-            </div>
-            <span className={styles['code']}>Code: ######</span>
-          </div>
-
+          
+        {/* display all classes */}
+        {classeslist.map(e =>
+          <ProfClass class_code={e.classCode} class_name={e.className} />
+        )}
           
         </div>
     </div>
+    
+    {/* popup window */}
     <Modal show={show} onHide={handleClose} className={styles1}>
         <Form onSubmit={submitHandler} >
           <Modal.Header closeButton>
@@ -162,11 +166,7 @@ const HomeInstructor = () => {
       </Modal>
 
       
-      </>
-
-
-    
-    
+      </> 
 
 
   )

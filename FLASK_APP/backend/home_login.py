@@ -23,7 +23,7 @@ def login():
     if request.method == 'GET':
         token = request.headers['Authorization']
         print("get token",token)
-        if token != 'null':
+        if token:
             username = check_token(token)
             print(username)
             query = """ SELECT * from user WHERE username = %s """
@@ -32,7 +32,7 @@ def login():
             check_prof = cursor.fetchone()
             print("query",check_prof)
             
-            if check_prof[6] == 1:
+            if check_prof and check_prof[6] == 1:
                 response = jsonify({'result':"Professor", 'username':username})
             else:
                 response = jsonify({'result':"Student", 'username':username})

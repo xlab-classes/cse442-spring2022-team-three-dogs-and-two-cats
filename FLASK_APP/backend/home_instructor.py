@@ -4,6 +4,7 @@ import string
 import random
 from .home_login import check_token
 
+
 from flask import Blueprint
 
 
@@ -52,6 +53,7 @@ def home_inst():
             response = jsonify(result="200")
             response.headers.add('Access-Control-Allow-Origin', '*')
 
+
         case 'POST':
             data = request.get_json()
             class_name = data['classname']
@@ -84,6 +86,7 @@ def home_inst():
                 cursor.connection.commit()
                 response = jsonify(result="Class created",
                                    class_code=newClassCode)
-
+                
+    
     cursor.close()
     return response

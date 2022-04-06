@@ -9,7 +9,7 @@
 .name:hover {
     color: #00778e;
 }
-.dropdown {
+.dropdownMenu {
     margin-top: 10px;
     background-color: white;
     position: absolute;
@@ -20,17 +20,9 @@
     right: 0;
     margin-right: -5px;
 }
-ul {
-    list-style: none;
+.dropdown a {
+    padding: 10px;
 }
-li {
-    padding: 12px 12px;
-}
-li:hover {
-    background-color: rgba(0, 0, 0, 0.14);
-    border-radius: 3px;
-    cursor: pointer;
-}
-.logout {
-    color: #88cad9;
+.dropdown a:active {
+    background-color: #88cad9;
 }
