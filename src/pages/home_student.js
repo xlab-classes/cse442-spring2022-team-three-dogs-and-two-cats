@@ -10,56 +10,28 @@ import axios from 'axios'
 const HomeStudent = () => {
 
   const [class_code, setClasscode] = useState('')
-
-  const entry = [
-    {
-      class_code: "12345",
-      class_name: "Intro to Intro"
-    },
-    {
-      class_code: "########",
-      class_name: "Course Name"
-    },
-  ]
+  const [classeslst, setClasses] = useState([])
 
 
-  //acts like body onload
+  //load user's classes
   useEffect(() => {
-    console.log("LOAD CLASSES")
-
     axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
       response => {
-        const data = response.data
-        for (let i = 0; i < data.length; i++) {
-          entry.push(data[i])
-        }
-        console.log(entry)
+        setClasses(response.data)
       })
-
-    axios.options('http://127.0.0.1:5000/home_student').then(
-      (response) => {
-        console.log(response)
-      })
-
+    axios.options('http://127.0.0.1:5000/home_student')
       .catch(err => { console.log(err) })
   }, [])
 
 
-  
+  //enter class code
   function submitHandler(event) {
     event.preventDefault()
 
     axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
-      response => {
-        console.log(class_code)
-        console.log(response)
-      })
-
-    axios.options('http://127.0.0.1:5000/home_student').then(
-      (response) => {
-        console.log(response)
-      })
-
+      console.log("ENTERED CLASS CODE: " + class_code)
+    )
+    axios.options('http://127.0.0.1:5000/home_student')
       .catch(err => { console.log(err) })
   }
 
@@ -72,7 +44,7 @@ const HomeStudent = () => {
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['webname']}>
-          <span>&lt;Webname&gt;</span>
+          <span>Webname</span>
         </span>
         <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
           <path d="M512 128c0 0-263.936 227.84-411.435 351.232-8.661 7.851-15.232 19.285-15.232 32.768 0 23.595 19.072 42.667 42.667 42.667h85.333v298.667c0 23.595 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.115 42.667-42.667v-170.667h170.667v170.667c0 23.552 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.072 42.667-42.667v-298.667h85.333c23.595 0 42.667-19.072 42.667-42.667 0-13.483-6.571-24.917-16.341-32.768-146.475-123.392-410.325-351.232-410.325-351.232z"></path>
@@ -110,7 +82,7 @@ const HomeStudent = () => {
         </div>
 
         {/* load courses */}
-        {entry.map(e =>
+        {classeslst.map(e =>
           <Studentcourse class_code={e.class_code} class_name={e.class_name} />
         )}
         {/* ------------------------------- */}
