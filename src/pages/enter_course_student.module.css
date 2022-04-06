@@ -112,6 +112,7 @@
   height: 36px;
   display: flex;
   margin-top: 5px;
+  margin-right: 10px;
   
 }
 .createclassbutton {
@@ -134,4 +135,34 @@
 }
 
 
+.savechangebutton {
+  color: #88cad9;
+  background-color: #94a5a800;
+  border-color: #88cad9;
+}
+.savechangebutton:hover {
+ 
+  color: #fff;
+  background-color: #88cad9;
+  border-color: #88cad9;
+}
+.savechangebutton:focus {
+  color: #fff;
+  background-color: #88cad9;
+  border-color: #88cad9;
+  box-shadow: none;
+}
+.closebutton {
+  color: #fff;
+  background-color: #94a5a888;
+  border-color: #88cad900;
+}
+.closebutton:hover {
+  color: #94a5a888;
+  background-color: #94a5a800;
+  border-color: #94a5a888;
+}
+.formCheck{
+  
+}
 

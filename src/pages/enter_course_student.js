@@ -213,7 +213,7 @@ const EnterCourseStudent = ({name}) => {
       </Row>
 
       <Row >
-        <Col style={{fontSize:13}} md={7}className={styles['listcontainer']} > {group.description}</Col>
+        <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
         <Col  md={{ span: 2, offset: 3 }} style={{ color:"grey",fontSize:10 }}>See more details</Col>
       </Row>  
       
@@ -286,6 +286,7 @@ const EnterCourseStudent = ({name}) => {
               type="switch"
               id="custom-switch"
               label="Private (must request to join)"
+              className={styles['formCheck']}
               onChange={(e)=>setPrivate(e.target.value)}
             />
            
@@ -295,8 +296,8 @@ const EnterCourseStudent = ({name}) => {
             Close
           </Button>
           {error
-          ?(<Button variant="outline-info"  type="submit" disabled>Save Changes</Button>)
-          :(<Button variant="outline-info" type="submit"  onClick={()=>{check()}} >Save Changes</Button>)
+          ?(<Button variant="outline-info"  className={styles['savechangebutton']}>Save Changes</Button>)
+          :(<Button variant="primary" type="submit" className={styles['savechangebutton']} onClick={()=>{check()}} >Save Changes</Button>)
           }
           {/* onClick={handleClose} */}
         </Modal.Footer>

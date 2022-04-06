@@ -1,4 +1,4 @@
-from xxlimited import Null
+# from xxlimited import Null
 from flask import Flask,request, jsonify, make_response
 from flask_cors import CORS, cross_origin
 
@@ -51,22 +51,41 @@ def create_new_group():
         max_group_size = data['groupSize']
         current_group_size = int(max_group_size) - 1
         ifpublic = data['isPublic']
-        group_code = uuid.uuid1()
-        print(group_code)
-              
        
-        sql = "INSERT INTO our_group (class_code,section_id,owner,max_group_size,current_group_size,is_public, description,group_name) VALUES ( %s, %s, %s, %s, %s,%s,%s,%s) "
+       
+        sql_insert_our_group = "INSERT INTO our_group (class_code,section_id,owner,max_group_size,current_group_size,is_public, description,group_name) VALUES ( %s, %s, %s, %s, %s,%s,%s,%s) "
         val = ( class_code, section ,owner, max_group_size,current_group_size,ifpublic,"No description",group_name)
-        cursor.execute(sql, val)
+        cursor.execute(sql_insert_our_group, val)
 
-        query = """ SELECT * from our_group WHERE class_code = %s"""
-        tuple1 = class_code
-        cursor.execute(query,tuple1)
-        myresult = list(cursor.fetchall())
+        query_group_code = """ SELECT MAX(group_code) As max From our_group """
+        cursor.execute(query_group_code)
+        group_code = cursor.fetchone()[0]
+     
+
+        print("max group_code is ",group_code)
+
+        sql_insert_user_class_group= "INSERT INTO user_class_group (username,class_code,group_code) VALUES (%s, %s, %s) "
+        val = ( owner, class_code, group_code)
+        cursor.execute(sql_insert_user_class_group, val)
+
+
+        # query = """ SELECT * from our_group WHERE class_code = %s"""
+        # tuple1 = class_code
+        # cursor.execute(query,tuple1)
+        # myresult = list(cursor.fetchall())
+        # for x in myresult:
+        #     print(x)
+
+        # query = """ SELECT * From user_class_group"""
+        # tuple1 = class_code
+        # cursor.execute(query)
+        # myresult = list(cursor.fetchall())
+        
+        # for x in myresult:
+        #     print(x)
+
+
         cursor.connection.commit()
-        for x in myresult:
-            print(x)
-
         response = jsonify({"class_code":class_code}) 
         print(data)
         return response
