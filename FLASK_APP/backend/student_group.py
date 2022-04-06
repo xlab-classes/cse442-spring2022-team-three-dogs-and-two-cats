@@ -41,7 +41,7 @@ def create_new_group():
             response_dic['description'] = x[7]
             response_dic['groupName'] = x[8]
             response_list.append(response_dic)
-            # print("response_list",response_list)
+            # print('isPublic',x[6])
 
         query = """ SELECT class_name from class WHERE class_code = %s"""
         tuple2 = class_code
@@ -61,6 +61,7 @@ def create_new_group():
         max_group_size = data['groupSize']
         current_group_size = 1
         ifpublic = data['isPublic']
+        # print("ifpublic",ifpublic)
         class_code = data['classCode']
        
        

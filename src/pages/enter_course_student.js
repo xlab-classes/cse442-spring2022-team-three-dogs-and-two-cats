@@ -48,9 +48,11 @@ const EnterCourseStudent = ({name}) => {
     console.log(groupSize)
     console.log(isPrivate)
     
-    if (isPrivate == 'on'){
-      setPublic(false)
-    }
+    // if (isPrivate == 'on'){
+    //   console.log(isPrivate)
+    //   setPublic(false)
+    //   console.log(isPublic)
+    // }
 
     axios.post('http://127.0.0.1:5000/enter_course_student',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
       (response)=>{
@@ -151,12 +153,17 @@ const EnterCourseStudent = ({name}) => {
       setGroupSizeErr(true);
       setError(true);
     }
+    if (isPrivate =='on'){
+      setPublic(false);
+
+    }
     else{
       setSectionErr(false);
       setGroupNameErr(false);
       setGroupSizeErr(false);
       setError(false);
       setShow(false);
+      setPublic(true);
     }
 
   }
