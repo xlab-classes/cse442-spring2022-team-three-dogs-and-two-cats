@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import projectStyles from '../style.module.css'
@@ -10,13 +10,8 @@ import axios from 'axios'
 const HomeStudent = () => {
 
   const [class_code, setClasscode] = useState('')
-  const [class_name, setClassname] = useState('')
 
   const entry = [
-    {
-      class_code: "code1",
-      class_name: "Class1"
-    },
     {
       class_code: "12345",
       class_name: "Intro to Intro"
@@ -28,20 +23,44 @@ const HomeStudent = () => {
   ]
 
 
-  function submitHandler(event) {
-    event.preventDefault()
-    const code = event.target.classcode.value
-    //class_code = event.target.classcode.value
-    console.log(code)
-    console.log(class_code)
+  //acts like body onload
+  useEffect(() => {
+    console.log("LOAD CLASSES")
 
     axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
       response => {
-        console.log("hiiiii")
+        const data = response.data
+        for (let i = 0; i < data.length; i++) {
+          entry.push(data[i])
+        }
+        console.log(entry)
+      })
+
+    axios.options('http://127.0.0.1:5000/home_student').then(
+      (response) => {
         console.log(response)
       })
-      .catch(err => { console.log(err) })
 
+      .catch(err => { console.log(err) })
+  }, [])
+
+
+  
+  function submitHandler(event) {
+    event.preventDefault()
+
+    axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
+      response => {
+        console.log(class_code)
+        console.log(response)
+      })
+
+    axios.options('http://127.0.0.1:5000/home_student').then(
+      (response) => {
+        console.log(response)
+      })
+
+      .catch(err => { console.log(err) })
   }
 
 
@@ -68,7 +87,7 @@ const HomeStudent = () => {
       <div className={styles['center']}>
 
         {/* join class form */}
-        <form className={styles['coursesheader']} onSubmit={submitHandler}>
+        <form className={styles['coursesheader']} onSubmit={submitHandler} onChange={(event) => setClasscode(event.target.value)}>
           <span className={styles['yourcourses']}>Your Courses</span>
 
           {/* join new class */}
@@ -76,7 +95,6 @@ const HomeStudent = () => {
             type="text"
             placeholder="Enter Class Code"
             className={` ${styles['entercode']} ${projectStyles['input']} `}
-            name="classcode"
           />
           <button className={styles['joinbutton']} type="submit">
             <span className={styles['join']}>Join</span>
