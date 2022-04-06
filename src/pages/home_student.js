@@ -23,7 +23,7 @@ const HomeStudent = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown/>
+          <Dropdown/> name
         </span>
 
       </div>
