@@ -1,12 +1,70 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link , useHistory} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+
+import styles1 from 'bootstrap/dist/css/bootstrap.css';
 import styles from './home_instructor.module.css'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import { Container, Col, Row, Form, Card, FormGroup, InputGroup, FormControl, ControlLabel} from 'react-bootstrap';
+
+import axios from 'axios';
+
+
 
 import Dropdown from "../misc/dropdown"
+import { render } from 'react-dom'
 
 const HomeInstructor = () => {
+
+  const [classname, Setclassname] = useState('');
+  const [classsize, Setclasssize] = useState('');
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+  
+  const submitHandler= (e) =>{
+
+    e.preventDefault();
+    console.log(classname);
+    console.log(classsize);
+    if (!classname.trim()) {
+      window.alert('Please Enter a Class Name');
+    }
+    //Check for the Email TextInput
+    else if (!classsize.trim()) {
+      window.alert('Please Enter a Class Size');
+    }
+    else{
+      setShow(false);
+      axios.post('http://127.0.0.1:5000/home_instructor',{classname:classname, classsize:classsize}).then(
+      (response)=>{
+        // console.log(response)
+        // console.log("js")
+          
+      })
+      axios.options('http://127.0.0.1:5000/home_instructor').then(
+      (response)=>{
+        console.log(response)
+        console.log("js")
+          
+      })
+      .catch(err=>{ console.log(err) });
+    }
+
+  }
+
+
   return (
+
+
+    
+    <>
+
+
     <div className={styles['container']}>
       <Helmet>
         <title>home_instructor - project</title>
@@ -22,44 +80,95 @@ const HomeInstructor = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown/>
+          <Dropdown />
         </span>
-
       </div>
+    
       <div className={styles['center']}>
-        <div className={styles['coursesheader']}>
-          <span className={styles['yourcourses']}>Your Courses</span>
-          <span className={styles['createclassbutton']}>Create New Class</span>
-        </div>
-        <div className={styles['sort']}>
-          <span className={styles['sortby']}>Sory By</span>
-          <div className={styles['sortoptions']}>
-            <span className={styles['newtoold']}>
-              New to Old
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: ' ',
-                }}
-              />
-            </span>
+          <div className={styles['coursesheader']}>
+            <span className={styles['yourcourses']}>Your Courses</span>
+            <Button onClick={handleShow} className={styles['createclassbutton']}>
+              Create New Class
+            </Button>
           </div>
-        </div>
-        <div className={styles['coursesection']}>
-          <div className={styles['course']}>
-            <span className={styles['coursename']}>Course Name</span>
-            <Link to="/enter_course_instructor" className={styles['navlink']}>
-              <div className={styles['enterbutton']}>
-                <span className={styles['enter']}>Enter</span>
-              </div>
-            </Link>
-            <div className={styles['deletebutton']}>
-              <span className={styles['delete']}>Delete</span>
+
+          <div className={styles['sort']}>
+            <span className={styles['sortby']}>Sory By</span>
+            <div className={styles['sortoptions']}>
+              <span className={styles['newtoold']}>
+                New to Old
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: ' ',
+                  }} />
+              </span>
             </div>
           </div>
-          <span className={styles['code']}>Code: ######</span>
+
+          <div className={styles['coursesection']}>
+            <div className={styles['course']}>
+              <span className={styles['coursename']}>Course Name</span>
+              <Link to="/enter_course_instructor" className={styles['navlink']}>
+                <div className={styles['enterbutton']}>
+                  <span className={styles['enter']}>Enter</span>
+                </div>
+              </Link>
+              <div className={styles['deletebutton']}>
+                <span className={styles['delete']}>Delete</span>
+              </div>
+            </div>
+            <span className={styles['code']}>Code: ######</span>
+          </div>
+
+          
         </div>
-      </div>
     </div>
+    <Modal show={show} onHide={handleClose} className={styles1}>
+        <Form onSubmit={submitHandler} >
+          <Modal.Header closeButton>
+            <Modal.Title>Create a New Class</Modal.Title>
+          </Modal.Header>
+          <Modal.Body >
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Class Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Type your class name here"
+                required
+                onChange={(e) => Setclassname(e.target.value)} />
+              <Form.Control.Feedback type="invalid">
+                Please enter a class name.
+              </Form.Control.Feedback>
+              
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Class Size</Form.Label>
+              <Form.Control
+                type="number"
+                required
+                placeholder="Type your max class size here"
+                onChange={(e) => Setclasssize(e.target.value)} />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" className={styles['closebutton']} onClick={handleClose} >
+              Close
+            </Button>
+            <Button variant="primary" type="submit" className={styles['savechangebutton']} onClick={submitHandler}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+
+      
+      </>
+
+
+    
+    
+
+
   )
 }
 

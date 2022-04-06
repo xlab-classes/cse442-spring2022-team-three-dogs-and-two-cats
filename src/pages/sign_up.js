@@ -168,7 +168,7 @@ const Signup = () => {
           </div>
         </div>
         <div className={styles['buttons']}>
-            <button type="submit" className={styles['signupbutton']} type="submit">
+            <button type="submit" className={styles['signupbutton']}>
                 <span className={styles['signuptext']}>Sign Up</span>
             </button>
           <Link to="/" className={styles['navlink1']}>

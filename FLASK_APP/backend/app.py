@@ -3,6 +3,8 @@ from flask_cors import CORS, cross_origin
 from .sign_up import sign_up
 from .home_login import home_login
 from .student_group import student_group
+from .home_instructor import home_instructor
+from .home_student import home_student
 
 from flaskext.mysql import MySQL
 
@@ -23,6 +25,10 @@ app.register_blueprint(home_login)
 app.register_blueprint(sign_up)
 
 app.register_blueprint(student_group)
+
+app.register_blueprint(home_instructor)
+
+app.register_blueprint(home_student)
 
 CORS(app)
 

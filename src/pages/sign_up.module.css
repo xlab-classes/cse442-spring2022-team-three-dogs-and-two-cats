@@ -253,6 +253,7 @@
   flex-direction: column;
   text-decoration: none;
   background-color: #88cad9;
+  cursor: pointer;
 }
 .signupbutton:hover {
   border: none;
