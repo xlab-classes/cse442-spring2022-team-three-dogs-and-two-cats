@@ -40,10 +40,11 @@ def home_inst():
                             "classCode": curClass[1],
                             "classSize": curClass[2]
                         }
-                        classList.append(curClassDict)
+                        
+                        classList.append(curClassDict) 
                     response = jsonify(result="Classes found", listOut=classList, userOut=username)
                 else:
-                    response = jsonify(result="No classes found")
+                    response = jsonify(result="No classes found", userOut = username)
 
             else:
                 response = jsonify(result="not logged in")
