@@ -38,7 +38,7 @@ const HomeLogin = () => {
     //server
     // axios.post('http://128.205.32.39:5100/',{username:username, password:password}).then(
     //local
-    axios.post('http://127.0.0.1:5000/ ',{username:username, password:password}).then(
+    axios.post('http://127.0.0.1:5000/',{username:username, password:password}).then(
 
       response=>{
           console.log(response)
