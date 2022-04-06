@@ -18,6 +18,7 @@ const HomeStudent = () => {
     axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
       response => {
         setClasses(response.data)
+        console.log(response.data)
       })
     axios.options('http://127.0.0.1:5000/home_student')
       .catch(err => { console.log(err) })
@@ -28,9 +29,21 @@ const HomeStudent = () => {
   function submitHandler(event) {
     event.preventDefault()
 
+    if (class_code.length == 0) {
+      window.alert("No class code entered.")
+    }
+
     axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
-      console.log("ENTERED CLASS CODE: " + class_code)
-    )
+      response => {
+        const resp = response.data.result
+        console.log(resp)
+        if (resp == "CLASS ALREADY JOINED") {
+          window.alert("Class already joined, please enter a valid class code.")
+        }
+        if (resp == "INVALID CODE") {
+          window.alert("Class does not exist, please enter a valid class code.")
+        }
+      })  
     axios.options('http://127.0.0.1:5000/home_student')
       .catch(err => { console.log(err) })
   }
