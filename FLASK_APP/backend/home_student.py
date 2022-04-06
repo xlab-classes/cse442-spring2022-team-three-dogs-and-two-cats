@@ -57,7 +57,7 @@ def homestudent():
             #print(classeslst)
             
             if len(class_code) == 0: #class_code not entered
-              response = jsonify(classeslst) #return list of user's classes
+              response = jsonify(classeslst = classeslst, username = username) #return list of user's classes
             
             
             #if user entered class code that is already displayed

@@ -11,14 +11,16 @@ const HomeStudent = () => {
 
   const [class_code, setClasscode] = useState('')
   const [classeslst, setClasses] = useState([])
+  const [username, setUsername] = useState('')
 
 
   //load user's classes
   useEffect(() => {
     axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
       response => {
-        setClasses(response.data)
-        console.log(response.data)
+        setUsername(response.data.username)
+        setClasses(response.data.classeslst)
+        console.log(response.data.classeslst)
       })
     axios.options('http://127.0.0.1:5000/home_student')
       .catch(err => { console.log(err) })
@@ -65,7 +67,7 @@ const HomeStudent = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown />
+          <Dropdown username={username}/>
         </span>
 
       </div>
