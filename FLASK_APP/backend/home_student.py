@@ -2,7 +2,6 @@ from flask import request, jsonify
 from flask_cors import cross_origin
 from .home_login import check_token
 from flask import Blueprint
-import pyautogui
 
 home_student = Blueprint('home_student', __name__)
 
@@ -89,7 +88,6 @@ def homestudent():
                     cursor.execute(
                         "INSERT INTO user_class_group (username, class_code) VALUES (%s, %s)", (username, class_code))
                     cursor.connection.commit()
-                    pyautogui.hotkey('f5')  # refresh page
 
     cursor.close()
     return response
