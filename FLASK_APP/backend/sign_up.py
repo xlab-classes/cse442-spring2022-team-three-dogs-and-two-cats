@@ -3,6 +3,7 @@ from flask import Blueprint
 from flask_cors import CORS
 from flaskext.mysql import MySQL
 from .hash442 import *
+from flask_cors import cross_origin
 
 import re
 

@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from flask import Blueprint
+from flask_cors import cross_origin
 
 enter_course_instructor = Blueprint('enter_course_instructor', __name__)
 
@@ -11,7 +12,7 @@ def create_new_group():
     if request.method == 'OPTIONS':
         response = jsonify(result="200")
         response.headers.add('Access-Control-Allow-Origin', '*')
-        
+
     if request.method == 'GET':
         class_code = request.args.get("classCode")
         print("(instructor) opt_param is", class_code)
