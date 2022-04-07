@@ -13,11 +13,15 @@ from .hash442 import *
 student_group = Blueprint('student_group', __name__)
 # class_code = ''
 
-# @cross_origin()
+@cross_origin(origin='*')
 @student_group.route("/enter_course_student", methods=['POST','GET'])
 def create_new_group():
     from .app import mysql
     cursor = mysql.connect().cursor()
+    if request.method == 'OPTIONS':
+        response = jsonify(result="200")
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        
     if request.method == 'GET':
         class_code = request.args.get("classCode")
         print("opt_param is",class_code)

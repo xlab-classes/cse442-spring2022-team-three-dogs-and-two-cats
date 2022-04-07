@@ -9,7 +9,7 @@ home_instructor = Blueprint('home_instructor', __name__)
 
 
 @home_instructor.route("/home_instructor", methods=['POST', 'GET', 'OPTIONS'])
-#@cross_origin(origin='*')
+@cross_origin(origin='*')
 def home_inst():
 
     from .app import mysql

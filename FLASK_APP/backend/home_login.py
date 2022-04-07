@@ -14,11 +14,15 @@ home_login = Blueprint('home_login', __name__)
 
 @home_login.route("/", methods=['POST','GET'])
 
-# @cross_origin()
+@cross_origin(origin='*')
 def login():
     print(request.method)
     from .app import mysql
     cursor = mysql.connect().cursor()
+
+    if request.method == 'OPTIONS':
+        response = jsonify(result="200")
+        response.headers.add('Access-Control-Allow-Origin', '*')
 
     if request.method == 'GET':
         token = request.headers['Authorization']
