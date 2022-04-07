@@ -73,8 +73,8 @@ const App = () => {
       {token ?(
           <Switch>
             {(professor)?(
-              <Switch>  
-                <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
+              <Switch>
+                <Route exact path="/enter_course_instructor" component={()=><EnterCourseInstructor name={name} />} />
                 <Route exact component={ResetPassword} path="/reset_password" />
                 <Route exact component={RetrieveUsername} path="/retrieve_username" />
                 <Redirect exact from="/" to="/home_instructor" />

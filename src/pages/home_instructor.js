@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link , useHistory} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button'
 import { Container, Col, Row, Form, Card, FormGroup, InputGroup, FormControl, ControlLabel} from 'react-bootstrap';
 
 import axios from 'axios';
+import ProfClass from '../misc/prof_class'
 
 
 
@@ -19,13 +20,34 @@ const HomeInstructor = () => {
 
   const [classname, Setclassname] = useState('');
   const [classsize, Setclasssize] = useState('');
+  const [classeslist, setClasses] = useState([]);
+  const [username, setUsername] = useState('');
+  // classeslist=[{'classCode':'', 'className':''}]
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // local path:http://127.0.0.1:5000/home_instructor
+  // server path:http://128.205.32.39:5100/home_instructor
 
-  
+  // sent get request when you opens the page
+  useEffect(() => {
+    axios.get('http://127.0.0.1:5000/home_instructor').then(
+      (response) => {
+        setClasses(response.data.listOut)
+        setUsername(response.data.userOut)
+        // console.log(response.userOut)
+        // console.log(response.listOut)
+        console.log(response.data.userOut)
+        console.log(response.data.listOut)
+      })
+    .catch(err=>{ console.log(err) })
+    },[])
+
+
+  // call this function when you click "save changes" in the popup window
+
   const submitHandler= (e) =>{
 
     e.preventDefault();
@@ -40,17 +62,14 @@ const HomeInstructor = () => {
     }
     else{
       setShow(false);
-      axios.post('http://127.0.0.1:5000/home_instructor',{classname:classname, classsize:classsize}).then(
+      axios.post('http://128.205.32.39:5100/home_instructor',{classname:classname, classsize:classsize}).then(
       (response)=>{
-        // console.log(response)
-        // console.log("js")
-          
-      })
-      axios.options('http://127.0.0.1:5000/home_instructor').then(
-      (response)=>{
-        console.log(response)
-        console.log("js")
-          
+        // sent another get request after the class is created
+        axios.get('http://128.205.32.39:5100/home_instructor').then(
+          (response) => {
+            setClasses(response.data.listOut)
+            setUsername(response.data.userOut)
+          })
       })
       .catch(err=>{ console.log(err) });
     }
@@ -58,12 +77,10 @@ const HomeInstructor = () => {
   }
 
 
+
   return (
 
-
-    
     <>
-
 
     <div className={styles['container']}>
       <Helmet>
@@ -80,10 +97,10 @@ const HomeInstructor = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown />
+          <Dropdown username={username}/>
         </span>
       </div>
-    
+
       <div className={styles['center']}>
           <div className={styles['coursesheader']}>
             <span className={styles['yourcourses']}>Your Courses</span>
@@ -93,7 +110,7 @@ const HomeInstructor = () => {
           </div>
 
           <div className={styles['sort']}>
-            <span className={styles['sortby']}>Sory By</span>
+            <span className={styles['sortby']}>Sort By</span>
             <div className={styles['sortoptions']}>
               <span className={styles['newtoold']}>
                 New to Old
@@ -105,24 +122,15 @@ const HomeInstructor = () => {
             </div>
           </div>
 
-          <div className={styles['coursesection']}>
-            <div className={styles['course']}>
-              <span className={styles['coursename']}>Course Name</span>
-              <Link to="/enter_course_instructor" className={styles['navlink']}>
-                <div className={styles['enterbutton']}>
-                  <span className={styles['enter']}>Enter</span>
-                </div>
-              </Link>
-              <div className={styles['deletebutton']}>
-                <span className={styles['delete']}>Delete</span>
-              </div>
-            </div>
-            <span className={styles['code']}>Code: ######</span>
-          </div>
+        {/* display all classes */}
+        {(classeslist|| []).map(e =>
+          <ProfClass class_code={e.classCode} class_name={e.className} />
+        )}
 
-          
         </div>
     </div>
+
+    {/* popup window */}
     <Modal show={show} onHide={handleClose} className={styles1}>
         <Form onSubmit={submitHandler} >
           <Modal.Header closeButton>
@@ -139,7 +147,7 @@ const HomeInstructor = () => {
               <Form.Control.Feedback type="invalid">
                 Please enter a class name.
               </Form.Control.Feedback>
-              
+
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Class Size</Form.Label>
@@ -161,12 +169,8 @@ const HomeInstructor = () => {
         </Form>
       </Modal>
 
-      
+
       </>
-
-
-    
-    
 
 
   )
