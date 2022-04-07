@@ -166,31 +166,40 @@
 }
 .course {
   display: flex;
-  align-self: center;
+  align-self: flex-start;
   align-items: center;
   flex-direction: row;
   justify-content: center;
 }
 .coursename {
   font-size: 18px;
-  align-self: center;
-  margin-right: 380px;
+  /* align-self: center; */
+  /* margin-right: 380px; */
+  align-self: flex-start;
+  margin-left: 20px;
+  
 }
 .navlink {
   display: contents;
 }
 .enterbutton {
+  top: 0px;
+  right: 80px;
+  bottom: 0px;
+  margin: auto;
+  position: absolute;
+
+  text-align: center;
   width: 50px;
   height: 18px;
   display: flex;
   align-self: flex-end;
-  margin-top: 10px;
   transition: 0.3s;
   align-items: center;
+  margin-left: 10px;
   border-radius: var(--dl-radius-radius-radius4);
   flex-direction: row;
   justify-content: center;
-  text-decoration: none;
   background-color: #88cad9;
 }
 .enterbutton:hover {
@@ -203,6 +212,13 @@
   margin-right: 0px;
 }
 .deletebutton {
+  top: 0px;
+  right: 20px;
+  bottom: 0px;
+  margin: auto;
+  position: absolute;
+
+  text-align: center;
   width: 50px;
   height: 18px;
   display: flex;
