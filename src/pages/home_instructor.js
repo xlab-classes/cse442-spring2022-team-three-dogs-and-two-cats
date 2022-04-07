@@ -33,7 +33,7 @@ const HomeInstructor = () => {
 
   // sent get request when you opens the page
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/home_instructor').then(
+    axios.get('http://128.205.32.39:5100/home_instructor').then(
       (response) => {
         setClasses(response.data.listOut)
         setUsername(response.data.userOut)
