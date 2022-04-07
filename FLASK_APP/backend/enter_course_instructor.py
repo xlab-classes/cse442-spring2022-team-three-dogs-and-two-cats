@@ -3,10 +3,15 @@ from flask import Blueprint
 
 enter_course_instructor = Blueprint('enter_course_instructor', __name__)
 
+@cross_origin(origin='*')
 @enter_course_instructor.route("/enter_course_instructor", methods=['POST', 'GET'])
 def create_new_group():
     from .app import mysql
     cursor = mysql.connect().cursor()
+    if request.method == 'OPTIONS':
+        response = jsonify(result="200")
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        
     if request.method == 'GET':
         class_code = request.args.get("classCode")
         print("(instructor) opt_param is", class_code)

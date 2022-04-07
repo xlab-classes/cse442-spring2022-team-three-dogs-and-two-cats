@@ -18,8 +18,12 @@ mysql.init_app(su)
 
 
 @sign_up.route("/sign_up", methods=['POST', 'GET'])
-# @cross_origin()
+@cross_origin(origin='*')
 def signup():
+    if request.method == 'OPTIONS':
+        response = jsonify(result="200")
+        response.headers.add('Access-Control-Allow-Origin', '*')
+
     data = request.get_json()
     print(data)
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
