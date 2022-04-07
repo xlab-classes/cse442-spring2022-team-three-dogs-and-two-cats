@@ -1,8 +1,8 @@
 import React, { useState,useEffect } from 'react'
-import { Link, useHistory} from 'react-router-dom'
+import { Link, useHistory,useLocation} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styles from './enter_course_student.module.css'
-import student_group_list from './student_group_list'
+import Student_group_list from './student_group_list'
 import { RiTeamLine } from 'react-icons/ri';
 
 
@@ -15,14 +15,19 @@ import FormCheck from 'react-bootstrap/FormCheck'
 import axios from 'axios';
 
 
-const EnterCourseStudent = (props, {name}) => {
-  const currClassCode = props.code
 
+const EnterCourseStudent = ({name}) => {
+  let data = useLocation();
+  let classCode = data.state.code
+  console.log(classCode);
+
+  
   const [section, setSection] = useState('');
   const [groupName, setGroupName] = useState('');
   const [groupSize, setGroupSize] = useState(0);
   const [isPrivate, setPrivate] = useState('off');
   const [isPublic, setPublic] = useState(true);
+  const [className, setClassName] = useState('');
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -34,6 +39,7 @@ const EnterCourseStudent = (props, {name}) => {
   const [groupNameErr, setGroupNameErr] = useState(false)
   const [groupSizeErr, setGroupSizeErr] = useState(false)
   const [error, setError] = useState(false)
+  const history = useHistory();
 
   const submitHandler= (e) =>{
     e.preventDefault();
@@ -41,17 +47,21 @@ const EnterCourseStudent = (props, {name}) => {
     console.log(groupName)
     console.log(groupSize)
     console.log(isPrivate)
-  
-    if (isPrivate == 'on'){
-      setPublic(false)
-    }
+    
+    // if (isPrivate == 'on'){
+    //   console.log(isPrivate)
+    //   setPublic(false)
+    //   console.log(isPublic)
+    // }
 
-    axios.post('http://127.0.0.1:5000/enter_course_student',{name:name,section:section, groupName:groupName, groupSize:groupSize,isPublic:isPublic}).then(
+    axios.post('http://127.0.0.1:5000/enter_course_student',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
       (response)=>{
-        console.log(response)
-      group={groupName:groupName,groupSize:groupSize,groupCode:response.group_code,sectionNumber:section,isPublic:isPublic}
+        console.log(response.data.currentSize)
+      group={groupName:groupName,groupSize:groupSize,groupCode:response.data.group_code,currentSize:response.data.currentSize,sectionNumber:section,isPublic:isPublic}
       console.log(group)
       setGroups([...groups,group])
+      // return(<Link to ={{pathname:'/group_profile',state:{code:response.data.group_code}}}></Link>)
+      history.push({pathname:'/group_profile',state:{code:response.data.group_code}})
         
       })
       .catch(err=>{ console.log(err)});
@@ -61,12 +71,13 @@ const EnterCourseStudent = (props, {name}) => {
     // set our variable to true
     let isApiSubscribed = true;
 
-    axios.get('http://127.0.0.1:5000/enter_course_student').then(
+    axios.get('http://127.0.0.1:5000/enter_course_student',{params:{classCode:classCode}}).then(
       res => {
         if (isApiSubscribed) {
         console.log(res)
         console.log(res.data[0])
-        setGroups(res.data)
+        setGroups(res.data.response_list)
+        setClassName(res.data.className)
         console.log(groups)
       }
     },
@@ -81,10 +92,10 @@ const EnterCourseStudent = (props, {name}) => {
  
 },[])
 
-    // const group_list = groups.map((group) =>
-    // <student_group_list/>
-    // );
-
+    const group_list = groups.map((group) =>
+    <Student_group_list key={group.groupCode} group={group}/>
+    );
+   
 
     const checksection=(e)=>{
       setSection(e.target.value);
@@ -142,12 +153,17 @@ const EnterCourseStudent = (props, {name}) => {
       setGroupSizeErr(true);
       setError(true);
     }
+    if (isPrivate =='on'){
+      setPublic(false);
+
+    }
     else{
       setSectionErr(false);
       setGroupNameErr(false);
       setGroupSizeErr(false);
       setError(false);
       setShow(false);
+      setPublic(true);
     }
 
   }
@@ -166,7 +182,7 @@ const EnterCourseStudent = (props, {name}) => {
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['coursename']}>
-          <span>Course Name</span>
+          <span>{className}</span>
         </span>
         <Link to="/home_student" className={styles['navlink']}>
           <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
@@ -176,7 +192,7 @@ const EnterCourseStudent = (props, {name}) => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown/>
+          <Dropdown username={name}/>
         </span>
     </div>
   
@@ -190,43 +206,8 @@ const EnterCourseStudent = (props, {name}) => {
       </span>
     </div>
 
-    {/* group_list */}
-    {groups.map((group) =>(
-  group.isPublic?
-    (<ListGroup  key={group.groupCode}>
-      <ListGroup.Item className={styles['coursesection']}>
-      <Container >
-      <Row hidden> {group.groupCode} </Row>
-      <Row >
-        <Col md={7} > Group name: {group.groupName } </Col>
-        <Col  md={{ span: 2, offset: 2 }}>
-          <Button className = {styles['list_iterm_button']} variant="outline-secondary">Request to join</Button>
-        </Col>
-      </Row>
-
-      <Row xs="auto">
-        <Col style={{fontSize:12}}>Group size: {group.groupSize}</Col>
-        <Col style={{fontSize:12}}>Current size: {group.currentSize}</Col>
-        <Col style={{fontSize:12}}>Section number: {group.sectionNumber} </Col>
-      </Row>
-
-      <Row >
-        <Col style={{fontSize:13}} md={8}className={styles['listcontainer']} > Description:</Col>
-      </Row>
-
-      <Row >
-        <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
-        <Col  md={{ span: 2, offset: 3 }} style={{ color:"grey",fontSize:10 }}>See more details</Col>
-      </Row>  
-      
-      </Container>
-        </ListGroup.Item>
-    </ListGroup>)
-    :(<></>)
-
-    
-    ))}
-  
+    {group_list} 
+ 
     </div>
 
 
@@ -299,9 +280,10 @@ const EnterCourseStudent = (props, {name}) => {
           </Button>
           {error
           ?(<Button variant="outline-info"  className={styles['savechangebutton']}>Save Changes</Button>)
-          :(<Button variant="primary" type="submit" className={styles['savechangebutton']} onClick={()=>{check()}} >Save Changes</Button>)
+          :(
+          <Button variant="primary" type="submit" className={styles['savechangebutton']} onClick={()=>{check()}} >Save Changes</Button>)
           }
-          {/* onClick={handleClose} */}
+         
         </Modal.Footer>
         </Form>
       </Modal>
