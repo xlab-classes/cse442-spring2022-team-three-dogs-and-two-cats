@@ -6,9 +6,9 @@ import pyautogui
 
 home_student = Blueprint('home_student', __name__)
 
+
 @home_student.route("/home_student", methods=['POST', 'GET', 'OPTIONS'])
 @cross_origin(origin='*')
-
 def homestudent():
 
     from .app import mysql
@@ -18,78 +18,78 @@ def homestudent():
     username = ''
     if token:
         username = check_token(token)
-    
-    match request.method:
 
-        case 'GET':
-            if token:
-              response = jsonify(result = "200")
-            else:
-              response = jsonify(result="not logged in")
+    if request.method == 'GET':
+        if token:
+            response = jsonify(result="200")
+        else:
+            response = jsonify(result="not logged in")
 
-        case 'OPTIONS':
-            response = jsonify(result = "200")
-            response.headers.add('Access-Control-Allow-Origin', '*')
+    elif request.method == 'OPTIONS':
+        response = jsonify(result="200")
+        response.headers.add('Access-Control-Allow-Origin', '*')
 
-        case 'POST':
-            data = request.get_json()
-            class_code = data['class_code']
+    elif request.method == 'POST':
+        data = request.get_json()
+        class_code = data['class_code']
 
-            
-            #search table, find all classes that user is in
-            codelst = []
-            cursor.execute("SELECT class_code FROM user_class_group WHERE username = %s", username)
-            for code in cursor.fetchall():
-              codelst.append(code[0])
-            #print(codelst)
-            
-            #get class name of all classes that user is in
-            namelst = []
-            for code in codelst:
-              cursor.execute("SELECT class_name FROM class WHERE class_code = %s", code)
-              namelst.append(cursor.fetchone()[0])
-            #print(namelst)
+        # search table, find all classes that user is in
+        codelst = []
+        cursor.execute(
+            "SELECT class_code FROM user_class_group WHERE username = %s", username)
+        for code in cursor.fetchall():
+            codelst.append(code[0])
+        # print(codelst)
 
-            #create list of dictionaries to match each code with class name
-            classeslst = []
-            for i in range(len(codelst)):
-              classeslst.append({"class_code": codelst[i], "class_name": namelst[i]})
-            #print(classeslst)
-            
-            if len(class_code) == 0: #class_code not entered
-              response = jsonify(classeslst = classeslst, username = username) #return list of user's classes
-            
-            
-            #if user entered class code that is already displayed
-            elif len(class_code) != 0: #class_code entered
-              check = False
-              for dict in classeslst:
+        # get class name of all classes that user is in
+        namelst = []
+        for code in codelst:
+            cursor.execute(
+                "SELECT class_name FROM class WHERE class_code = %s", code)
+            namelst.append(cursor.fetchone()[0])
+        # print(namelst)
+
+        # create list of dictionaries to match each code with class name
+        classeslst = []
+        for i in range(len(codelst)):
+            classeslst.append(
+                {"class_code": codelst[i], "class_name": namelst[i]})
+        # print(classeslst)
+
+        if len(class_code) == 0:  # class_code not entered
+            # return list of user's classes
+            response = jsonify(classeslst=classeslst, username=username)
+
+        # if user entered class code that is already displayed
+        elif len(class_code) != 0:  # class_code entered
+            check = False
+            for dict in classeslst:
                 if dict["class_code"] == class_code:
-                  check = True
-                  response = jsonify(result = "CLASS ALREADY JOINED")
-              
-              #if user entered class code that is not already displayed
-              if check == False:
+                    check = True
+                    response = jsonify(result="CLASS ALREADY JOINED")
+
+            # if user entered class code that is not already displayed
+            if check == False:
                 allClasses = []
                 cursor.execute("SELECT class_code FROM class")
                 for code in cursor.fetchall():
-                  allClasses.append(code[0])
-                
+                    allClasses.append(code[0])
+
                 check2 = False
                 for code in allClasses:
-                  if class_code == code:
-                    check2 = True
-                #invalid code
+                    if class_code == code:
+                        check2 = True
+                # invalid code
                 if check2 == False:
-                  response = jsonify(result = "INVALID CODE")
-                #valid code
+                    response = jsonify(result="INVALID CODE")
+                # valid code
                 elif check2 == True:
-                  response = jsonify(result = "VALID CODE, CLASS JOINED")
-                  #user join a new class entry
-                  cursor.execute("INSERT INTO user_class_group (username, class_code) VALUES (%s, %s)", (username, class_code))
-                  cursor.connection.commit()
-                  pyautogui.hotkey('f5') #refresh page
-    
-    
+                    response = jsonify(result="VALID CODE, CLASS JOINED")
+                    # user join a new class entry
+                    cursor.execute(
+                        "INSERT INTO user_class_group (username, class_code) VALUES (%s, %s)", (username, class_code))
+                    cursor.connection.commit()
+                    pyautogui.hotkey('f5')  # refresh page
+
     cursor.close()
     return response
