@@ -13,16 +13,18 @@ const HomeStudent = () => {
   const [classeslst, setClasses] = useState([])
   const [username, setUsername] = useState('')
 
+  // local path:http://127.0.0.1:5000/home_student
+  // server path:http://128.205.32.39:5100/home_student
 
   //load user's classes
   useEffect(() => {
-    axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
+    axios.post('http://128.205.32.39:5100/home_student', { class_code: class_code }).then(
       response => {
         setUsername(response.data.username)
         setClasses(response.data.classeslst)
         console.log(response.data.classeslst)
       })
-    axios.options('http://127.0.0.1:5000/home_student')
+    axios.options('http://128.205.32.39:5100/home_student')
       .catch(err => { console.log(err) })
   }, [])
 
@@ -35,7 +37,7 @@ const HomeStudent = () => {
       window.alert("No class code entered.")
     }
 
-    axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
+    axios.post('http://128.205.32.39:5100/home_student', { class_code: class_code }).then(
       response => {
         const resp = response.data.result
         console.log(resp)
@@ -46,7 +48,7 @@ const HomeStudent = () => {
           window.alert("Class does not exist, please enter a valid class code.")
         }
       })  
-    axios.options('http://127.0.0.1:5000/home_student')
+    axios.options('http://128.205.32.39:5100/home_student')
       .catch(err => { console.log(err) })
   }
 
