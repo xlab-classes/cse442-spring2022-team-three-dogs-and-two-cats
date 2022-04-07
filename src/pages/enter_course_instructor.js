@@ -1,11 +1,111 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState,useEffect } from 'react'
+import { Link, useHistory,useLocation} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styles from './enter_course_instructor.module.css'
 
 import Dropdown from "../misc/dropdown"
+import ListGroup from 'react-bootstrap/ListGroup'
+import { Container,Col,Row,Form, Card} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
+import axios from 'axios';
 
-const EnterCourseInstructor = () => {
+const EnterCourseInstructor = ({name}) => {
+  let data = useLocation();
+  let classCode = data.state.code
+
+  const [groups,setGroups] = useState([]);
+
+  const history = useHistory();
+
+  // local path:http://127.0.0.1:5000/enter_course_instructor'
+  // server path:http://128.205.32.39:5100/enter_course_instructor'
+
+/*
+  const submitHandler= (e) =>{
+    e.preventDefault();
+    console.log(section.length)
+    console.log(groupName)
+    console.log(groupSize)
+    console.log(isPrivate)
+
+    if (isPrivate == 'on'){
+      setPublic(false)
+    }
+
+    axios.post('http://127.0.0.1:5000/enter_course_instructor',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
+      (response)=>{
+        console.log(response.data.currentSize)
+      group={groupName:groupName,groupSize:groupSize,groupCode:response.data.group_code,currentSize:response.data.currentSize,sectionNumber:section,isPublic:isPublic}
+      setGroups([...groups,group])
+      history.push({pathname:'/group_profile',state:{code:response.data.group_code}})
+
+      })
+      .catch(err=>{ console.log(err)});
+      }
+*/
+  React.useEffect(() => {
+    // set our variable to true
+    let isApiSubscribed = true;
+
+    axios.get('http://128.205.32.39:5100/enter_course_instructor',{params:{classCode:classCode}}).then(
+      res => {
+        if (isApiSubscribed) {
+        console.log(res)
+        console.log(res.data[0])
+        setGroups(res.data)
+        console.log(groups)
+      }
+    },
+   err => {
+      console.log(err);
+   }
+  )
+  return () => {
+    // cancel the subscription
+    isApiSubscribed = false;
+  };
+
+},[])
+
+  const Student_group_list_delete = ({group}) => {
+    return(
+      (<ListGroup  key={group.groupCode}>
+        <ListGroup.Item className={styles['coursesection']}>
+        <Container >
+        <Row hidden> {group.groupCode} </Row>
+        <Row >
+          <Col md={7} > Group name: {group.groupName } </Col>
+          <Col  md={{ span: 2, offset: 2 }}>
+            <Button className = {styles['list_iterm_button']} variant="outline-secondary">Delete</Button>
+          </Col>
+        </Row>
+
+        <Row xs="auto">
+          <Col style={{fontSize:12}}>Group size: {group.groupSize}</Col>
+          <Col style={{fontSize:12}}>Current size: {group.currentSize}</Col>
+          <Col style={{fontSize:12}}>Section number: {group.sectionNumber} </Col>
+        </Row>
+
+        <Row >
+          <Col style={{fontSize:13}} md={8}className={styles['listcontainer']} > Description:</Col>
+        </Row>
+
+        <Row >
+          <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
+          <Col  md={{ span: 2, offset: 3 }} style={{ color:"grey",fontSize:10 }}>See more details</Col>
+        </Row>
+
+        </Container>
+          </ListGroup.Item>
+      </ListGroup>)
+  )
+}
+
+
+    const group_list = groups.map((group) =>
+    <Student_group_list_delete key={group.groupCode} group={group}/>
+    );
+
   return (
     <div className={styles['container']}>
       <Helmet>
@@ -24,12 +124,13 @@ const EnterCourseInstructor = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown username="name"/>
+          <Dropdown username={name}/>
         </span>
-        
-      </div>
     </div>
-  )
-}
+    <div className={styles['center']}>
+      {group_list}
+    </div>
+  </div>
+  )}
 
 export default EnterCourseInstructor

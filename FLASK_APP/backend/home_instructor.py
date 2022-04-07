@@ -3,10 +3,7 @@ from flask_cors import cross_origin
 import string
 import random
 from .home_login import check_token
-
-
 from flask import Blueprint
-
 
 home_instructor = Blueprint('home_instructor', __name__)
 

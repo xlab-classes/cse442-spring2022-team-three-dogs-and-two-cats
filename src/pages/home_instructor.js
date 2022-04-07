@@ -33,7 +33,7 @@ const HomeInstructor = () => {
 
   // sent get request when you opens the page
   useEffect(() => {
-    axios.get('http://128.205.32.39:5100/home_instructor').then(
+    axios.get('http://127.0.0.1:5000/home_instructor').then(
       (response) => {
         setClasses(response.data.listOut)
         setUsername(response.data.userOut)
@@ -45,8 +45,8 @@ const HomeInstructor = () => {
     .catch(err=>{ console.log(err) })
     },[])
 
-  
-  // call this function when you click "save changes" in the popup window 
+
+  // call this function when you click "save changes" in the popup window
 
   const submitHandler= (e) =>{
 
@@ -100,7 +100,7 @@ const HomeInstructor = () => {
           <Dropdown username={username}/>
         </span>
       </div>
-    
+
       <div className={styles['center']}>
           <div className={styles['coursesheader']}>
             <span className={styles['yourcourses']}>Your Courses</span>
@@ -110,7 +110,7 @@ const HomeInstructor = () => {
           </div>
 
           <div className={styles['sort']}>
-            <span className={styles['sortby']}>Sory By</span>
+            <span className={styles['sortby']}>Sort By</span>
             <div className={styles['sortoptions']}>
               <span className={styles['newtoold']}>
                 New to Old
@@ -121,15 +121,15 @@ const HomeInstructor = () => {
               </span>
             </div>
           </div>
-          
+
         {/* display all classes */}
         {(classeslist|| []).map(e =>
           <ProfClass class_code={e.classCode} class_name={e.className} />
         )}
-          
+
         </div>
     </div>
-    
+
     {/* popup window */}
     <Modal show={show} onHide={handleClose} className={styles1}>
         <Form onSubmit={submitHandler} >
@@ -147,7 +147,7 @@ const HomeInstructor = () => {
               <Form.Control.Feedback type="invalid">
                 Please enter a class name.
               </Form.Control.Feedback>
-              
+
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Class Size</Form.Label>
@@ -169,8 +169,8 @@ const HomeInstructor = () => {
         </Form>
       </Modal>
 
-      
-      </> 
+
+      </>
 
 
   )
