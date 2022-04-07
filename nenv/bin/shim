@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-export NODE_PATH='/web/CSE442-542/2022-Spring/cse-442n/cse442-spring2022-team-three-dogs-and-two-cats/nenv/lib/node_modules'
-export NPM_CONFIG_PREFIX='/web/CSE442-542/2022-Spring/cse-442n/cse442-spring2022-team-three-dogs-and-two-cats/nenv'
-export npm_config_prefix='/web/CSE442-542/2022-Spring/cse-442n/cse442-spring2022-team-three-dogs-and-two-cats/nenv'
-exec 'nenv/bin/node' "$@"

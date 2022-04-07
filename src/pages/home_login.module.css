@@ -41,7 +41,7 @@
 }
 .login {
   width: 375px;
-  height: 282px;
+  height: 270px;
   display: flex;
   align-self: center;
   margin-top: 6%;
@@ -58,7 +58,7 @@
 .username {
   font-size: 14px;
   align-self: flex-start;
-  margin-top: 5px;
+  margin-top: 10px;
   margin-left: 35px;
 }
 .usernametextbox {
@@ -87,7 +87,7 @@
   font-size: 14px;
   align-self: flex-start;
   /* add  margin-top: 5px;*/
-  margin-top: 5px;
+  margin-top: 10px;
   margin-left: 35px;
 }
 .passwordtextbox {
@@ -144,7 +144,7 @@
   display: flex;
   align-self: center;
   /* margin-top 10->20 */
-  margin-top: 15px;
+  margin-top: 20px;
   transition: 0.3s;
   align-items: flex-start;
   border-width: 0px;
@@ -152,6 +152,7 @@
   flex-direction: column;
   text-decoration: none;
   background-color: #88cad9;
+  cursor: pointer;
 }
 .loginbutton:hover {
   border: none;
@@ -183,16 +184,6 @@
   color: #00778e;
   border: none;
   background-color: transparent;
-}
-.templogininstructor {
-  font-size: 14px;
-  align-self: center;
-  text-decoration: none;
-}
-.temploginstudent {
-  font-size: 14px;
-  align-self: center;
-  text-decoration: none;
 }
 .alert {
   padding: 20px;

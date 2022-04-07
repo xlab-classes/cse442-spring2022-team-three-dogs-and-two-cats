@@ -2,6 +2,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from .sign_up import sign_up
 from .home_login import home_login
+from .student_group import student_group
+from .enter_course_instructor import enter_course_instructor
+from .home_instructor import home_instructor
+from .home_student import home_student
 
 from flaskext.mysql import MySQL
 
@@ -20,6 +24,14 @@ app = Flask(__name__)
 app.register_blueprint(home_login)
 
 app.register_blueprint(sign_up)
+
+app.register_blueprint(student_group)
+
+app.register_blueprint(home_instructor)
+
+app.register_blueprint(home_student)
+
+app.register_blueprint(enter_course_instructor)
 
 CORS(app)
 

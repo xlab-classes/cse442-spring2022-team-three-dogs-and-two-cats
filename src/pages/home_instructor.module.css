@@ -69,13 +69,50 @@
   align-self: flex-start;
 }
 .createclassbutton {
+  color:black;
   font-size: 12px;
   align-self: center;
   transition: 0.3s;
   margin-left: 415px;
+  background-color: #88cad900;
+  border-color: #88cad900;
 }
 .createclassbutton:hover {
   color: #88cad9;
+  background-color: #88cad900;
+  border-color: #88cad900;
+}
+.createclassbutton:focus {
+  color: black;
+  background-color: #0b5dd700;
+  border-color: #0a57ca00;
+  box-shadow: none;
+}
+.savechangebutton {
+  color: #fff;
+  background-color: #88cad9;
+  border-color: #88cad9;
+}
+.savechangebutton:hover {
+  color: #88cad9;
+  background-color: #94a5a800;
+  border-color: #88cad9;
+}
+.savechangebutton:focus {
+  color: #fff;
+  background-color: #88cad9;
+  border-color: #88cad9;
+  box-shadow: none;
+}
+.closebutton {
+  color: #fff;
+  background-color: #94a5a888;
+  border-color: #88cad900;
+}
+.closebutton:hover {
+  color: #94a5a888;
+  background-color: #94a5a800;
+  border-color: #94a5a888;
 }
 .sort {
   flex: 0 0 auto;
@@ -129,31 +166,40 @@
 }
 .course {
   display: flex;
-  align-self: center;
+  align-self: flex-start;
   align-items: center;
   flex-direction: row;
   justify-content: center;
 }
 .coursename {
   font-size: 18px;
-  align-self: center;
-  margin-right: 380px;
+  /* align-self: center; */
+  /* margin-right: 380px; */
+  align-self: flex-start;
+  margin-left: 20px;
+  
 }
 .navlink {
   display: contents;
 }
 .enterbutton {
+  top: 0px;
+  right: 80px;
+  bottom: 0px;
+  margin: auto;
+  position: absolute;
+
+  text-align: center;
   width: 50px;
   height: 18px;
   display: flex;
   align-self: flex-end;
-  margin-top: 10px;
   transition: 0.3s;
   align-items: center;
+  margin-left: 10px;
   border-radius: var(--dl-radius-radius-radius4);
   flex-direction: row;
   justify-content: center;
-  text-decoration: none;
   background-color: #88cad9;
 }
 .enterbutton:hover {
@@ -166,6 +212,13 @@
   margin-right: 0px;
 }
 .deletebutton {
+  top: 0px;
+  right: 20px;
+  bottom: 0px;
+  margin: auto;
+  position: absolute;
+
+  text-align: center;
   width: 50px;
   height: 18px;
   display: flex;
@@ -186,7 +239,7 @@
   font-size: 12px;
   align-self: center;
 }
-.code {
+.code{
   font-size: 12px;
   align-self: flex-start;
   margin-left: 20px;
