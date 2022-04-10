@@ -19,7 +19,7 @@ def create_new_group():
     cursor = mysql.connect().cursor()
     if request.method == 'OPTIONS':
         response = jsonify(result="200")
-        corsFix(response)
+        corsFix(response.headers)
         response.status = 200
         return response        
         
