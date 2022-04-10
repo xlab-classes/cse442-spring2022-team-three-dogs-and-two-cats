@@ -12,8 +12,12 @@ def homestudent():
 
     from .app import mysql
     cursor = mysql.connect().cursor()
-
-    token = request.headers['Authorization']
+    
+    #token = request.headers['Authorization']
+    token = None
+    for (key,val) in request.headers.items():
+      if key == 'Authorization':
+         token = val
     username = ''
     if token:
         username = check_token(token)
@@ -26,7 +30,7 @@ def homestudent():
 
     elif request.method == 'OPTIONS':
         response = jsonify(result="200")
-        response.headers.add('Access-Control-Allow-Origin', '*')
+      
 
     elif request.method == 'POST':
         data = request.get_json()
@@ -90,4 +94,8 @@ def homestudent():
                     cursor.connection.commit()
 
     cursor.close()
+    
+    from .app import corsFix
+    corsFix(response.headers)
+
     return response

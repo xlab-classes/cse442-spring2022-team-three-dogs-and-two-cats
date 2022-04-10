@@ -12,22 +12,30 @@ from .hash442 import *
 home_login = Blueprint('home_login', __name__)
 
 
-@home_login.route("/", methods=['POST','GET'])
+@home_login.route("/", methods=['POST','GET', 'OPTIONS'])
 
-@cross_origin(origin='*')
 def login():
     print(request.method)
-    from .app import mysql
+    from .app import mysql, corsFix
     cursor = mysql.connect().cursor()
+
 
     if request.method == 'OPTIONS':
         response = jsonify(result="200")
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        corsFix(response.headers)
+      
+        return response
 
     if request.method == 'GET':
-        token = request.headers['Authorization']
+        #IDK why this line doesnt work, but it doesnt so I had to replace it with the for-loop
+        #token = request.headers['Authorizaton']
+        token = None
+        for (key,val) in request.headers.items():
+           if key == "Authorization":
+              token = val
+
         print("get token",token)
-        if token:
+        if token and token != 'null':
             username = check_token(token)
             print(username)
             query = """ SELECT * from user WHERE username = %s """
@@ -43,6 +51,7 @@ def login():
         else:
             response = jsonify(result="not logged in")
         print("get response", response.data)
+        corsFix(response.headers)
         return response
         # print('Get request is', cookie)
         
@@ -100,7 +109,8 @@ def login():
 
    
 
-
+    corsFix(response.headers)
+    
     return response
 
 

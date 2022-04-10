@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flaskext.mysql import MySQL
 from .hash442 import *
 from flask_cors import cross_origin
-
+from .app import corsFix
 import re
 
 
@@ -18,12 +18,14 @@ su.config['MYSQL_DATABASE_DB'] = 'cse442_2022_spring_team_n_db'
 mysql.init_app(su)
 
 
-@sign_up.route("/sign_up", methods=['POST', 'GET'])
-@cross_origin(origin='*')
+@sign_up.route("/sign_up", methods=['POST', 'GET', 'OPTIONS'])
+
 def signup():
     if request.method == 'OPTIONS':
         response = jsonify(result="200")
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        corsFix(response)
+        return response
+        
 
     data = request.get_json()
     print(data)
@@ -69,6 +71,7 @@ def signup():
             cursor.execute(sql, val)
             conn3.commit()
             response = jsonify(result="Professor")
+            corsFix(response)
             return response
         else:
             sql = "INSERT INTO user (username, password, salt, first_name, last_name, email, is_professor) VALUES (%s, %s, %s, %s, %s, %s, %s) "
@@ -77,5 +80,6 @@ def signup():
             cursor.execute(sql, val)
             conn3.commit()
             response = jsonify(result="Student")
+            corsFix(response)
             return response
     return "Something went wrong"

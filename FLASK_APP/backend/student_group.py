@@ -13,14 +13,15 @@ from .hash442 import *
 student_group = Blueprint('student_group', __name__)
 # class_code = ''
 
-@cross_origin(origin='*')
-@student_group.route("/enter_course_student", methods=['POST','GET'])
+@student_group.route("/enter_course_student", methods=['POST','GET', 'OPTIONS'])
 def create_new_group():
-    from .app import mysql
+    from .app import mysql, corsFix
     cursor = mysql.connect().cursor()
     if request.method == 'OPTIONS':
         response = jsonify(result="200")
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        corsFix(response)
+        response.status = 200
+        return response        
         
     if request.method == 'GET':
         class_code = request.args.get("classCode")
@@ -53,6 +54,7 @@ def create_new_group():
         class_name = cursor.fetchone()
 
         response = jsonify({"response_list":response_list,"className":class_name})
+        corsFix(response.headers)
         return response
 
 
@@ -103,7 +105,9 @@ def create_new_group():
 
         cursor.connection.commit()
         response = jsonify({"group_code":group_code,"currentSize":current_group_size}) 
-        print(data)
+        corsFix(response.headers)
+        return response
+        
    
-
+    corsFix(response.headers)
     return response

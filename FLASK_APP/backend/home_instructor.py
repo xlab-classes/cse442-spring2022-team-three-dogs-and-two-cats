@@ -9,13 +9,18 @@ home_instructor = Blueprint('home_instructor', __name__)
 
 
 @home_instructor.route("/home_instructor", methods=['POST', 'GET', 'OPTIONS'])
-@cross_origin(origin='*')
-def home_inst():
 
+def home_inst():
+    
     from .app import mysql
     cursor = mysql.connect().cursor()
+    response = jsonify(result = "No token")
 
-    token = request.headers['Authorization']
+    #token = request.headers['Authorization']
+    token = None
+    for (key,val) in request.headers.items():
+       if key == "Authorization":
+         token = val
     username = ''
     if token:
         username = check_token(token)
@@ -50,8 +55,6 @@ def home_inst():
         else:
             if request.method == 'OPTIONS':
                 response = jsonify(result="200")
-                response.headers.add('Access-Control-Allow-Origin', '*')
-
             else:
                 if request.method == 'POST':
                     data = request.get_json()
@@ -88,5 +91,10 @@ def home_inst():
                             response = jsonify(result="Class created",
                                                class_code=newClassCode)
 
+
     cursor.close()
+
+    from .app import corsFix
+    corsFix(response.headers)
+
     return response

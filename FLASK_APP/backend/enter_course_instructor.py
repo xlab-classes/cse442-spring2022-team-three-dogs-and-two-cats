@@ -4,14 +4,15 @@ from flask_cors import cross_origin
 
 enter_course_instructor = Blueprint('enter_course_instructor', __name__)
 
-@cross_origin(origin='*')
-@enter_course_instructor.route("/enter_course_instructor", methods=['POST', 'GET'])
+@enter_course_instructor.route("/enter_course_instructor", methods=['POST', 'GET', 'OPTIONS'])
 def create_new_group():
-    from .app import mysql
+    from .app import mysql, corsFix
     cursor = mysql.connect().cursor()
     if request.method == 'OPTIONS':
         response = jsonify(result="200")
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        corsFix(response.headers)
+        response.status = 200
+        return response
 
     if request.method == 'GET':
         class_code = request.args.get("classCode")
@@ -34,6 +35,8 @@ def create_new_group():
             response_dic['groupName'] = x[8]
             response_list.append(response_dic)
         response = jsonify(response_list)
+        corsFix(response.headers)
+        response.status = 200
         return response
     """
     else:
@@ -78,5 +81,6 @@ def create_new_group():
         cursor.connection.commit()
         response = jsonify({"group_code": group_code, "currentSize": current_group_size})
         print(data)
+        corsFix(response.headers)
         return response
     """
