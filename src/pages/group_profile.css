@@ -1,5 +1,5 @@
 .profileBox {
-    margin-top: 20px;
+    margin-top: 3%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,6 +20,9 @@
 .b {
     margin-right: 30px;
 }
+.b:hover, .editButton:hover {
+    color: #00778e;
+}
 .row1, .row2, .row3 {
     margin-top: 40px;
     display: flex;
@@ -30,8 +33,13 @@
 .groupMembers, .desc{
     box-shadow: 1px 2px 2px 1px #c4c5c7;
     height: auto;
-    width: 648px;
-    padding: 5px 0px 0px 10px;
+    width: 40vw;
+    padding: 5px 15px 5px 15px;
+    overflow: hidden;
+}
+.boxMembers {
+    display: flex;
+    justify-content: space-between;
 }
 .desc {
     height: 99px;

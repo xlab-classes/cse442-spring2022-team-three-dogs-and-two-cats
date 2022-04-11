@@ -16,9 +16,9 @@ const GroupProfile = () => {
     const group_code = location.state.groupcode
     const classcode = location.state.classcode
 
-    const [isProf, setProf] = useState(false)
+    const [isProf, setProf] = useState(true)
 
-    const [groupID, setID] = useState('')
+
     const [sectionNum, setNum] = useState('')
     const [groupMems, setMems] = useState([])
     const [desc, setDesc] = useState('')
@@ -35,6 +35,9 @@ const GroupProfile = () => {
         axios.get('http://127.0.0.1:5000/group_profile', {params:{group_code: group_code, classcode: classcode}}).then(
             response => {
                 console.log(response.data)
+                setNum(response.data.section_id)
+                setMems(response.data.membersList)
+                setDesc(response.data.desc)
             })
 
         axios.options('http://127.0.0.1:5000/group_profile')
@@ -91,16 +94,23 @@ const GroupProfile = () => {
             <div className='profileBox'>
                 {buttons}
                 <div className='row1'>
-                    <div className='textID'><b>Group ID: </b>test</div>
-                    <div className='textNum'><b>Section Number: </b>test</div>
+                    <div className='textID'><b>Group ID: </b>{group_code}</div>
+                    <div className='textNum'><b>Section Number: </b>{sectionNum}</div>
                 </div>
                 <div className='row2'>
-                    <div className='textGroup'><b>Group Members:</b></div>
-                    <div className='groupMembers'>test</div>
+                    <div className='textGroup'><b>Group Members: </b></div>
+                    <div className='groupMembers'>
+                        {groupMems.map(mem =>
+                            <div className='boxMembers'>
+                                <span>{mem.username}</span>
+                                <span>{mem.email}</span>
+                            </div>
+                            )}
+                    </div>
                 </div>
                 <div className='row3'>
-                    <div className='textDesc'><b>Description:</b></div>
-                    <div className='desc'>test</div>
+                    <div className='textDesc'><b>Description: </b></div>
+                    <div className='desc'>{desc}</div>
                 </div>
                 <button className='editButton' onClick={editDesc}>Edit</button>
             </div>
