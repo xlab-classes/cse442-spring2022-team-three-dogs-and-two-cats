@@ -13,9 +13,9 @@ const GroupProfile = () => {
     const location = useLocation()
     const name = location.state.name
     const groupname = location.state.groupname
+    const group_code = location.state.groupcode
+    const classcode = location.state.classcode
 
-    const [group_code, setGroupCode] = useState('')
-    const [classcode, setClassCode] = useState('')
     const [isProf, setProf] = useState(false)
 
     const [groupID, setID] = useState('')
@@ -23,17 +23,13 @@ const GroupProfile = () => {
     const [groupMems, setMems] = useState([])
     const [desc, setDesc] = useState('')
 
-    
 
 
     //load at beginning of page
     useEffect(() => {
-        setGroupCode(location.state.groupcode)
-        setClassCode(location.state.classcode)
-
         console.log("-------------------------")
-        console.log(group_code)
-        console.log(classcode)
+        console.log("GROUP CODE: " + group_code)
+        console.log("CLASS CODE: " + classcode)
         
 
         axios.get('http://127.0.0.1:5000/group_profile', {params:{group_code: group_code, classcode: classcode}}).then(
@@ -99,8 +95,7 @@ const GroupProfile = () => {
                     <div className='textNum'><b>Section Number: </b>test</div>
                 </div>
                 <div className='row2'>
-                    <div classNa
-                    me='textGroup'><b>Group Members:</b></div>
+                    <div className='textGroup'><b>Group Members:</b></div>
                     <div className='groupMembers'>test</div>
                 </div>
                 <div className='row3'>
