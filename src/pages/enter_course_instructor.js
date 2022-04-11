@@ -47,7 +47,7 @@ const EnterCourseInstructor = ({name}) => {
     // set our variable to true
     let isApiSubscribed = true;
 
-    axios.get('http://128.205.32.39:5100/enter_course_instructor',{params:{classCode:classCode}}).then(
+    axios.get('http://127.0.0.1:5000/enter_course_instructor',{params:{classCode:classCode}}).then(
       res => {
         if (isApiSubscribed) {
         console.log(res)
