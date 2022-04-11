@@ -24,7 +24,7 @@ def groupProfile():
     username = ''
     if token:
         username = check_token(token)
-        print("python ---------------")
+        # print("python ---------------")
         # print(username)
 
         if request.method == 'GET':
@@ -43,6 +43,38 @@ def groupProfile():
                 group_name =''
                 desc=''
                 members=[]
+                # true = '1', false = '0'
+                isProf = ''
+                isInGroup =''
+
+                # check the if the user is a prof 
+                user_query ="""SELECT is_professor
+                        FROM user
+                        WHERE username = %s ;"""
+                user=(username,)
+                cursor.execute(user_query,user)
+                dbUserisProf = cursor.fetchone()
+                for user in dbUserisProf:
+                    if user == False:
+                        isProf = '0'
+                        # print('student')
+                        # check if the student is in the current group
+                        ingroup_query ="""SELECT class_code
+                                        FROM user_class_group
+                                        WHERE username = %s AND group_code = %s;"""
+                        ingroup_val = (username,group_code)
+                        cursor.execute(ingroup_query,ingroup_val)
+                        dbExist = cursor.fetchone()
+                        # print(dbExist)
+                        if dbExist== None:
+                            isInGroup = '0'
+                            # print('not exist')
+                        else:
+                            isInGroup ='1'
+                    else:
+                        isProf = '1'
+                        isInGroup = '0'
+                        # print('prof')
 
                 # fetch info from the group
                 group_query = """SELECT section_id, group_name, description
@@ -74,11 +106,12 @@ def groupProfile():
                         "email":mem[1]
                     }
                     members.append(memDict)
-                print("result-----------")
-                print(section_id, group_name,desc, members,username)
+                # print("result-----------")
+                
                 
                 response = jsonify(result="200", section_id = section_id, group_name= group_name, desc = desc,
-                                       membersList=members, username=username)
+                                       membersList=members, username=username, isInGroup=isInGroup, isProf=isProf)
+                # print(response)
 
             else:
                 response = jsonify(result="not logged in")

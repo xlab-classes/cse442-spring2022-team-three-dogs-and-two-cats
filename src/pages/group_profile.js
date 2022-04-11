@@ -34,7 +34,7 @@ const GroupProfile = () => {
 
         axios.get('http://127.0.0.1:5000/group_profile', {params:{group_code: group_code, classcode: classcode}}).then(
             response => {
-                console.log(response.request)
+                console.log(response.data)
             })
 
         axios.options('http://127.0.0.1:5000/group_profile')
