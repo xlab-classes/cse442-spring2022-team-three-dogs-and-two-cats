@@ -52,13 +52,11 @@ const GroupProfile = () => {
         
         axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: descNew }).then(
             response => {
-                console.log(response.data.descNew)
+                window.location.reload()
             })
 
         axios.options('http://127.0.0.1:5000/group_profile')
             .catch(err => { console.log(err) })
-
-        window.location.reload()
     }
 
 
