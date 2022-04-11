@@ -25,19 +25,14 @@ def groupProfile():
     if token:
         username = check_token(token)
         # print("python ---------------")
-        # print(username)
 
         if request.method == 'GET':
             
             if token:
-                # print('yes')
                 class_code = request.args.get("classcode")
                 group_code= request.args.get("group_code")
-                # data = request.get_json()
-                # get class code
-                # class_code = data['classcode'] 
-                # group_code = data['group_code']
-                print(class_code,group_code)
+
+                # print(class_code,group_code)
 
                 section_id =''
                 group_name =''
@@ -118,7 +113,17 @@ def groupProfile():
         elif request.method == 'OPTIONS':
             response = jsonify(result="200")
         elif request.method == 'POST':
-            response = jsonify(result="200")
+            data = request.get_json()
+            group_code = data['group_code']
+            new_desc = data['desc']
+            desc_query = """UPDATE our_group
+                        SET description = %s
+                        WHERE group_code = %s;"""
+
+            newdesc_val = (new_desc, group_code)
+            cursor.execute(desc_query, newdesc_val)  
+            cursor.connection.commit()
+            response = jsonify(result="desc updated")
 
     cursor.close()
 
