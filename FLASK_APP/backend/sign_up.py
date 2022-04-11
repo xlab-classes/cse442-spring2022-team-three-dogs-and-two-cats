@@ -4,7 +4,6 @@ from flask_cors import CORS
 from flaskext.mysql import MySQL
 from .hash442 import *
 from flask_cors import cross_origin
-from .app import corsFix
 import re
 
 
@@ -21,9 +20,10 @@ mysql.init_app(su)
 @sign_up.route("/sign_up", methods=['POST', 'GET', 'OPTIONS'])
 
 def signup():
+    from .app import corsFix
     if request.method == 'OPTIONS':
         response = jsonify(result="200")
-        corsFix(response)
+        corsFix(response.headers)
         return response
         
 
@@ -71,7 +71,7 @@ def signup():
             cursor.execute(sql, val)
             conn3.commit()
             response = jsonify(result="Professor")
-            corsFix(response)
+            corsFix(response.headers)
             return response
         else:
             sql = "INSERT INTO user (username, password, salt, first_name, last_name, email, is_professor) VALUES (%s, %s, %s, %s, %s, %s, %s) "
@@ -80,6 +80,6 @@ def signup():
             cursor.execute(sql, val)
             conn3.commit()
             response = jsonify(result="Student")
-            corsFix(response)
+            corsFix(response.headers)
             return response
     return "Something went wrong"
