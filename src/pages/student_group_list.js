@@ -3,6 +3,7 @@ import React from 'react'
 import styles from './enter_course_student.module.css'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { Container,Col,Row,Form, Card} from 'react-bootstrap';
+import { Link , useHistory} from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 
 
@@ -36,7 +37,9 @@ return(
   
         <Row >
           <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
-          <Col  md={{ span: 2, offset: 3 }} style={{ color:"grey",fontSize:10 }}>See more details</Col>
+          <Col  md={{ span: 2, offset: 3 }}>
+            <Link to="/group_profile" style={{ color:"grey", fontSize:10, textDecoration:'none' }}>See more details</Link>
+          </Col>
         </Row>  
         
         </Container>
