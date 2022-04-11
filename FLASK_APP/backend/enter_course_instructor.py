@@ -33,13 +33,13 @@ def create_new_group():
     else:
         data = request.get_json()
 
-        sql2 = "UPDATE user_class_group SET group_code = NULL WHERE group_code = %s"
-        val2 = (data['group_code'])
-        cursor.execute(sql2, val2)
-
-        sql1 = "DELETE FROM our_group WHERE group_code = %s"
+        sql1 = "UPDATE user_class_group SET group_code = NULL WHERE group_code = %s"
         val1 = (data['group_code'])
         cursor.execute(sql1, val1)
+
+        sql2 = "DELETE FROM our_group WHERE group_code = %s"
+        val2 = (data['group_code'])
+        cursor.execute(sql2, val2)
 
         cursor.connection.commit()
 
