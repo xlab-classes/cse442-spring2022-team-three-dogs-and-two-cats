@@ -49,14 +49,19 @@ const GroupProfile = () => {
 
     function editDesc(event) {
         event.preventDefault()
-        
-        axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: descNew }).then(
-            response => {
-                window.location.reload()
-            })
 
-        axios.options('http://127.0.0.1:5000/group_profile')
-            .catch(err => { console.log(err) })
+        if (event.target.desc.value != "") {
+            axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: event.target.desc.value }).then(
+                response => {
+                    window.location.reload()
+                })
+    
+            axios.options('http://127.0.0.1:5000/group_profile')
+                .catch(err => { console.log(err) })
+        }
+        else {
+            window.alert("Please enter a new description.")
+        }
     }
 
 
@@ -117,9 +122,9 @@ const GroupProfile = () => {
                         )}
                     </div>
                 </div>
-                <form className='row3' id='descForm' onSubmit={editDesc} onChange={(event) => setDescNew(event.target.value)}>
+                <form className='row3' id='descForm' onSubmit={editDesc}>
                     <div className='textDesc'><b>Description: </b></div>
-                    <input className='desc' type="text" placeholder={desc}></input>
+                    <input className='desc' type="text" placeholder={desc} name="desc"></input>
                 </form>
                 <button className='editButton' type='submit' form='descForm'>Edit</button>
             </div>
