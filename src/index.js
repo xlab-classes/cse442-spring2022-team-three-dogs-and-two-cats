@@ -16,7 +16,7 @@ import EnterCourseStudent from './pages/enter_course_student'
 import HomeStudent from './pages/home_student'
 import SignUp from './pages/sign_up'
 import GroupProfile from './pages/group_profile'
-
+import Message from './pages/message'
 
 const App = () => {
   const [name,setName] = useState('');
@@ -93,6 +93,7 @@ const App = () => {
                 <Route exact path="/enter_course_student" component={()=><EnterCourseStudent name={name} />} />
                 <Route exact path='/group_profile' component = {GroupProfile} />
                 <Route exact component={SignUp} path="/sign_up" />
+                <Route exact component={Message} path="/message" />
                 </Switch>)
           }
           

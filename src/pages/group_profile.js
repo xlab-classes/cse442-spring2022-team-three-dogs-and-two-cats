@@ -6,6 +6,9 @@ import styles from './home_student.module.css'
 import Dropdown from "../misc/dropdown"
 import axios from 'axios'
 import './group_profile.css'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 
 const GroupProfile = () => {
@@ -23,6 +26,11 @@ const GroupProfile = () => {
     const [groupMems, setMems] = useState([])
     const [desc, setDesc] = useState('')
     const [descNew, setDescNew] = useState('')
+
+    const [inviteShow, setInviteShow] = useState(false);
+
+    const inviteHandleClose = () => setInviteShow(false);
+    const inviteHandleShow = () => setInviteShow(true);
 
 
 
@@ -65,7 +73,7 @@ const GroupProfile = () => {
     if (isProf == false) {
         buttons =
             <div className='profileButtons'>
-                <button className='b'>Invite</button>
+                <button className='b' onClick={inviteHandleShow}>Invite</button>
                 <button className='b'>Leave the Group</button>
             </div>
     }
@@ -126,6 +134,32 @@ const GroupProfile = () => {
             </div>
             {/* ------------------------------- */}
 
+
+            <Modal show={inviteShow} onHide={inviteHandleClose}>
+                <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <Form>
+                    <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlTextarea1"
+                    >
+                    <Form.Label>Please enter username</Form.Label>
+                    <Form.Control type="text" rows={3} />
+                    </Form.Group>
+                </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={inviteHandleClose}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={inviteHandleClose}>
+                    Save Changes
+                </Button>
+                </Modal.Footer>
+            </Modal>    
+                
         </div>
     )
 }

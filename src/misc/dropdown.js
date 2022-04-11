@@ -1,6 +1,7 @@
 import React from 'react'
 import '../misc/dropdown.css'
 import Dropdown from 'react-bootstrap/Dropdown'
+import Badge from 'react-bootstrap/Badge'
 
 const name_dropdown = (props) => {
   
@@ -16,6 +17,10 @@ const name_dropdown = (props) => {
       
       <button type="button" className="name" onClick={() => setVisible(!visible)}>
         {props.username}
+        <Badge pill bg="danger">
+          1
+        </Badge>{' '}
+
       </button>
       
       {visible &&
@@ -23,7 +28,11 @@ const name_dropdown = (props) => {
       
           <Dropdown>
               <Dropdown.Item >Account Settings</Dropdown.Item>
-              <Dropdown.Item >Messages </Dropdown.Item>
+              <Dropdown.Item href="/message">Messages  
+                <Badge pill bg="danger">
+                1
+                </Badge>{' '}
+              </Dropdown.Item>
               <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>    
           </Dropdown>
    
