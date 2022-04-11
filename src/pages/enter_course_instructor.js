@@ -17,32 +17,23 @@ const EnterCourseInstructor = ({name}) => {
 
   const history = useHistory();
 
-  // local path:http://127.0.0.1:5000/enter_course_instructor'
-  // server path:http://128.205.32.39:5100/enter_course_instructor'
+  //http://127.0.0.1:5000/enter_course_instructor'
+  //http://128.205.32.39:5100/enter_course_instructor
 
-/*
-  const submitHandler= (e) =>{
-    e.preventDefault();
-    console.log(section.length)
-    console.log(groupName)
-    console.log(groupSize)
-    console.log(isPrivate)
-
-    if (isPrivate == 'on'){
-      setPublic(false)
-    }
-
-    axios.post('http://127.0.0.1:5000/enter_course_instructor',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
-      (response)=>{
-        console.log(response.data.currentSize)
-      group={groupName:groupName,groupSize:groupSize,groupCode:response.data.group_code,currentSize:response.data.currentSize,sectionNumber:section,isPublic:isPublic}
-      setGroups([...groups,group])
-      history.push({pathname:'/group_profile',state:{code:response.data.group_code}})
-
-      })
-      .catch(err=>{ console.log(err)});
+  function submitHandler(group_code) {
+      const ver = confirm("Are you sure you want to delete this group?");
+      if(ver) {
+          axios.post('http://127.0.0.1:5000/enter_course_instructor', {
+          group_code: group_code, class_code: classCode
+          }).then( res => {
+              setGroups(res.data)
+          })
+          .catch(err => {
+              console.log(err);
+          });
       }
-*/
+  }
+
   React.useEffect(() => {
     // set our variable to true
     let isApiSubscribed = true;
@@ -50,10 +41,7 @@ const EnterCourseInstructor = ({name}) => {
     axios.get('http://127.0.0.1:5000/enter_course_instructor',{params:{classCode:classCode}}).then(
       res => {
         if (isApiSubscribed) {
-        console.log(res)
-        console.log(res.data[0])
         setGroups(res.data)
-        console.log(groups)
       }
     },
    err => {
@@ -67,7 +55,7 @@ const EnterCourseInstructor = ({name}) => {
 
 },[])
 
-  const Student_group_list_delete = ({group}) => {
+  const Student_group_list = ({group}) => {
     return(
       (<ListGroup  key={group.groupCode}>
         <ListGroup.Item className={styles['coursesection']}>
@@ -76,7 +64,7 @@ const EnterCourseInstructor = ({name}) => {
         <Row >
           <Col md={7} > Group name: {group.groupName } </Col>
           <Col  md={{ span: 2, offset: 2 }}>
-            <Button className = {styles['list_iterm_button']} variant="outline-secondary">Delete</Button>
+            <Button onClick={function() {submitHandler(group.groupCode)}} className = {styles['list_iterm_button']} variant="outline-secondary">Delete</Button>
           </Col>
         </Row>
 
@@ -112,7 +100,7 @@ const EnterCourseInstructor = ({name}) => {
 
 
     const group_list = groups.map((group) =>
-    <Student_group_list_delete key={group.groupCode} group={group}/>
+    <Student_group_list key={group.groupCode} group={group}/>
     );
 
   return (

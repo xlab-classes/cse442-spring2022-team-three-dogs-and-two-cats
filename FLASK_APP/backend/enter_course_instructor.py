@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, make_response
 from flask import Blueprint
-from flask_cors import cross_origin
 
 enter_course_instructor = Blueprint('enter_course_instructor', __name__)
 
@@ -23,64 +22,38 @@ def create_new_group():
         response_list = []
         myresult = list(cursor.fetchall())
         for x in myresult:
-            response_dic = {}
-            response_dic['groupCode'] = x[0]
-            response_dic['classCode'] = x[1]
-            response_dic['sectionNumber'] = x[2]
-            response_dic['owner'] = x[3]
-            response_dic['groupSize'] = x[4]
-            response_dic['currentSize'] = x[5]
-            response_dic['isPublic'] = x[6]
-            response_dic['description'] = x[7]
-            response_dic['groupName'] = x[8]
+            response_dic = {'groupCode': x[0], 'classCode': x[1], 'sectionNumber': x[2], 'owner': x[3],
+                            'groupSize': x[4], 'currentSize': x[5], 'isPublic': x[6], 'description': x[7],
+                            'groupName': x[8]}
             response_list.append(response_dic)
         response = jsonify(response_list)
         corsFix(response.headers)
         response.status = 200
         return response
-    """
     else:
         data = request.get_json()
-        owner = data['name']
-        section = data['section']
-        group_name = data['groupName']
-        max_group_size = data['groupSize']
-        current_group_size = 1
-        ifpublic = data['isPublic']
-        class_code = data['classCode']
 
-        sql_insert_our_group = "INSERT INTO our_group (class_code,section_id,owner,max_group_size,current_group_size,is_public, description,group_name) VALUES ( %s, %s, %s, %s, %s,%s,%s,%s) "
-        val = (class_code, section, owner, max_group_size, current_group_size, ifpublic, "No description", group_name)
-        cursor.execute(sql_insert_our_group, val)
+        sql2 = "UPDATE user_class_group SET group_code = NULL WHERE group_code = %s"
+        val2 = (data['group_code'])
+        cursor.execute(sql2, val2)
 
-        query_group_code = " SELECT MAX(group_code) As max From our_group "
-        cursor.execute(query_group_code)
-        group_code = cursor.fetchone()[0]
-
-        # print("max group_code is ",group_code)
-
-        sql_update_group_code = "UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s"
-        val = (group_code, owner, class_code)
-        cursor.execute(sql_update_group_code, val)
-
-        query = " SELECT * from our_group WHERE class_code = %s"
-        tuple1 = class_code
-        cursor.execute(query, tuple1)
-        myresult = list(cursor.fetchall())
-        for x in myresult:
-            print(x)
-
-        query = " SELECT * From user_class_group"
-        tuple1 = class_code
-        cursor.execute(query)
-        myresult = list(cursor.fetchall())
-
-        for x in myresult:
-            print(x)
+        sql1 = "DELETE FROM our_group WHERE group_code = %s"
+        val1 = (data['group_code'])
+        cursor.execute(sql1, val1)
 
         cursor.connection.commit()
-        response = jsonify({"group_code": group_code, "currentSize": current_group_size})
-        print(data)
+
+        sql3 = "SELECT * from our_group where class_code = %s"
+        val3 = (data['class_code'])
+        cursor.execute(sql3, val3)
+        response_list = []
+        myresult = list(cursor.fetchall())
+        for x in myresult:
+            response_dic = {'groupCode': x[0], 'classCode': x[1], 'sectionNumber': x[2], 'owner': x[3],
+                            'groupSize': x[4], 'currentSize': x[5], 'isPublic': x[6], 'description': x[7],
+                            'groupName': x[8]}
+            response_list.append(response_dic)
+        response = jsonify(response_list)
         corsFix(response.headers)
+        response.status = 200
         return response
-    """
