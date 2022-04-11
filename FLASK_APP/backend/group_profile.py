@@ -24,14 +24,20 @@ def groupProfile():
     username = ''
     if token:
         username = check_token(token)
+        print("python ---------------")
+        # print(username)
 
         if request.method == 'GET':
+            
             if token:
-
-                data = request.get_json()
+                # print('yes')
+                class_code = request.args.get("classcode")
+                group_code= request.args.get("group_code")
+                # data = request.get_json()
                 # get class code
-                class_code = data['classcode'] 
-                group_code = data['group_code']
+                # class_code = data['classcode'] 
+                # group_code = data['group_code']
+                print(class_code,group_code)
 
                 section_id =''
                 group_name =''
@@ -68,8 +74,10 @@ def groupProfile():
                         "email":mem[1]
                     }
                     members.append(memDict)
+                print("result-----------")
+                print(section_id, group_name,desc, members,username)
                 
-                response = jsonify(result="Group found", section_id = section_id, group_name= group_name, desc = desc,
+                response = jsonify(result="200", section_id = section_id, group_name= group_name, desc = desc,
                                        membersList=members, username=username)
 
             else:

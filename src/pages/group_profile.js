@@ -23,15 +23,22 @@ const GroupProfile = () => {
     const [groupMems, setMems] = useState([])
     const [desc, setDesc] = useState('')
 
+    
+
 
     //load at beginning of page
     useEffect(() => {
         setGroupCode(location.state.groupcode)
         setClassCode(location.state.classcode)
 
-        axios.get('http://127.0.0.1:5000/group_profile', { group_code: group_code, classcode: classcode }).then(
+        console.log("-------------------------")
+        console.log(group_code)
+        console.log(classcode)
+        
+
+        axios.get('http://127.0.0.1:5000/group_profile', {params:{group_code: group_code, classcode: classcode}}).then(
             response => {
-                console.log(response.result)
+                console.log(response.request)
             })
 
         axios.options('http://127.0.0.1:5000/group_profile')
