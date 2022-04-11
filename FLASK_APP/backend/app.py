@@ -24,7 +24,8 @@ global mysql
 mysql = MySQL(app)
 
 def corsFix(res):
-    res.add('Access-Control-Allow-Origin', 'http://cheshire.cse.buffalo.edu:3000')
+    #res.add('Access-Control-Allow-Origin', 'http://cheshire.cse.buffalo.edu:3000')
+    res.add('Access-Control-Allow-Origin', 'http://localhost:3000')
     res.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     res.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE')
     res.add('Access-Control-Allow-Credentials', 'true')
