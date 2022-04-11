@@ -57,7 +57,7 @@ const GroupProfile = () => {
                 response => {
                     window.location.reload()
                 })
-    
+
             axios.options('http://127.0.0.1:5000/group_profile')
                 .catch(err => { console.log(err) })
         }
@@ -68,18 +68,49 @@ const GroupProfile = () => {
 
 
     let buttons
+    let homeButton
+    let descForm
+
     if (isProf == false) {
         buttons =
             <div className='profileButtons'>
                 <button className='b'>Invite</button>
                 <button className='b'>Leave the Group</button>
             </div>
+        homeButton =
+            <Link to="/home_student" className={styles['navlink']}>
+                <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
+                    <path d="M512 128c0 0-263.936 227.84-411.435 351.232-8.661 7.851-15.232 19.285-15.232 32.768 0 23.595 19.072 42.667 42.667 42.667h85.333v298.667c0 23.595 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.115 42.667-42.667v-170.667h170.667v170.667c0 23.552 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.072 42.667-42.667v-298.667h85.333c23.595 0 42.667-19.072 42.667-42.667 0-13.483-6.571-24.917-16.341-32.768-146.475-123.392-410.325-351.232-410.325-351.232z"></path>
+                </svg>
+            </Link>
+        descForm =
+            <>
+                <form className='row3' id='descForm' onSubmit={editDesc}>
+                    <div className='textDesc'><b>Description: </b></div>
+                    <input className='desc' type="text" placeholder={desc} name="desc"></input>
+                </form>
+                <button className='editButton' type='submit' form='descForm'>Edit</button>
+            </>
     }
     else if (isProf == true) {
         buttons =
             <div className='profileButtons'>
                 <button className='b'>Delete Member</button>
             </div>
+        homeButton =
+            <Link to="/home_instructor" className={styles['navlink']}>
+                <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
+                    <path d="M512 128c0 0-263.936 227.84-411.435 351.232-8.661 7.851-15.232 19.285-15.232 32.768 0 23.595 19.072 42.667 42.667 42.667h85.333v298.667c0 23.595 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.115 42.667-42.667v-170.667h170.667v170.667c0 23.552 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.072 42.667-42.667v-298.667h85.333c23.595 0 42.667-19.072 42.667-42.667 0-13.483-6.571-24.917-16.341-32.768-146.475-123.392-410.325-351.232-410.325-351.232z"></path>
+                </svg>
+            </Link>
+        descForm =
+            <>
+                <div className='row3'>
+                    <div className='textDesc'><b>Description: </b></div>
+                    <div className='desc'>{desc}</div>
+                </div>
+                <div className='editButton'></div>
+            </>
     }
 
     return (
@@ -94,11 +125,7 @@ const GroupProfile = () => {
                 <span className={styles['webname']}>
                     <span>{groupname}</span>
                 </span>
-                <Link to="/home_student" className={styles['navlink']}>
-                    <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
-                        <path d="M512 128c0 0-263.936 227.84-411.435 351.232-8.661 7.851-15.232 19.285-15.232 32.768 0 23.595 19.072 42.667 42.667 42.667h85.333v298.667c0 23.595 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.115 42.667-42.667v-170.667h170.667v170.667c0 23.552 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.072 42.667-42.667v-298.667h85.333c23.595 0 42.667-19.072 42.667-42.667 0-13.483-6.571-24.917-16.341-32.768-146.475-123.392-410.325-351.232-410.325-351.232z"></path>
-                    </svg>
-                </Link>
+                {homeButton}
                 {/* name dropdown */}
                 <span className={styles['name']}>
                     <Dropdown username={name} />
@@ -124,11 +151,7 @@ const GroupProfile = () => {
                         )}
                     </div>
                 </div>
-                <form className='row3' id='descForm' onSubmit={editDesc}>
-                    <div className='textDesc'><b>Description: </b></div>
-                    <input className='desc' type="text" placeholder={desc} name="desc"></input>
-                </form>
-                <button className='editButton' type='submit' form='descForm'>Edit</button>
+                {descForm}
             </div>
             {/* ------------------------------- */}
 
