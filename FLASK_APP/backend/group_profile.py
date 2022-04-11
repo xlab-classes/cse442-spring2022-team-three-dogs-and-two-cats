@@ -123,7 +123,7 @@ def groupProfile():
             newdesc_val = (new_desc, group_code)
             cursor.execute(desc_query, newdesc_val)  
             cursor.connection.commit()
-            response = jsonify(result="desc updated")
+            response = jsonify(result="desc updated", new_desc = new_desc)
 
     cursor.close()
 
