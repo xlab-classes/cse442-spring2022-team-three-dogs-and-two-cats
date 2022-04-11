@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import projectStyles from '../style.module.css'
 import styles from './home_student.module.css'
@@ -46,6 +46,9 @@ const HomeStudent = () => {
         }
         if (resp == "INVALID CODE") {
           window.alert("Class does not exist, please enter a valid class code.")
+        }
+        if (resp == "VALID CODE, CLASS JOINED") {
+          window.location.reload()
         }
       })  
     axios.options('http://127.0.0.1:5000/home_student')
@@ -100,7 +103,7 @@ const HomeStudent = () => {
 
         {/* load courses */}
         {classeslst.map(e =>
-          <Studentcourse class_code={e.class_code} class_name={e.class_name} />
+          <Studentcourse class_code={e.class_code} class_name={e.class_name} group_code={e.group_code}/>
         )}
         {/* ------------------------------- */}
 

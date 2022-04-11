@@ -96,7 +96,7 @@ const EnterCourseStudent = ({name}) => {
 },[])
 
     const group_list = groups.map((group) =>
-    <Student_group_list key={group.groupCode} group={group}/>
+    <Student_group_list key={group.groupCode} group={group} name={name} classcode={classCode}/>
     );
    
 

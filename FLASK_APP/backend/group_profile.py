@@ -10,7 +10,7 @@ group_profile = Blueprint('group_profile', __name__)
 
 @group_profile.route("/group_profile", methods=['POST', 'GET', 'OPTIONS'])
 
-def group_profile():
+def groupProfile():
     
     from .app import mysql
     cursor = mysql.connect().cursor()

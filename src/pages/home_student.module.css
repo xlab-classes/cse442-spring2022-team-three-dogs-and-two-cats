@@ -182,10 +182,9 @@
   color: var(--dl-color-gray-white);
   font-size: 12px;
 }
-.group {
+.group1, .group2 {
   width: 70px;
   height: 18px;
-  border-color: #d98889;
   border-width: 1px;
   border-radius: var(--dl-radius-radius-radius4);
   display: flex;
@@ -195,8 +194,18 @@
   margin-right: 20px;
   margin-top: 10px;
 }
+.group1 {
+  border-color: #d98889;
+}
+.group2 {
+  border-color: #C29EF0;
+}
 .nogroup {
   color: #d98889;
+  font-size: 12px;
+}
+.ingroup {
+  color: #C29EF0;
   font-size: 12px;
 }
 .code {
