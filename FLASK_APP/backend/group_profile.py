@@ -10,7 +10,7 @@ group_profile = Blueprint('group_profile', __name__)
 
 @group_profile.route("/group_profile", methods=['POST', 'GET', 'OPTIONS'])
 
-def home_inst():
+def group_profile():
     
     from .app import mysql
     cursor = mysql.connect().cursor()
@@ -33,77 +33,51 @@ def home_inst():
                 class_code = data['classcode'] 
                 group_code = data['group_code']
 
-                # Get all classes belonging to professor
-                cursor.execute(
-                    "Select is_professor from user where username = %s", username)
-                check_prof = cursor.fetchone()
-                if check_prof =='1':
-                    print('prof')
+                section_id =''
+                group_name =''
+                desc=''
+                members=[]
 
-                else:
-                    print('student')    
+                # fetch info from the group
+                group_query = """SELECT section_id, group_name, description
+                        FROM our_group
+                        WHERE group_code = %s AND class_code = %s;"""
+                val = (group_code,class_code)
+                cursor.execute(group_query, val)
+                dbGroup = cursor.fetchall()
 
-                # dbClasses = cursor.fetchall()
+                for elem in dbGroup:
+                    section_id=elem[0]
+                    group_name=elem[1]
+                    desc=elem[2]
 
-                classList = []
+                # fetch members info
+                member_query = """SELECT username, email
+                        FROM user
+                        WHERE username =(
+                            SELECT username 
+                            FROM user_class_group
+                            WHERE group_code = %s AND class_code = %s);"""
+                cursor.execute(member_query, val)
+                dbMember = cursor.fetchall()
 
-                if dbClasses:
-                    # Insert data into dictionary, then append to list
-                    for curClass in dbClasses:
-                        curClassDict = {
-                            "className": curClass[0],
-                            "classCode": curClass[1],
-                            "classSize": curClass[2]
-                        }
-
-                        classList.append(curClassDict)
-                    response = jsonify(result="Group found",
-                                       listOut=classList, userOut=username)
-                else:
-                    response = jsonify(
-                        result="No group found", userOut=username)
+                # put all members' info to the member list
+                for mem in dbMember:
+                    memDict = {
+                        "username":mem[0],
+                        "email":mem[1]
+                    }
+                    members.append(memDict)
+                
+                response = jsonify(result="Group found", section_id = section_id, group_name= group_name, desc = desc,
+                                       membersList=members, username=username)
 
             else:
                 response = jsonify(result="not logged in")
-        else:
-            if request.method == 'OPTIONS':
-                response = jsonify(result="200")
-            else:
-                if request.method == 'POST':
-                    data = request.get_json()
-                    class_name = data['classname']
-                    class_size = data['classsize']
-
-                    if class_name == '':
-                        repsonse = jsonify(result="Class name cannot be empty")
-                    else:
-                        if class_size == '':
-                            repsonse = jsonify(
-                                result="Class size cannot be empty")
-                        else:
-                            # Generate new class code
-                            newClassCode = ''.join(random.choice(
-                                string.ascii_letters) for i in range(8))
-
-                            cursor.execute(
-                                "SELECT * FROM class WHERE class_code = %s", newClassCode)
-                            result = cursor.fetchone()
-                            # Prevent duplicate class codes
-                            while result:
-                                newClassCode = ''.join(random.choice(
-                                    string.ascii_letters) for i in range(8))
-
-                                cursor.execute(
-                                    "SELECT * FROM class WHERE class_code = %s", newClassCode)
-                                result = cursor.fetchone()
-
-                                # Create new class in DB
-                            cursor.execute("INSERT INTO class VALUES (%s,%s,%s, %s, %s)",
-                                           (newClassCode, class_name, username, class_size, "0"))
-                            cursor.connection.commit()
-                            response = jsonify(result="Class created",
-                                               class_code=newClassCode)
-
+        elif request.method == 'OPTIONS':
+            response = jsonify(result="200")
+        elif request.method == 'POST':
+            response = jsonify(result="200")
 
     cursor.close()
 
