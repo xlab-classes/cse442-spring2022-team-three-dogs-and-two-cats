@@ -44,7 +44,7 @@ const GroupProfile = () => {
                 }
             })
 
-        axios.options('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: descNew })
+        axios.options('http://127.0.0.1:5000/group_profile')
             .catch(err => { console.log(err) })
     }, [])
 
@@ -52,11 +52,11 @@ const GroupProfile = () => {
     function editDesc(event) {
         event.preventDefault()
         
-        axios.post('http://127.0.0.1:5000/home_student').then(
+        axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: descNew }).then(
             response => {
-                console.log(response.data)
+                console.log(response)
             })
-        axios.options('http://127.0.0.1:5000/home_student')
+        axios.options('http://127.0.0.1:5000/group_profile')
             .catch(err => { console.log(err) })
     }
 
