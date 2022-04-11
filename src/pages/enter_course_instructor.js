@@ -92,7 +92,16 @@ const EnterCourseInstructor = ({name}) => {
 
         <Row >
           <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
-          <Col  md={{ span: 2, offset: 3 }} style={{ color:"grey",fontSize:10 }}>See more details</Col>
+          <Col md={{ span: 2, offset: 3 }}>
+                <Link
+                  to={{ 
+                    pathname: "/group_profile", 
+                    state: { groupcode: group.groupCode, name: name, classcode: classCode, groupname: group.groupName } 
+                  }}
+                  style={{ color: "grey", fontSize: 10, textDecoration: 'none' }}>
+                  See more details
+                </Link>
+              </Col>
         </Row>
 
         </Container>
