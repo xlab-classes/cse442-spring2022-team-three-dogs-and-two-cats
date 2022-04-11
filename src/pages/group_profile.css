@@ -1,0 +1,46 @@
+.profileBox {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 5px;
+    border: 3px solid #EFEFEF;
+    height: auto;
+    width: 65vw;
+}
+.profileButtons {
+    height: 60px;
+    width: 100%;
+    background-color: #EFEFEF;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.b {
+    margin-right: 30px;
+}
+.row1, .row2, .row3 {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+}
+.groupMembers, .desc{
+    box-shadow: 1px 2px 2px 1px #c4c5c7;
+    height: auto;
+    width: 648px;
+    padding: 5px 0px 0px 10px;
+}
+.desc {
+    height: 99px;
+}
+.editButton {
+    height: 28px;
+    background-color: transparent;
+    margin-top: 5px;
+    margin-bottom: 40px;
+    margin-right: 9.5%;
+    align-self: flex-end;
+}

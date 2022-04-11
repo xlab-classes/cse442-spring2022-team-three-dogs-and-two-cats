@@ -5,6 +5,7 @@ import projectStyles from '../style.module.css'
 import styles from './home_student.module.css'
 import Dropdown from "../misc/dropdown"
 import axios from 'axios'
+import './group_profile.css'
 
 
 const GroupProfile = () => {
@@ -12,8 +13,15 @@ const GroupProfile = () => {
     const location = useLocation()
     const name = location.state.name
     const groupname = location.state.groupname
+
     const [group_code, setGroupCode] = useState('')
     const [classcode, setClassCode] = useState('')
+    const [isProf, setProf] = useState(false)
+
+    const [groupID, setID] = useState('')
+    const [sectionNum, setNum] = useState('')
+    const [groupMems, setMems] = useState([])
+    const [desc, setDesc] = useState('')
 
 
     //load at beginning of page
@@ -31,6 +39,26 @@ const GroupProfile = () => {
     }, [])
 
 
+    function editDesc(event) {
+        event.preventDefault()
+        window.alert("Implement edit desc")
+    }
+
+
+    let buttons
+    if (isProf == false) {
+        buttons = 
+        <div className='profileButtons'>
+            <button className='b'>Invite</button>
+            <button className='b'>Leave the Group</button>
+        </div>
+    }
+    else if (isProf == true) {
+        buttons =
+        <div className='profileButtons'>
+            <button className='b'>Delete Member</button>
+        </div>
+    }
 
     return (
         <div className={styles['container']}>
@@ -57,7 +85,23 @@ const GroupProfile = () => {
             {/* ------------------------------- */}
 
             {/* profile */}
-            
+            <div className='profileBox'>
+                {buttons}
+                <div className='row1'>
+                    <div className='textID'><b>Group ID: </b>test</div>
+                    <div className='textNum'><b>Section Number: </b>test</div>
+                </div>
+                <div className='row2'>
+                    <div classNa
+                    me='textGroup'><b>Group Members:</b></div>
+                    <div className='groupMembers'>test</div>
+                </div>
+                <div className='row3'>
+                    <div className='textDesc'><b>Description:</b></div>
+                    <div className='desc'>test</div>
+                </div>
+                <button className='editButton' onClick={editDesc}>Edit</button>
+            </div>
             {/* ------------------------------- */}
 
         </div>
