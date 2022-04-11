@@ -8,6 +8,7 @@
     border: 3px solid #EFEFEF;
     height: auto;
     width: 65vw;
+    overflow: hidden;
 }
 .profileButtons {
     height: 60px;

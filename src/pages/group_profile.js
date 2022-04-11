@@ -8,20 +8,21 @@ import axios from 'axios'
 import './group_profile.css'
 
 
+export const inGroup = false
+
 const GroupProfile = () => {
 
     const location = useLocation()
     const name = location.state.name
-    const groupname = location.state.groupname
     const group_code = location.state.groupcode
     const classcode = location.state.classcode
 
     const [isProf, setProf] = useState(false)
-
     const [sectionNum, setNum] = useState('')
     const [groupMems, setMems] = useState([])
     const [desc, setDesc] = useState('')
     const [descNew, setDescNew] = useState('')
+    const [groupname, setGroupname] = useState('')
 
 
     //load at beginning of page
@@ -37,6 +38,7 @@ const GroupProfile = () => {
                 setNum(response.data.section_id)
                 setMems(response.data.membersList)
                 setDesc(response.data.desc)
+                setGroupname(response.data.group_name)
                 if (response.data.isProf == 1) {
                     setProf(true)
                 }

@@ -96,7 +96,7 @@ const EnterCourseInstructor = ({name}) => {
                 <Link
                   to={{ 
                     pathname: "/group_profile", 
-                    state: { groupcode: group.groupCode, name: name, classcode: classCode, groupname: group.groupName } 
+                    state: { groupcode: group.groupCode, name: name, classcode: classCode } 
                   }}
                   style={{ color: "grey", fontSize: 10, textDecoration: 'none' }}>
                   See more details

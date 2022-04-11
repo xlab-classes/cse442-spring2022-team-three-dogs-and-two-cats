@@ -103,7 +103,7 @@ const HomeStudent = () => {
 
         {/* load courses */}
         {classeslst.map(e =>
-          <Studentcourse class_code={e.class_code} class_name={e.class_name} group_code={e.group_code}/>
+          <Studentcourse class_code={e.class_code} class_name={e.class_name} group_code={e.group_code} name={username}/>
         )}
         {/* ------------------------------- */}
 
