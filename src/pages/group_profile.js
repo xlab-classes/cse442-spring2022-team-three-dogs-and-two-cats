@@ -18,12 +18,10 @@ const GroupProfile = () => {
 
     const [isProf, setProf] = useState(false)
 
-
     const [sectionNum, setNum] = useState('')
     const [groupMems, setMems] = useState([])
     const [desc, setDesc] = useState('')
     const [descNew, setDescNew] = useState('')
-
 
 
     //load at beginning of page
@@ -44,20 +42,23 @@ const GroupProfile = () => {
                 }
             })
 
-        axios.options('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: descNew })
+        axios.options('http://127.0.0.1:5000/group_profile')
             .catch(err => { console.log(err) })
     }, [])
 
 
     function editDesc(event) {
         event.preventDefault()
-        
-        axios.post('http://127.0.0.1:5000/home_student').then(
+
+        axios.post('http://127.0.0.1:5000/home_student', { group_code: group_code, desc: descNew }).then(
             response => {
-                console.log(response.data)
+                console.log(response.data.result)
             })
+
         axios.options('http://127.0.0.1:5000/home_student')
             .catch(err => { console.log(err) })
+
+        window.location.reload()
     }
 
 
@@ -118,11 +119,11 @@ const GroupProfile = () => {
                         )}
                     </div>
                 </div>
-                <div className='row3'>
+                <form className='row3' id='descForm' onSubmit={editDesc} onChange={(event) => setDescNew(event.target.value)}>
                     <div className='textDesc'><b>Description: </b></div>
-                    <div className='desc'>{desc}</div>
-                </div>
-                <button className='editButton' onClick={editDesc}>Edit</button>
+                    <input className='desc' type="text" placeholder={desc}></input>
+                </form>
+                <button className='editButton' type='submit' form='descForm'>Edit</button>
             </div>
             {/* ------------------------------- */}
 
