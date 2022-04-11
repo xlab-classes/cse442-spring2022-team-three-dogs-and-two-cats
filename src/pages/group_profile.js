@@ -53,7 +53,7 @@ const GroupProfile = () => {
         event.preventDefault()
 
         if (event.target.desc.value != "") {
-            axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: event.target.desc.value }).then(
+            axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: event.target.desc.value, post_type: "edit description" }).then(
                 response => {
                     window.location.reload()
                 })
@@ -66,6 +66,19 @@ const GroupProfile = () => {
         }
     }
 
+    function leaveGroup() {
+        const ver = confirm("Are you sure you want to leave this group?");
+      if(ver) {
+          axios.post('http://127.0.0.1:5000/group_profile', {
+          username: name, group_code: group_code, post_type: "leave group"
+          }).then( res => {
+              window.location.replace('/home_student');
+          })
+          .catch(err => {
+              console.log(err);
+          });
+      }
+    }
 
     let buttons
     let homeButton
@@ -75,7 +88,7 @@ const GroupProfile = () => {
         buttons =
             <div className='profileButtons'>
                 <button className='b'>Invite</button>
-                <button className='b'>Leave the Group</button>
+                <button onClick={function() {leaveGroup()}} className='b'>Leave the Group</button>
             </div>
         homeButton =
             <Link to="/home_student" className={styles['navlink']}>
