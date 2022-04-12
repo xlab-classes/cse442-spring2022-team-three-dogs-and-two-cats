@@ -18,7 +18,7 @@ const name_dropdown = (props) => {
       <button type="button" className="name" onClick={() => setVisible(!visible)}>
         {props.username}
         <Badge pill bg="danger">
-          1
+          1{props.messageNumber}
         </Badge>{' '}
 
       </button>

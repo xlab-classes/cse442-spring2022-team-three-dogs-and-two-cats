@@ -93,7 +93,7 @@ const App = () => {
                 <Route exact path="/enter_course_student" component={()=><EnterCourseStudent name={name} />} />
                 <Route exact path='/group_profile' component = {GroupProfile} />
                 <Route exact component={SignUp} path="/sign_up" />
-                <Route exact component={Message} path="/message" />
+                <Route exact component={()=><Message name={name} />} path="/message" />
                 </Switch>)
           }
           

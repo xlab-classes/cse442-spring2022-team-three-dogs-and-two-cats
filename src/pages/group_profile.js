@@ -10,6 +10,11 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+import io from 'socket.io-client'
+// const endPoint = "http://127.0.0.1:5000/group_profile";
+
+// const socket = io.connect(endPoint);
+
 
 const GroupProfile = () => {
 
@@ -84,6 +89,16 @@ const GroupProfile = () => {
             </div>
     }
 
+
+    const [inviteName,setInviteName] = useState('')
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        console.log(inviteName)
+        // socket.emit("SendInvitation",{inviteName:inviteName})
+    }
+
+
+
     return (
         <div className={styles['container']}>
 
@@ -136,30 +151,31 @@ const GroupProfile = () => {
 
 
             <Modal show={inviteShow} onHide={inviteHandleClose}>
-                <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                <Form>
-                    <Form.Group
-                    className="mb-3"
-                    controlId="exampleForm.ControlTextarea1"
-                    >
-                    <Form.Label>Please enter username</Form.Label>
-                    <Form.Control type="text" rows={3} />
-                    </Form.Group>
+                <Form onSubmit={handleSubmit}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Invite a new member</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlTextarea1"
+                        >
+                        <Form.Label>Please enter username</Form.Label>
+                        <Form.Control type="text" placeholder="Type username you want to invite here" rows={3} onChange={(e)=>{
+                        setInviteName(e.target.value)}}/>
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="outline-secondary" onClick={inviteHandleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary"  type="submit" className = "savechangebutton" onClick={inviteHandleClose}>
+                        Save Changes
+                    </Button>
+                    </Modal.Footer>
                 </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                <Button variant="secondary" onClick={inviteHandleClose}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={inviteHandleClose}>
-                    Save Changes
-                </Button>
-                </Modal.Footer>
             </Modal>    
-                
+
         </div>
     )
 }
