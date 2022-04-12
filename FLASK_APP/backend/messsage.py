@@ -45,9 +45,66 @@ def login():
                     reseponse = jsonify(count = '-1')
             #Get all messages for user    
             else:
-                print()
+                cursor.execute("SELECT * from message WHERE reciever_id = %s AND is_unread = '1' SORT BY creation_date ORDER BY DESC", username )
+                dbResult = cursor.fetchall()
+                unreadList, readList = []
+                status= ''
+
+                #Get unread messages, sorted by latest first
+                if dbResult:
+
+                    for res in dbResult:
+                        currDict = {
+                            "message_id" : res[0],
+                            "sender_id": res[1],
+                            "reciever_id": res[2],
+                            "content" : res[3],
+                            "is_unread" : res[4],
+                            "is_invite" : res[5],
+                            "creation_date" : res[6]  
+                        }
+                        unreadList.append(currDict)
+                else:
+                    status += "No unread messages found. "
+
+                cursor.execute("SELECT * from message WHERE reciever_id = %s AND is_unread = '0' SORT BY creation_date ORDER BY DESC", username )
+                dbResult = cursor.fetchall()  
+
+                #Get read messages, sorted by latest first
+                if dbResult:
+
+                    for res in dbResult:
+                        currDict = {
+                            "message_id" : res[0],
+                            "sender_id": res[1],
+                            "reciever_id": res[2],
+                            "content" : res[3],
+                            "is_unread" : res[4],
+                            "is_invite" : res[5],
+                            "creation_date" : res[6]  
+                        }
+                        readList.append(currDict)
+                else:
+                    status += "No read messages found."
+
+                if status == '' :
+                    status = "Both read and unread messages found"
+
+                response = jsonify(result = status, unreadList = unreadList, readList = readList)   
+
         elif request.method == 'OPTIONS':
             response = jsonify(result = 200)
+        elif request.method == 'POST':
+            data = request.get_json()
+
+            #Invite accepted
+            if data['reason'] == "Accept":
+                cursor.execute("SELECT * from message WHERE reciever_id = %s", username)
+                dbResult = cursor.fetchall()
+
+                if dbResult:
+                    print()
+
     else:
         response = jsonify(result = "Not logged in")
 
