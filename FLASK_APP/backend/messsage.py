@@ -99,12 +99,52 @@ def login():
             data = request.get_json()
 
             #Invite accepted
-            if data['reason'] == "Accept":
-                cursor.execute("SELECT * from message WHERE reciever_id = %s", username)
-                dbResult = cursor.fetchall()
+            if data['reason'] == "accept":
+                messageId = data['message_id']
+                #Get group code of group user was invited to
+                cursor.execute("SELECT group_code, sender_id FROM message where message_id = %s", messageId )
+                dbResult = cursor.fetchone()
 
                 if dbResult:
-                    print()
+                    #Delete invite from message
+                    cursor.execute("DELETE FROM message WHERE message_id = %s", messageId)
+                    cursor.connection.commit()
+
+                    groupCode = dbResult[0]
+                    sender_id = dbResult[1]
+                    #Get class code from our_group 
+                    cursor.execute("SELECT class_code FROM our_group WHERE group_code = %s", groupCode)
+                    dbResult = cursor.fetchone()
+                    classCode = dbResult[0]
+                    #Determine if user is already in the class or not
+                    cursor.execute("SELECT * FROM user_class_group WHERE username = %s AND class_code = %s", (username, classCode))
+                    dbResult = cursor.fetchone()
+
+                    if dbResult:
+                        #User is already in class, just add to group.
+                        cursor.execute("UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s", (groupCode, username, classCode))
+                        cursor.connection.commit()
+                    else:
+                        #User has not joined class, add to both    
+                        cursor.execute("INSERT INTO user_class_group (username, class_code, group_code) values (%s,%s, %s)", (username, classCode, groupCode))
+                        cursor.connection.commit()
+
+                    #Notify inviter that the invite was accepted
+                    msg = username + " has accepted your invitation to join the group!"
+                    accTuple = ('Admin', sender_id, msg, '1', '0')
+                    cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite) values (%s,%s,%s,%s,%s)", accTuple)
+                    response = jsonify('200')
+                else:
+                    response = jsonify('404')
+           
+            elif data['reason'] == "decline" :
+                messageId = data['message_id']
+
+                #Delete invite from message
+                cursor.execute("DELETE FROM message WHERE message_id = %s", messageId)
+                cursor.connection.commit()
+                response = jsonify('200')
+
 
     else:
         response = jsonify(result = "Not logged in")

@@ -136,8 +136,8 @@ def groupProfile():
                 msg = "You have been invited to join " + group_name + " in class " + class_name  + " by " + username + "."
 
                 #Insert message into the database
-                msgTuple = (username, toUser, msg, '1', '1')
-                cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite) values (%s, %s , %s, %s, %s)", msgTuple)
+                msgTuple = (username, toUser, msg, '1', '1', group_code)
+                cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite, group_code) values (%s, %s , %s, %s, %s, %s)", msgTuple)
                 cursor.connection.commit()
 
                 response = jsonify(result = "200")
