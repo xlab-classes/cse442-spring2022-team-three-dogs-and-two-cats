@@ -38,7 +38,6 @@ def login():
                 #Null check
                 if dbResult:
                     msgCount = dbResult[0]
-                    print("COUNT = " + str(msgCount))
                     response = jsonify(count = msgCount)
                     
                 else:
@@ -48,7 +47,8 @@ def login():
             else:
                 cursor.execute("SELECT * from message WHERE reciever_id = %s AND is_unread = '1' ORDER BY creation_date DESC", username )
                 dbResult = cursor.fetchall()
-                unreadList, readList = []
+                unreadList = []
+                readList = []
                 status= ''
 
                 #Get unread messages, sorted by latest first
