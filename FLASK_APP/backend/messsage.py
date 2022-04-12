@@ -106,12 +106,13 @@ def login():
                 dbResult = cursor.fetchone()
 
                 if dbResult:
+                    groupCode = dbResult[0]
+                    sender_id = dbResult[1]
+                    
                     #Delete invite from message
                     cursor.execute("DELETE FROM message WHERE message_id = %s", messageId)
                     cursor.connection.commit()
 
-                    groupCode = dbResult[0]
-                    sender_id = dbResult[1]
                     #Get class code from our_group 
                     cursor.execute("SELECT class_code FROM our_group WHERE group_code = %s", groupCode)
                     dbResult = cursor.fetchone()
