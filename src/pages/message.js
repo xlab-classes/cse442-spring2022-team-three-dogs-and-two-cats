@@ -12,7 +12,7 @@ import io from 'socket.io-client'
 
 // const socket = io.connect(endPoint);
 
-const Message = ({name}) => {
+const Message = ({name,messageNumber}) => {
     const [messages, Setmessages] = useState([]);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ const Message = ({name}) => {
                 </Link>
                 {/* name dropdown */}
                 <span className={styles['name']}>
-                    <Dropdown username={name} />
+                    <Dropdown username={name} messageNumber={messageNumber}/>
                 </span>
             </div>
                 <div className={styles['center']}>

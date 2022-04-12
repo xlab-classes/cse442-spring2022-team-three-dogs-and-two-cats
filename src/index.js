@@ -22,6 +22,7 @@ const App = () => {
   const [name,setName] = useState('');
   const [token, setToken] = useState(false);
   const [professor, setProfessor] = useState(false);
+  const [messageNumber, setMessageNumber] = useState(1);
   const history = useHistory();
   
   
@@ -47,11 +48,16 @@ const App = () => {
           setProfessor(true)
           setToken(true)
           setName(res.data.username)
+          setMessageNumber(res.data.message_number)
+          
         }
         else if (res.data.result == "Student"){
           setProfessor(false)
           setToken(true)
           setName(res.data.username)
+          setMessageNumber(res.data.message_number)
+
+          console.log(messageNumber)
         }
         else{
           setToken(false)
@@ -74,26 +80,20 @@ const App = () => {
           <Switch>
             {(professor)?(
               <Switch>
-                <Route exact path="/enter_course_instructor" component={()=><EnterCourseInstructor name={name} />} />
-                <Route exact component={ResetPassword} path="/reset_password" />
-                <Route exact component={RetrieveUsername} path="/retrieve_username" />
+                <Route exact path="/enter_course_instructor" component={()=><EnterCourseInstructor name={name} messageNumber={messageNumber}/>} />
                 <Redirect exact from="/" to="/home_instructor" />
-                <Route exact component={HomeInstructor} path="/home_instructor" />
+                <Route exact path="/home_instructor" component={()=><HomeInstructor messageNumber={messageNumber} />}/>
+                <Route exact path='/group_profile' component={()=><GroupProfile messageNumber={messageNumber} />} />
               </Switch>)
               
 
             :(
               <Switch>
-                {console.log(professor)}  
-                <Route exact component={ResetPassword} path="/reset_password" />
-                <Route exact component={RetrieveUsername} path="/retrieve_username" />
-                {console.log("student" + professor)}
-                <Route exact component={HomeStudent} path="/home_student" />
+                <Route exact path="/home_student" component={()=><HomeStudent messageNumber={messageNumber} />}/>
                 <Redirect exact from="/" to="/home_student" />
-                <Route exact path="/enter_course_student" component={()=><EnterCourseStudent name={name} />} />
-                <Route exact path='/group_profile' component = {GroupProfile} />
-                <Route exact component={SignUp} path="/sign_up" />
-                <Route exact component={()=><Message name={name} />} path="/message" />
+                <Route exact path="/enter_course_student" component={()=><EnterCourseStudent name={name} messageNumber={messageNumber}/>} />
+                <Route exact path='/group_profile' component={()=><GroupProfile messageNumber={messageNumber} />} />
+                <Route exact  path="/message" component={()=><Message name={name} messageNumber={messageNumber}/>} />
                 </Switch>)
           }
           
