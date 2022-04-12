@@ -16,7 +16,7 @@ import io from 'socket.io-client'
 // const socket = io.connect(endPoint);
 
 
-const GroupProfile = ({messageNumber}) => {
+const GroupProfile = () => {
 
     const location = useLocation()
     const name = location.state.name
@@ -138,7 +138,7 @@ const GroupProfile = ({messageNumber}) => {
                 </Link>
                 {/* name dropdown */}
                 <span className={styles['name']}>
-                    <Dropdown username={name} messageNumber={messageNumber} />
+                    <Dropdown username={name} />
                 </span>
             </div>
             {/* ------------------------------- */}

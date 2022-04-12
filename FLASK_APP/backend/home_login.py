@@ -43,18 +43,11 @@ def login():
             cursor.execute(query,tuple1)
             check_prof = cursor.fetchone()
             print("query",check_prof)
-
-            query_message = """SELECT COUNT(message_id) AS message_number FROM message WHERE reciever_id = %s AND is_unread = %s"""
-            message_tupe = (username, True)
-            cursor.execute(query_message,message_tupe)
-            cnt=cursor.fetchone()
-            message_number = cnt[0]
-            print("number of mrssages :",cnt[0])
             
             if check_prof and check_prof[6] == 1:
-                response = jsonify({'result':"Professor", 'username':username, 'message_number':message_number})
+                response = jsonify({'result':"Professor", 'username':username})
             else:
-                response = jsonify({'result':"Student", 'username':username, 'message_number':message_number})
+                response = jsonify({'result':"Student", 'username':username})
         else:
             response = jsonify(result="not logged in")
         print("get response", response.data)

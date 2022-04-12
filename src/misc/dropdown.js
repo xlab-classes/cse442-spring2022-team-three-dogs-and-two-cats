@@ -17,13 +17,9 @@ const name_dropdown = (props) => {
       
       <button type="button" className="name" onClick={() => setVisible(!visible)}>
         {props.username}
-
-        {props.messageNumber > 0 
-        ?(<Badge pill bg="danger">
-          {props.messageNumber}
-        </Badge>)
-        :(<></>)
-        }
+        <Badge pill bg="danger">
+          1{props.messageNumber}
+        </Badge>{' '}
 
       </button>
       
@@ -33,12 +29,9 @@ const name_dropdown = (props) => {
           <Dropdown>
               <Dropdown.Item >Account Settings</Dropdown.Item>
               <Dropdown.Item href="/message">Messages  
-              {props.messageNumber > 0 
-              ?(<Badge pill bg="danger">
-                {props.messageNumber}
-              </Badge>)
-              :(<></>)
-              }
+                <Badge pill bg="danger">
+                1
+                </Badge>{' '}
               </Dropdown.Item>
               <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>    
           </Dropdown>

@@ -9,7 +9,7 @@ import { Container,Col,Row,Form, Card} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 import axios from 'axios';
 
-const EnterCourseInstructor = ({name,messageNumber}) => {
+const EnterCourseInstructor = ({name}) => {
   let data = useLocation();
   let classCode = data.state.code
 
@@ -133,7 +133,7 @@ const EnterCourseInstructor = ({name,messageNumber}) => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown username={name} messageNumber={messageNumber}/>
+          <Dropdown username={name}/>
         </span>
     </div>
     <div className={styles['center']}>

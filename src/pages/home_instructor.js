@@ -16,7 +16,7 @@ import ProfClass from '../misc/prof_class'
 import Dropdown from "../misc/dropdown"
 import { render } from 'react-dom'
 
-const HomeInstructor = ({messageNumber}) => {
+const HomeInstructor = () => {
 
   const [classname, Setclassname] = useState('');
   const [classsize, Setclasssize] = useState('');
@@ -97,7 +97,7 @@ const HomeInstructor = ({messageNumber}) => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown username={username} messageNumber={messageNumber}/>
+          <Dropdown username={username}/>
         </span>
       </div>
 
