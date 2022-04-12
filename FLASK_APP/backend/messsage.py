@@ -43,9 +43,10 @@ def login():
                     
                 else:
                     reseponse = jsonify(count = '-1')
+            
             #Get all messages for user    
             else:
-                cursor.execute("SELECT * from message WHERE reciever_id = %s AND is_unread = '1' SORT BY creation_date ORDER BY DESC", username )
+                cursor.execute("SELECT * from message WHERE reciever_id = %s AND is_unread = '1' ORDER BY creation_date DESC", username )
                 dbResult = cursor.fetchall()
                 unreadList, readList = []
                 status= ''
@@ -67,7 +68,7 @@ def login():
                 else:
                     status += "No unread messages found. "
 
-                cursor.execute("SELECT * from message WHERE reciever_id = %s AND is_unread = '0' SORT BY creation_date ORDER BY DESC", username )
+                cursor.execute("SELECT * from message WHERE reciever_id = %s AND is_unread = '0' ORDER BY creation_date DESC", username )
                 dbResult = cursor.fetchall()  
 
                 #Get read messages, sorted by latest first
