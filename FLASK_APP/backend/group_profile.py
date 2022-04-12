@@ -1,7 +1,6 @@
 from flask import request, jsonify
 from flask_cors import cross_origin
-import string
-import random
+import string   
 from .home_login import check_token
 from flask import Blueprint
 
@@ -12,7 +11,7 @@ group_profile = Blueprint('group_profile', __name__)
 
 def groupProfile():
     
-    from .app import mysql
+    from .app import mysql, corsFix
     cursor = mysql.connect().cursor()
     response = jsonify(result = "No token")
 
@@ -114,20 +113,50 @@ def groupProfile():
             response = jsonify(result="200")
         elif request.method == 'POST':
             data = request.get_json()
-            group_code = data['group_code']
-            new_desc = data['desc']
-            desc_query = """UPDATE our_group
+            if data['reason'] == "invite":
+                toUser = data['usernameIn']
+                group_code = data['group']
+                
+                #Validate given username
+                cursor.execute("SELECT * FROM user WHERE username = %s", toUser)
+                if cursor.fetchone() is None or toUser.lower() == username.lower(): 
+                    response = jsonify(result = "404")
+                    corsFix(response.headers)
+                    return response
+
+
+                #get group name, class name for use in invite message
+                cursor.execute("SELECT group_name, class_code from our_group where group_code = %s", group_code)
+                dbResult = cursor.fetchone()
+                group_name = dbResult[0]
+                cursor.execute("SELECT class_name from class where class_code = %s", dbResult[1])
+                dbResult = cursor.fetchone()
+                class_name = dbResult[0]
+                
+                msg = "You have been invited to join " + group_name + " in class " + class_name  + " by " + username + "."
+
+                #Insert message into the database
+                msgTuple = (username, toUser, msg, '1', '1')
+                cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite) values (%s, %s , %s, %s, %s)", msgTuple)
+                cursor.connection.commit()
+
+                response = jsonify(result = "200")
+            
+
+            else:
+                group_code = data['group_code']
+                new_desc = data['desc']
+                desc_query = """UPDATE our_group
                         SET description = %s
                         WHERE group_code = %s;"""
 
-            newdesc_val = (new_desc, group_code)
-            cursor.execute(desc_query, newdesc_val)  
-            cursor.connection.commit()
-            response = jsonify(result="desc updated")
+                newdesc_val = (new_desc, group_code)
+                cursor.execute(desc_query, newdesc_val)  
+                cursor.connection.commit()
+                response = jsonify(result="desc updated")
 
     cursor.close()
 
-    from .app import corsFix
     corsFix(response.headers)
 
     return response

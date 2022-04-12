@@ -73,6 +73,26 @@ const GroupProfile = () => {
             .catch(err => { console.log(err) })
     }
 
+    function sendInvite(e){
+        e.preventDefault()
+        if(!inviteName.trim())
+        {
+            window.alert("Please insert a username.")
+        }else{
+            setInviteShow(false)
+            axios.post('http://127.0.0.1:5000/group_profile', {reason:'invite', usernameIn: inviteName, group: group_code}).then(
+                (response)=>{
+                    //User does not exist
+                    if(response.data.result == "404"){
+                        window.alert("Please insert a valid username.")
+                    }else{
+                    //User exists, insertion successful
+                    window.alert("Invite sent!")    
+                    }
+                }
+            ).catch(err=>{ console.log(err) });
+        }
+    }
 
     let buttons
     if (isProf == false) {
@@ -169,8 +189,8 @@ const GroupProfile = () => {
                     <Button variant="outline-secondary" onClick={inviteHandleClose}>
                         Close
                     </Button>
-                    <Button variant="primary"  type="submit" className = "savechangebutton" onClick={inviteHandleClose}>
-                        Save Changes
+                    <Button variant="primary"  type="submit" className = "savechangebutton" onClick={sendInvite}>
+                        Send Invite
                     </Button>
                     </Modal.Footer>
                 </Form>
