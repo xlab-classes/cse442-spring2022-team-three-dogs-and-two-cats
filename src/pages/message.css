@@ -1,57 +1,63 @@
-.container {
-    width: 100%;
-    display: flex;
-    overflow: auto;
-    min-height: 100vh;
-    align-items: center;
-    flex-direction: column;
-  }
-  .header {
-    flex: 0 0 auto;
-    width: 100%;
-    height: 120px;
-    display: flex;
-    position: relative;
-    align-items: flex-end;
-    justify-content: flex-start;
-    background-color: #d6e4ea;
-  }
-  .webname {
-    font-size: 24px;
-    margin-left: 20px;
-    margin-bottom: 20px;
-  }
-  .homebutton {
-    fill: #88cad9;
-    width: 30px;
-    display: flex;
-    padding: 0px;
-    align-self: flex-end;
-    transition: 0.3s;
-    margin-left: 10px;
-    border-width: 0px;
-    border-radius: 0px;
-    margin-bottom: 18px;
-  }
-  .homebutton:hover {
-    fill: #7ebac7;
-    border: none;
-    border-radius: 0px;
-  }
-  .name {
-    right: 20px;
-    bottom: 20px;
-    position: absolute;
-    font-size: 14px;
-    transition: 0.3s;
-  }
-  .center {
-    flex: 1;
-    width: 707px;
-    display: flex;
-    align-self: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #efefef;
-  }
+
+
+
+.center {
+  flex: 1;
+  width: 707px;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #efefef;
+}
+.coursesheader {
+  flex: 0 0 auto;
+  width: 650px;
+  height: auto;
+  display: flex;
+  align-self: center;
+  margin-top: 4%;
+  align-items: flex-start;
+  justify-content: center;
+}
+.joinbutton {
+  width: 40px;
+  height: 18px;
+  display: flex;
+  align-self: center;
+  transition: 0.3s;
+  align-items: flex-start;
+  margin-left: 5px;
+  border-radius: var(--dl-radius-radius-radius8);
+  justify-content: center;
+  background-color: #88cad9;
+}
+
+.coursesection {
+  width: 643px;
+  height: 100px;
+  display: flex;
+  position: relative;
+  align-self: center;
+  box-shadow: 3px 3px 2px 0px #c4c5c7;
+  margin-top: 10px;
+  align-items: center;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--dl-color-gray-white);
+  padding: 2px;
+  margin: 10px 0;
+  border: 1px;
+}
+
+.readbutton {
+  width: 120px;
+  height: 35px;
+
+}
+
+.acceptbutton {
+  height: 35px;
+}
 

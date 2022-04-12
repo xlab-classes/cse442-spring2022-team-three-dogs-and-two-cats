@@ -6,6 +6,7 @@ import styles from './home_student.module.css'
 
 import {Col,Row,Container, ListGroup,Button,Badge} from 'react-bootstrap'
 import axios from 'axios'
+import './message.css'
 
 import io from 'socket.io-client'
 // const endPoint = "http://127.0.0.1:5000/message";
@@ -13,13 +14,15 @@ import io from 'socket.io-client'
 // const socket = io.connect(endPoint);
 
 const Message = ({name}) => {
-    const [messages, Setmessages] = useState([]);
+    const [readList, setReadList] = useState([]);
+    const [unreadList, setUnreadList] = useState([]);
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/message').then(
             res => {
-                
-                Setmessages()
+                console.log(res.data)
+                setReadList(res.data.readList)
+                setUnreadList(res.data.unreadList)
                 
             },
             err => {
@@ -28,7 +31,42 @@ const Message = ({name}) => {
             }
         )},[])
 
- 
+    const accept = (a) =>{
+        // e.preventDefault();
+        console.log(a)
+        axios.post('http://127.0.0.1:5000/message',{reason:"accept",message_id:a.message_id}).then(
+            (response)=>{
+            if(response.data == "200"){
+                window.alert("You have joined the group successfully")
+            }
+            else{
+                window.alert("404 error")
+            }
+              
+            })
+            .catch(err=>{ console.log(err)});
+
+            setUnreadList(unreadList.filter((unreadList)=> unreadList.friendName!== a.friendName))
+    }
+
+    const decline = (d) =>{
+        console.log(d)
+        axios.post('http://127.0.0.1:5000/message',{reason:"decline",message_id:d.message_id}).then(
+            (response)=>{
+                if(response.data == "200"){
+                    window.alert("You have declined the request")
+                }
+                else{
+                    window.alert("404 error")
+                }
+            })
+            .catch(err=>{ console.log(err)});
+
+            setUnreadList(unreadList.filter((unreadList)=> unreadList.friendName!== a.friendName))
+
+    }
+
+    
 
     return(
         <div className={styles['container']}>
@@ -53,35 +91,80 @@ const Message = ({name}) => {
                 </span>
             </div>
                 <div className={styles['center']}>
-                    <div className={styles['coursesheader']}>   
+                   
             
-            {/* {messages.map((message)=> */}
-            <ListGroup>
-                    <ListGroup.Item className={styles['coursesection']}>
-                    <Container>
+        {unreadList.map((message)=> 
+        message.is_invite ?
+            (<ListGroup key ={message.message_id}>
+                <ListGroup.Item className='coursesection'>
+                    <Container>    
                         <Row> 
-                            <Col md={7}>
-                                <Badge pill bg="danger">
-                                 
-                                </Badge>{' '}
-                                From: name
-                            </Col>
-                            <Col md={{ offset: 0}}>
-                                <Button variant="outline-success">Accept</Button>
+                            
+                            <Col xs={8}>
+                                From: {message.sender_id}
                             </Col>
                             <Col>
-                                <Button variant="outline-danger">Decline</Button>
+                                <Button className='acceptbutton' variant="outline-success" onClick={()=>accept(message)}>Accept </Button>
+                            </Col>
+                            <Col>
+                                <Button className='acceptbutton' variant="outline-danger" onClick={()=>decline(message)}>Decline</Button>
+                            </Col> 
+                        </Row>
+                        <Row>
+                            <Col>Message: {message.content}</Col>
+                        </Row>
+                    </Container>
+                  
+                    </ListGroup.Item>
+                    
+            </ListGroup>)
+            :(
+                <ListGroup key ={message.message_id}>
+                <ListGroup.Item className='coursesection'>
+                    <Container>    
+                        <Row>   
+                            <Col xs={5}>
+                                From: {message.sender_id}
+                            </Col>
+                            <Col>
+                                <Button className='readbutton' variant="outline-secondary">Mark as read</Button>
+                            </Col>  
+                        </Row>
+                        <Row>
+                            <Col>Message: {message.content}</Col>
+                        </Row>
+                    </Container>
+                    
+                    </ListGroup.Item>
+                    
+            </ListGroup>
+            
+            )
+        )}
+
+        {readList.map((message)=> 
+            <ListGroup key ={message.message_id}>
+                {console.log(message.message_id)}
+                    <ListGroup.Item className='coursesection'>
+                    <Container>
+                        <Row> 
+                            <Col xs={5}>
+                                From: {message.sender_id}
+                            </Col>
+                            
+                            <Col>
+                               Read
                             </Col>
                         </Row>
                         <Row>
-                            <Col>Message: hhh invite you</Col>
+                            <Col>Message: {message.content}</Col>
                         </Row>
                     </Container>
                     </ListGroup.Item>
                 </ListGroup>
-            {/* )} */}
+            )} 
       
-                    </div>
+                   
  
                 </div>
         </div>
