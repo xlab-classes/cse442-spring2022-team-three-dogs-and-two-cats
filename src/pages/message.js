@@ -46,7 +46,7 @@ const Message = ({name}) => {
             })
             .catch(err=>{ console.log(err)});
 
-            setUnreadList(unreadList.filter((unreadList)=> unreadList.friendName!== a.friendName))
+            setUnreadList(unreadList.filter((unreadList)=> unreadList.message_id!== a.message_id))
     }
 
     const decline = (d) =>{
@@ -62,7 +62,7 @@ const Message = ({name}) => {
             })
             .catch(err=>{ console.log(err)});
 
-            setUnreadList(unreadList.filter((unreadList)=> unreadList.friendName!== a.friendName))
+            setUnreadList(unreadList.filter((unreadList)=> unreadList.message_id!== a.message_id))
 
     }
 
