@@ -63,9 +63,8 @@ const EnterCourseStudent = ({name, messageNumber}) => {
       group={groupName:groupName,groupSize:groupSize,groupCode:response.data.group_code,currentSize:response.data.currentSize,sectionNumber:section,isPublic:isPublic}
       console.log(group)
       setGroups([...groups,group])
-      // return(<Link to ={{pathname:'/group_profile',state:{code:response.data.group_code}}}></Link>)
-      history.push({pathname:'/group_profile',state:{code:response.data.group_code}})
-        
+      return(<Link to ={{pathname:'/group_profile',state:{code:response.data.group_code}}}></Link>)
+      //history.push({pathname:'/group_profile',state:{code:response.data.group_code}})
       })
       .catch(err=>{ console.log(err)});
       }
