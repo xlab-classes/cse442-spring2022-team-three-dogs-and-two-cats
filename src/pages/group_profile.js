@@ -14,7 +14,7 @@ import Button from 'react-bootstrap/Button'
 
 
 
-const GroupProfile = () => {
+const GroupProfile = ({messageNumber}) => {
 
     const location = useLocation()
     const name = location.state.name
@@ -80,7 +80,7 @@ const GroupProfile = () => {
             setInviteShow(false)
             axios.post('http://127.0.0.1:5000/group_profile', {reason:'invite', usernameIn: inviteName, group: group_code}).then(
                 (response)=>{
-                    //User does not exist
+                    //Verifications
                     if(response.data.result == "404"){
                         window.alert("Please insert a valid username.")
                     }else if(response.data.result == "-1"){
@@ -147,7 +147,7 @@ const GroupProfile = () => {
                 </Link>
                 {/* name dropdown */}
                 <span className={styles['name']}>
-                    <Dropdown username={name} />
+                    <Dropdown username={name} messageNumber={messageNumber}/>
                 </span>
             </div>
             {/* ------------------------------- */}

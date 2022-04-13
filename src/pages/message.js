@@ -8,12 +8,11 @@ import {Col,Row,Container, ListGroup,Button,Badge} from 'react-bootstrap'
 import axios from 'axios'
 import './message.css'
 
-import io from 'socket.io-client'
 // const endPoint = "http://127.0.0.1:5000/message";
 
 // const socket = io.connect(endPoint);
 
-const Message = ({name}) => {
+const Message = ({name, messageNumber}) => {
     const [readList, setReadList] = useState([]);
     const [unreadList, setUnreadList] = useState([]);
 
@@ -37,10 +36,14 @@ const Message = ({name}) => {
         console.log(a)
         axios.post('http://127.0.0.1:5000/message',{reason:"accept",message_id:a.message_id}).then(
             (response)=>{
-            if(response.data == "200"){
+            if(response.data.result == 200){
                 window.alert("You have joined the group successfully")
             }
-            else{
+            else if(response.data.result == -1){
+                window.alert("Group is full.")
+            }
+            else
+            {
                 window.alert("404 error")
             }
               
@@ -54,7 +57,7 @@ const Message = ({name}) => {
         console.log(d)
         axios.post('http://127.0.0.1:5000/message',{reason:"decline",message_id:d.message_id}).then(
             (response)=>{
-                if(response.data == "200"){
+                if(response.data.result == 200){
                     window.alert("You have declined the request")
                 }
                 else{
@@ -71,7 +74,7 @@ const Message = ({name}) => {
         console.log(m)
         axios.post('http://127.0.0.1:5000/message',{reason:"read",message_id:m.message_id}).then(
             (response)=>{
-                if(response.data == "200"){
+                if(response.data.result == 200){
                     
                 }
                 else{
@@ -104,7 +107,7 @@ const Message = ({name}) => {
                 </Link>
                 {/* name dropdown */}
                 <span className={styles['name']}>
-                    <Dropdown username={name} />
+                    <Dropdown username={name} messageNumber = {messageNumber} />
                 </span>
             </div>
                 <div className={styles['center']}>

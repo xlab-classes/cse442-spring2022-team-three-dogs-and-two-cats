@@ -16,7 +16,7 @@ import axios from 'axios';
 
 
 
-const EnterCourseStudent = ({name}) => {
+const EnterCourseStudent = ({name, messageNumber}) => {
   let data = useLocation();
   let classCode = data.state.code
   console.log(classCode);
@@ -195,7 +195,7 @@ const EnterCourseStudent = ({name}) => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown username={name}/>
+          <Dropdown username={name} messageNumber ={messageNumber}/>
         </span>
     </div>
   

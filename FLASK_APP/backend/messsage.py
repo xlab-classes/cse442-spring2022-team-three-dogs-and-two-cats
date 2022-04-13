@@ -108,6 +108,14 @@ def login():
                 if dbResult:
                     groupCode = dbResult[0]
                     sender_id = dbResult[1]
+
+                    #Verify group isnt already full
+                    cursor.execute("SELECT current_group_size, max_group_size FROM our_group WHERE group_code = %s", groupCode)
+                    dbResult = cursor.fetchone()
+                    if dbResult[0] == dbResult[1]:
+                       response = jsonify(result = -1)
+                       corsFix(response.headers)
+                       return response
                     
                     #Delete invite from message
                     cursor.execute("DELETE FROM message WHERE message_id = %s", messageId)
@@ -143,9 +151,9 @@ def login():
                     accTuple = ('Admin', sender_id, msg, '1', '0')
                     cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite) values (%s,%s,%s,%s,%s)", accTuple)
                     cursor.connection.commit()
-                    response = jsonify('200')
+                    response = jsonify(result = 200)
                 else:
-                    response = jsonify('404')
+                    response = jsonify(result = 404)
            
             elif data['reason'] == "decline" :
                 messageId = data['message_id']
@@ -153,8 +161,14 @@ def login():
                 #Delete invite from message
                 cursor.execute("DELETE FROM message WHERE message_id = %s", messageId)
                 cursor.connection.commit()
-                response = jsonify('200')
+                response = jsonify(result = 200)
 
+            #Mark given message as read
+            elif data['reason'] == "read":
+                messageId = data['message_id']
+                cursor.execute("UPDATE message SET is_unread = '0' WHERE message_id = %s", messageId)
+                cursor.connection.commit()
+                response = jsonify(result = 200)
 
     else:
         response = jsonify(result = "Not logged in")

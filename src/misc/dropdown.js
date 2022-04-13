@@ -7,27 +7,12 @@ import Badge from 'react-bootstrap/Badge'
 const name_dropdown = (props) => {
   
   const [visible, setVisible] = React.useState(false)
-  const [msgCount, setCount] = React.useState(0)
-  const [msgVisable, setMsgVisable] = React.useState(false)
-  const [alreadyRan, setAlreadyRan] = React.useState(false)
 
-   // sent get request when you opens the page
-   React.useEffect(() => {
-   
-    axios.get('http://127.0.0.1:5000/message', {params: {reason :"count"}}).then(
-    (response) => {
-     setCount(response.data.count)
-      if (msgCount > 0)
-        setMsgVisable(true)
-    })
-  
-  }, []);
   
   const logout =()=>{
     console.log("Logout")
     localStorage.clear()
     }
-
    
 
     
@@ -38,7 +23,7 @@ const name_dropdown = (props) => {
       <button type="button" className="name" onClick={() => setVisible(!visible)}>
         {props.username}
         <Badge pill bg="danger">
-           {msgVisable && msgCount}
+           {props.messageNumber>0 && props.messageNumber}
         </Badge>{' '}
 
       </button>
@@ -50,7 +35,7 @@ const name_dropdown = (props) => {
               <Dropdown.Item >Account Settings</Dropdown.Item>
               <Dropdown.Item href="/message">Messages  
                 <Badge pill bg="danger">
-                {msgVisable && msgCount}
+                {props.messageNumber > 0 && props.messageNumber}
                 </Badge>{' '}
               </Dropdown.Item>
               <Dropdown.Item href="/" onClick={logout}>Log Out</Dropdown.Item>    
