@@ -26,7 +26,7 @@ def groupProfile():
         # print("python ---------------")
 
         if request.method == 'GET':
-            if request.args.get("get_type") == "check group":
+            if request.args.get("reason") == "check group":
                 sql = "SELECT COUNT(1) FROM user_class_group WHERE username = %s and group_code = %s"
                 val = (request.args.get("username"), request.args.get("group_code"))
                 cursor.execute(sql, val)
@@ -196,7 +196,7 @@ def groupProfile():
                 response = jsonify(result = "200")
             
 
-            elif data['post_type'] == "edit description":
+            elif data['reason'] == "edit description":
                 group_code = data['group_code']
                 new_desc = data['desc']
                 desc_query = """UPDATE our_group
@@ -207,7 +207,8 @@ def groupProfile():
                 cursor.execute(desc_query, newdesc_val)
                 cursor.connection.commit()
                 response = jsonify(result="desc updated", new_desc=new_desc)
-            elif data['post_type'] == "leave group":
+            elif data['reason'] == "leave group":
+                print("hi")
                 sql1 = "UPDATE user_class_group SET group_code = NULL WHERE username = %s and group_code = %s"
                 val1 = (data['username'], data['group_code'])
                 cursor.execute(sql1, val1)
