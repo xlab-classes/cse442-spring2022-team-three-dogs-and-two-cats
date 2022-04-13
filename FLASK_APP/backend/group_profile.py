@@ -144,7 +144,7 @@ def groupProfile():
                 #validate invited is not in a group
                 cursor.execute("SELECT group_code FROM user_class_group WHERE username = %s AND class_code = %s" , (toUser, class_code))
                 dbResult = cursor.fetchone()
-                if dbResult and dbResult[0] !='null':
+                if dbResult and dbResult[0] is not None:
                     response = jsonify(result = -2)
                     corsFix(response.headers)
                     return response
@@ -196,19 +196,7 @@ def groupProfile():
                 response = jsonify(result = "200")
             
 
-            else:
-                group_code = data['group_code']
-                new_desc = data['desc']
-                desc_query = """UPDATE our_group
-                        SET description = %s
-                        WHERE group_code = %s;"""
-
-            newdesc_val = (new_desc, group_code)
-            cursor.execute(desc_query, newdesc_val)  
-            cursor.connection.commit()
-            response = jsonify(result="desc updated", new_desc = new_desc)
-
-            if data['post_type'] == "edit description":
+            elif data['post_type'] == "edit description":
                 group_code = data['group_code']
                 new_desc = data['desc']
                 desc_query = """UPDATE our_group
