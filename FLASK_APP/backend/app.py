@@ -8,6 +8,8 @@ from .student_group import student_group
 from .enter_course_instructor import enter_course_instructor
 from .home_instructor import home_instructor
 from .home_student import home_student
+from .group_profile import group_profile
+from .messsage import message
 
 from flaskext.mysql import MySQL
 
@@ -24,6 +26,7 @@ mysql = MySQL(app)
 
 def corsFix(res):
     res.add('Access-Control-Allow-Origin', 'http://cheshire.cse.buffalo.edu:3000')
+    #res.add('Access-Control-Allow-Origin', 'http://localhost:3000')
     res.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     res.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE')
     res.add('Access-Control-Allow-Credentials', 'true')
@@ -40,6 +43,10 @@ app.register_blueprint(home_instructor)
 app.register_blueprint(home_student)
 
 app.register_blueprint(enter_course_instructor)
+
+app.register_blueprint(group_profile)
+
+app.register_blueprint(message)
 
 
 if __name__ == '__main__':

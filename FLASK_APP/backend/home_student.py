@@ -52,11 +52,17 @@ def homestudent():
             namelst.append(cursor.fetchone()[0])
         # print(namelst)
 
+        # search table, find all group code of user
+        grouplst = []
+        cursor.execute("SELECT group_code FROM user_class_group WHERE username = %s", username)
+        for code in cursor.fetchall():
+            grouplst.append(code[0])
+
         # create list of dictionaries to match each code with class name
         classeslst = []
         for i in range(len(codelst)):
             classeslst.append(
-                {"class_code": codelst[i], "class_name": namelst[i]})
+                {"class_code": codelst[i], "class_name": namelst[i], "group_code": grouplst[i]})
         # print(classeslst)
 
         if len(class_code) == 0:  # class_code not entered
@@ -92,6 +98,7 @@ def homestudent():
                     cursor.execute(
                         "INSERT INTO user_class_group (username, class_code) VALUES (%s, %s)", (username, class_code))
                     cursor.connection.commit()
+
 
     cursor.close()
     

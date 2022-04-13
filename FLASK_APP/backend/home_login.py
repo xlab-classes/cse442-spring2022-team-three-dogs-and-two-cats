@@ -38,16 +38,25 @@ def login():
         if token and token != 'null':
             username = check_token(token)
             print(username)
+
             query = """ SELECT * from user WHERE username = %s """
             tuple1 = (username)
             cursor.execute(query,tuple1)
             check_prof = cursor.fetchone()
             print("query",check_prof)
+
+            query_message = """SELECT COUNT(message_id) FROM message WHERE reciever_id = %s AND is_unread = %s"""
+            message_tuple = (username, True)
+            cursor.execute(query_message,message_tuple)
+            cnt=cursor.fetchone()
+            message_number = -1
+            if cnt:
+                message_number = cnt[0]
             
             if check_prof and check_prof[6] == 1:
-                response = jsonify({'result':"Professor", 'username':username})
+                response = jsonify({'result':"Professor", 'username':username, 'message_number': message_number})
             else:
-                response = jsonify({'result':"Student", 'username':username})
+                response = jsonify({'result':"Student", 'username':username, 'message_number': message_number})
         else:
             response = jsonify(result="not logged in")
         print("get response", response.data)

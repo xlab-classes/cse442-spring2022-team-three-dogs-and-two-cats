@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import projectStyles from '../style.module.css'
 import styles from './home_student.module.css'
@@ -7,7 +7,7 @@ import Dropdown from "../misc/dropdown"
 import Studentcourse from '../misc/student_course'
 import axios from 'axios'
 
-const HomeStudent = () => {
+const HomeStudent = ({messageNumber}) => {
 
   const [class_code, setClasscode] = useState('')
   const [classeslst, setClasses] = useState([])
@@ -47,6 +47,9 @@ const HomeStudent = () => {
         if (resp == "INVALID CODE") {
           window.alert("Class does not exist, please enter a valid class code.")
         }
+        if (resp == "VALID CODE, CLASS JOINED") {
+          window.location.reload()
+        }
       })  
     axios.options('http://128.205.32.39:5100/home_student')
       .catch(err => { console.log(err) })
@@ -69,7 +72,7 @@ const HomeStudent = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown username={username}/>
+          <Dropdown username={username} messageNumber = {messageNumber}/>
         </span>
 
       </div>
@@ -100,7 +103,7 @@ const HomeStudent = () => {
 
         {/* load courses */}
         {classeslst.map(e =>
-          <Studentcourse class_code={e.class_code} class_name={e.class_name} />
+          <Studentcourse class_code={e.class_code} class_name={e.class_name} group_code={e.group_code} name={username}/>
         )}
         {/* ------------------------------- */}
 
