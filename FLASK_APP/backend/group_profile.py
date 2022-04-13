@@ -87,12 +87,13 @@ def groupProfile():
                 # fetch members info
                 member_query = """SELECT username, email
                         FROM user
-                        WHERE username =(
+                        WHERE username in(
                             SELECT username 
                             FROM user_class_group
                             WHERE group_code = %s AND class_code = %s);"""
                 cursor.execute(member_query, val)
                 dbMember = cursor.fetchall()
+                print(dbMember)
 
                 # put all members' info to the member list
                 for mem in dbMember:
