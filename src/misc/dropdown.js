@@ -9,16 +9,19 @@ const name_dropdown = (props) => {
   const [visible, setVisible] = React.useState(false)
   const [msgCount, setCount] = React.useState(0)
   const [msgVisable, setMsgVisable] = React.useState(false)
+  const [alreadyRan, setAlreadyRan] = React.useState(false)
 
    // sent get request when you opens the page
    React.useEffect(() => {
+   
     axios.get('http://127.0.0.1:5000/message', {params: {reason :"count"}}).then(
     (response) => {
      setCount(response.data.count)
       if (msgCount > 0)
         setMsgVisable(true)
     })
-  });
+  
+  }, []);
   
   const logout =()=>{
     console.log("Logout")
