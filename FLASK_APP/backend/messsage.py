@@ -125,15 +125,24 @@ def login():
                         #User is already in class, just add to group.
                         cursor.execute("UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s", (groupCode, username, classCode))
                         cursor.connection.commit()
+                        
+                        #Increase group count
+                        cursor.execte("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
+                        cursor.connection.commit()
                     else:
                         #User has not joined class, add to both    
                         cursor.execute("INSERT INTO user_class_group (username, class_code, group_code) values (%s,%s, %s)", (username, classCode, groupCode))
                         cursor.connection.commit()
+                        #Increase group and class count
+                        cursor.execute("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
+                        cursor.connection.commit()
+                        cursor.execute("UPDATE class set current_class_size = current_class_size +1 WHERE class_code = %s", classCode)
 
                     #Notify inviter that the invite was accepted
                     msg = username + " has accepted your invitation to join the group!"
                     accTuple = ('Admin', sender_id, msg, '1', '0')
                     cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite) values (%s,%s,%s,%s,%s)", accTuple)
+                    cursor.connection.commit()
                     response = jsonify('200')
                 else:
                     response = jsonify('404')

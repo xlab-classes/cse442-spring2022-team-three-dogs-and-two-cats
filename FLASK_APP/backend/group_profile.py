@@ -1,3 +1,4 @@
+from unittest import result
 from flask import request, jsonify
 from flask_cors import cross_origin
 import string   
@@ -86,7 +87,7 @@ def groupProfile():
                 # fetch members info
                 member_query = """SELECT username, email
                         FROM user
-                        WHERE username =(
+                        WHERE username IN (
                             SELECT username 
                             FROM user_class_group
                             WHERE group_code = %s AND class_code = %s);"""
@@ -124,15 +125,60 @@ def groupProfile():
                     corsFix(response.headers)
                     return response
 
+            
+                
 
                 #get group name, class name for use in invite message
                 cursor.execute("SELECT group_name, class_code from our_group where group_code = %s", group_code)
                 dbResult = cursor.fetchone()
                 group_name = dbResult[0]
-                cursor.execute("SELECT class_name from class where class_code = %s", dbResult[1])
+                class_code = dbResult[1]
+
+                #validate invited is not in a group
+                cursor.execute("SELECT group_code FROM user_class_group WHERE username = %s AND class_code = %s" , (toUser, class_code))
+                dbResult = cursor.fetchone()
+                if dbResult and dbResult[0] !='null':
+                    response = jsonify(result = -2)
+                    corsFix(response.headers)
+                    return response
+
+                #validate invited is not a professor
+                cursor.execute("SELECT is_professor FROM user WHERE username = %s", toUser)
+                dbResult = cursor.fetchone()
+                print(str(dbResult[0]))
+                if dbResult[0] == 1:
+                    response = jsonify(result = -3)
+                    corsFix(response.headers)
+                    return response
+
+                #validate user is not already invited
+                cursor.execute("SELECT message_id from message WHERE reciever_id = %s AND sender_id = %s AND group_code = %s", (toUser, username, group_code))
+                if cursor.fetchone():
+                    response = jsonify(result = -4)
+                    corsFix(response.headers)
+                    return response
+
+                #validate group is not full
+                cursor.execute("SELECT current_group_size, max_group_size FROM our_group WHERE group_code = %s", group_code)
+                dbResult = cursor.fetchone()
+                if dbResult[0] == dbResult[1]:
+                    response = jsonify(result = -5)
+                    corsFix(response.headers)
+                    return response
+
+                #Validate inviter is in group
+                cursor.execute("SELECT * FROM user_class_group WHERE username = %s AND class_code = %s AND group_code = %s", (username, class_code, group_code))
+                if cursor.fetchone() is None:
+                    response = jsonify(result = -1)
+                    corsFix(response.headers)
+                    return response
+
+
+                cursor.execute("SELECT class_name from class where class_code = %s", class_code)
                 dbResult = cursor.fetchone()
                 class_name = dbResult[0]
-                
+
+               
                 msg = "You have been invited to join " + group_name + " in class " + class_name  + " by " + username + "."
 
                 #Insert message into the database

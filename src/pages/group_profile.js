@@ -10,10 +10,8 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-import io from 'socket.io-client'
-// const endPoint = "http://127.0.0.1:5000/group_profile";
 
-// const socket = io.connect(endPoint);
+
 
 
 const GroupProfile = () => {
@@ -85,10 +83,21 @@ const GroupProfile = () => {
                     //User does not exist
                     if(response.data.result == "404"){
                         window.alert("Please insert a valid username.")
+                    }else if(response.data.result == "-1"){
+                        window.alert("You must be a member of this group to send invites.")
+                    }else if(response.data.result == "-2"){
+                        window.alert("Users already in a group cannot be invited.")
+                    }else if(response.data.result == "-3"){
+                        window.alert("You cannot invite professors to groups.")
+                    }else if(response.data.result == "-4"){
+                        window.alert("This user already has a pending invite to this group.")
+                    }else if(response.data.result == "-5"){
+                        window.alert("Cannot invite to a full group.")
                     }else{
                     //User exists, insertion successful
-                    window.alert("Invite sent!")    
+                    window.alert("Invite sent!") 
                     }
+                    
                 }
             ).catch(err=>{ console.log(err) });
         }
