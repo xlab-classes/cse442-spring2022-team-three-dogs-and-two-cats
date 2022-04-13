@@ -17,6 +17,7 @@ const Message = ({name}) => {
     const [readList, setReadList] = useState([]);
     const [unreadList, setUnreadList] = useState([]);
 
+
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/message').then(
             res => {
@@ -62,8 +63,24 @@ const Message = ({name}) => {
             })
             .catch(err=>{ console.log(err)});
 
-            setUnreadList(unreadList.filter((unreadList)=> unreadList.message_id!== a.message_id))
+            setUnreadList(unreadList.filter((unreadList)=> unreadList.message_id!== d.message_id))
 
+    }
+
+    const markRead = (m) =>{
+        console.log(m)
+        axios.post('http://127.0.0.1:5000/message',{reason:"read",message_id:m.message_id}).then(
+            (response)=>{
+                if(response.data == "200"){
+                    
+                }
+                else{
+                    window.alert("404 error")
+                }
+            })
+            .catch(err=>{ console.log(err)});
+            setUnreadList(unreadList.filter((unreadList)=> unreadList.message_id!== m.message_id))
+            setReadList([...readList,m])
     }
 
     
@@ -123,11 +140,11 @@ const Message = ({name}) => {
                 <ListGroup.Item className='coursesection'>
                     <Container>    
                         <Row>   
-                            <Col xs={5}>
+                            <Col xs={9}>
                                 From: {message.sender_id}
                             </Col>
                             <Col>
-                                <Button className='readbutton' variant="outline-secondary">Mark as read</Button>
+                                <Button className='readbutton' variant="outline-secondary" onClick={()=>markRead(message)}>Mark as read</Button>
                             </Col>  
                         </Row>
                         <Row>
@@ -148,7 +165,7 @@ const Message = ({name}) => {
                     <ListGroup.Item className='coursesection'>
                     <Container>
                         <Row> 
-                            <Col xs={5}>
+                            <Col xs={10}>
                                 From: {message.sender_id}
                             </Col>
                             
