@@ -23,7 +23,7 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
   function submitHandler(group_code) {
       const ver = confirm("Are you sure you want to delete this group?");
       if(ver) {
-          axios.post('http://127.0.0.1:5000/enter_course_instructor', {
+          axios.post('http://128.205.32.39:5100/enter_course_instructor', {
           group_code: group_code, class_code: classCode
           }).then( res => {
               setGroups(res.data)
@@ -38,7 +38,7 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
     // set our variable to true
     let isApiSubscribed = true;
 
-    axios.get('http://127.0.0.1:5000/enter_course_instructor',{params:{classCode:classCode}}).then(
+    axios.get('http://128.205.32.39:5100/enter_course_instructor',{params:{classCode:classCode}}).then(
       res => {
         if (isApiSubscribed) {
         setGroups(res.data)
