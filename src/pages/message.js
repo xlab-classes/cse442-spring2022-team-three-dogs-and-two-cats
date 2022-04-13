@@ -79,8 +79,8 @@ const Message = ({name}) => {
                 }
             })
             .catch(err=>{ console.log(err)});
-            setUnreadList(unreadList.filter((unreadList)=> unreadList.message_id!== m.message_id))
-            setReadList([...readList,m])
+        setUnreadList(unreadList.filter((unreadList)=> unreadList.message_id!== m.message_id))
+        setReadList([...readList,m])
     }
 
     
@@ -162,7 +162,7 @@ const Message = ({name}) => {
         {readList.map((message)=> 
             <ListGroup key ={message.message_id}>
                 {console.log(message.message_id)}
-                    <ListGroup.Item className='coursesection'>
+                    <ListGroup.Item className='coursesection' style={{color:'grey'}}>
                     <Container>
                         <Row> 
                             <Col xs={10}>
