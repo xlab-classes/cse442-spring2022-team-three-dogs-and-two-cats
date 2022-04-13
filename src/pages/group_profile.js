@@ -6,11 +6,14 @@ import styles from './home_student.module.css'
 import Dropdown from "../misc/dropdown"
 import axios from 'axios'
 import './group_profile.css'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 
 export const inGroup = false
 
-const GroupProfile = () => {
+const GroupProfile = ({messageNumber}) => {
 
     const location = useLocation()
     const name = location.state.name
@@ -23,6 +26,12 @@ const GroupProfile = () => {
     const [desc, setDesc] = useState('')
     const [groupname, setGroupname] = useState('')
     const [isInGroup, setIsInGroup] = useState(false)
+    const [descNew, setDescNew] = useState('')
+
+    const [inviteShow, setInviteShow] = useState(false);
+    const inviteHandleClose = () => setInviteShow(false);
+    const inviteHandleShow = () => setInviteShow(true);
+
 
 
     //load at beginning of page
@@ -75,6 +84,37 @@ const GroupProfile = () => {
         }
     }
 
+    function sendInvite(e){
+        e.preventDefault()
+        if(!inviteName.trim())
+        {
+            window.alert("Please insert a username.")
+        }else{
+            setInviteShow(false)
+            axios.post('http://127.0.0.1:5000/group_profile', {reason:'invite', usernameIn: inviteName, group: group_code}).then(
+                (response)=>{
+                    //Verifications
+                    if(response.data.result == "404"){
+                        window.alert("Please insert a valid username.")
+                    }else if(response.data.result == "-1"){
+                        window.alert("You must be a member of this group to send invites.")
+                    }else if(response.data.result == "-2"){
+                        window.alert("Users already in a group cannot be invited.")
+                    }else if(response.data.result == "-3"){
+                        window.alert("You cannot invite professors to groups.")
+                    }else if(response.data.result == "-4"){
+                        window.alert("This user already has a pending invite to this group.")
+                    }else if(response.data.result == "-5"){
+                        window.alert("Cannot invite to a full group.")
+                    }else{
+                    //User exists, insertion successful
+                    window.alert("Invite sent!") 
+                    }
+                    
+                }
+            ).catch(err=>{ console.log(err) });
+        }
+    }
 
     let buttons
     let homeButton
@@ -83,7 +123,7 @@ const GroupProfile = () => {
     if (isProf == false) {
         buttons =
             <div className='profileButtons'>
-                <button className='b'>Invite</button>
+                <button className='b' onClick={inviteHandleShow}>Invite</button>
                 <button className='b'>Leave the Group</button>
             </div>
         homeButton =
@@ -122,6 +162,16 @@ const GroupProfile = () => {
             </>
     }
 
+
+    const [inviteName,setInviteName] = useState('')
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        console.log(inviteName)
+        // socket.emit("SendInvitation",{inviteName:inviteName})
+    }
+
+
+
     return (
         <div className={styles['container']}>
 
@@ -137,7 +187,7 @@ const GroupProfile = () => {
                 {homeButton}
                 {/* name dropdown */}
                 <span className={styles['name']}>
-                    <Dropdown username={name} />
+                    <Dropdown username={name} messageNumber={messageNumber}/>
                 </span>
             </div>
             {/* ------------------------------- */}
@@ -163,6 +213,33 @@ const GroupProfile = () => {
                 {descForm}
             </div>
             {/* ------------------------------- */}
+
+
+            <Modal show={inviteShow} onHide={inviteHandleClose}>
+                <Form onSubmit={handleSubmit}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Invite a new member</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlTextarea1"
+                        >
+                        <Form.Label>Please enter username</Form.Label>
+                        <Form.Control type="text" placeholder="Type username you want to invite here" rows={3} onChange={(e)=>{
+                        setInviteName(e.target.value)}}/>
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="outline-secondary" onClick={inviteHandleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary"  type="submit" className = "savechangebutton" onClick={sendInvite}>
+                        Send Invite
+                    </Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>    
 
         </div>
     )

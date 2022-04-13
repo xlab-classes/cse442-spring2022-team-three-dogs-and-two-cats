@@ -7,7 +7,7 @@ import Dropdown from "../misc/dropdown"
 import Studentcourse from '../misc/student_course'
 import axios from 'axios'
 
-const HomeStudent = () => {
+const HomeStudent = ({messageNumber}) => {
 
   const [class_code, setClasscode] = useState('')
   const [classeslst, setClasses] = useState([])
@@ -72,7 +72,7 @@ const HomeStudent = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown username={username}/>
+          <Dropdown username={username} messageNumber = {messageNumber}/>
         </span>
 
       </div>

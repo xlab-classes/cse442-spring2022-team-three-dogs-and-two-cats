@@ -53,3 +53,21 @@
     margin-right: 9.5%;
     align-self: flex-end;
 }
+
+.savechangebutton {
+    color: #88cad9;
+    background-color: #94a5a800;
+    border-color: #88cad9;
+  }
+  .savechangebutton:hover {
+   
+    color: #fff;
+    background-color: #88cad9;
+    border-color: #88cad9;
+  }
+  .savechangebutton:focus {
+    color: #fff;
+    background-color: #88cad9;
+    border-color: #88cad9;
+    box-shadow: none;
+  }
