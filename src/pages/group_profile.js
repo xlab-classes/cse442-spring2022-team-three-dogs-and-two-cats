@@ -21,8 +21,8 @@ const GroupProfile = () => {
     const [sectionNum, setNum] = useState('')
     const [groupMems, setMems] = useState([])
     const [desc, setDesc] = useState('')
-    const [descNew, setDescNew] = useState('')
     const [groupname, setGroupname] = useState('')
+    const [isInGroup, setIsInGroup] = useState(false)
 
 
     //load at beginning of page
@@ -42,6 +42,9 @@ const GroupProfile = () => {
                 if (response.data.isProf == 1) {
                     setProf(true)
                 }
+                if (response.data.isInGroup == 1) {
+                    setIsInGroup(true)
+                }
             })
 
         axios.options('http://127.0.0.1:5000/group_profile')
@@ -52,7 +55,7 @@ const GroupProfile = () => {
     function editDesc(event) {
         event.preventDefault()
 
-        if (event.target.desc.value != "") {
+        if (event.target.desc.value != "" && isInGroup == true) {
             axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: event.target.desc.value }).then(
                 response => {
                     window.location.reload()
@@ -61,7 +64,13 @@ const GroupProfile = () => {
             axios.options('http://127.0.0.1:5000/group_profile')
                 .catch(err => { console.log(err) })
         }
-        else {
+        else if (event.target.desc.value != "" && isInGroup == false) {
+            window.alert("You are not part of the group. You do not have permission to edit the description.")
+        }
+        else if (event.target.desc.value == "" && isInGroup == false) {
+            window.alert("You are not part of the group. You do not have permission to edit the description.")
+        }
+        else if (event.target.desc.value == "" && isInGroup == true) {
             window.alert("Please enter a new description.")
         }
     }
