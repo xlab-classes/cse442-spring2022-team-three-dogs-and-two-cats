@@ -26,12 +26,10 @@ const GroupProfile = ({messageNumber}) => {
     const [desc, setDesc] = useState('')
     const [groupname, setGroupname] = useState('')
     const [isInGroup, setIsInGroup] = useState(false)
-    const [descNew, setDescNew] = useState('')
 
     const [inviteShow, setInviteShow] = useState(false);
     const inviteHandleClose = () => setInviteShow(false);
     const inviteHandleShow = () => setInviteShow(true);
-
 
 
     //load at beginning of page
@@ -40,8 +38,7 @@ const GroupProfile = ({messageNumber}) => {
         console.log("GROUP CODE: " + group_code)
         console.log("CLASS CODE: " + classcode)
 
-
-        axios.get('http://127.0.0.1:5000/group_profile', { params: { group_code: group_code, classcode: classcode } }).then(
+        axios.get('http://127.0.0.1:5000/group_profile', { params: { group_code: group_code, classcode: classcode, get_type: "load page" } }).then(
             response => {
                 console.log(response.data)
                 setNum(response.data.section_id)
@@ -65,7 +62,7 @@ const GroupProfile = ({messageNumber}) => {
         event.preventDefault()
 
         if (event.target.desc.value != "" && isInGroup == true) {
-            axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: event.target.desc.value }).then(
+            axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: event.target.desc.value, post_type: "edit description" }).then(
                 response => {
                     window.location.reload()
                 })
@@ -83,6 +80,7 @@ const GroupProfile = ({messageNumber}) => {
             window.alert("Please enter a new description.")
         }
     }
+
 
     function sendInvite(e){
         e.preventDefault()
@@ -116,6 +114,30 @@ const GroupProfile = ({messageNumber}) => {
         }
     }
 
+
+    function leaveGroup() {
+        axios.get('http://127.0.0.1:5000/group_profile', { params: {
+            username: name, group_code: group_code, get_type: "check group"
+        }}).then( response => {
+            if (response.data.result === "yes") {
+                const ver = confirm("Are you sure you want to leave this group?");
+                if (ver) {
+                    axios.post('http://127.0.0.1:5000/group_profile', {
+                        username: name, group_code: group_code, post_type: "leave group"
+                    }).then(res => {
+                        window.location.replace('/home_student');
+                    })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
+            }else{
+                window.alert("You are not in this group.")
+            }
+        })
+    }
+
+    
     let buttons
     let homeButton
     let descForm
@@ -124,7 +146,7 @@ const GroupProfile = ({messageNumber}) => {
         buttons =
             <div className='profileButtons'>
                 <button className='b' onClick={inviteHandleShow}>Invite</button>
-                <button className='b'>Leave the Group</button>
+                <button onClick={function() {leaveGroup()}} className='b'>Leave the Group</button>
             </div>
         homeButton =
             <Link to="/home_student" className={styles['navlink']}>
