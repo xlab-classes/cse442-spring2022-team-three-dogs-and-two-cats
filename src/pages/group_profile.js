@@ -32,7 +32,7 @@ const GroupProfile = () => {
         console.log("CLASS CODE: " + classcode)
 
 
-        axios.get('http://127.0.0.1:5000/group_profile', { params: { group_code: group_code, classcode: classcode } }).then(
+        axios.get('http://127.0.0.1:5000/group_profile', { params: { group_code: group_code, classcode: classcode, get_type: "load page" } }).then(
             response => {
                 console.log(response.data)
                 setNum(response.data.section_id)
@@ -67,17 +67,25 @@ const GroupProfile = () => {
     }
 
     function leaveGroup() {
-        const ver = confirm("Are you sure you want to leave this group?");
-      if(ver) {
-          axios.post('http://127.0.0.1:5000/group_profile', {
-          username: name, group_code: group_code, post_type: "leave group"
-          }).then( res => {
-              window.location.replace('/home_student');
-          })
-          .catch(err => {
-              console.log(err);
-          });
-      }
+        axios.get('http://127.0.0.1:5000/group_profile', { params: {
+            username: name, group_code: group_code, get_type: "check group"
+        }}).then( response => {
+            if (response.data.result === "yes") {
+                const ver = confirm("Are you sure you want to leave this group?");
+                if (ver) {
+                    axios.post('http://127.0.0.1:5000/group_profile', {
+                        username: name, group_code: group_code, post_type: "leave group"
+                    }).then(res => {
+                        window.location.replace('/home_student');
+                    })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
+            }else{
+                window.alert("You are not in this group.")
+            }
+        })
     }
 
     let buttons

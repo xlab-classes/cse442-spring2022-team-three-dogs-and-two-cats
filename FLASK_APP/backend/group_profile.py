@@ -9,63 +9,69 @@ group_profile = Blueprint('group_profile', __name__)
 
 
 @group_profile.route("/group_profile", methods=['POST', 'GET', 'OPTIONS'])
-
 def groupProfile():
-    
     from .app import mysql
     cursor = mysql.connect().cursor()
-    response = jsonify(result = "No token")
+    response = jsonify(result="No token")
 
-    #token = request.headers['Authorization']
+    # token = request.headers['Authorization']
     token = None
-    for (key,val) in request.headers.items():
-       if key == "Authorization":
-         token = val
+    for (key, val) in request.headers.items():
+        if key == "Authorization":
+            token = val
     username = ''
     if token:
         username = check_token(token)
         # print("python ---------------")
 
         if request.method == 'GET':
-            
-            if token:
+            if request.args.get("get_type") == "check group":
+                sql = "SELECT COUNT(1) FROM user_class_group WHERE username = %s and group_code = %s"
+                val = (request.args.get("username"), request.args.get("group_code"))
+                cursor.execute(sql, val)
+                res = cursor.fetchone()
+                if res[0] == 1:
+                    response = jsonify(result="yes")
+                else:
+                    response = jsonify(result="no")
+            elif token:
                 class_code = request.args.get("classcode")
-                group_code= request.args.get("group_code")
+                group_code = request.args.get("group_code")
 
                 # print(class_code,group_code)
 
-                section_id =''
-                group_name =''
-                desc=''
-                members=[]
+                section_id = ''
+                group_name = ''
+                desc = ''
+                members = []
                 # true = '1', false = '0'
                 isProf = ''
-                isInGroup =''
+                isInGroup = ''
 
                 # check the if the user is a prof 
-                user_query ="""SELECT is_professor
+                user_query = """SELECT is_professor
                         FROM user
                         WHERE username = %s ;"""
-                user=(username,)
-                cursor.execute(user_query,user)
+                user = (username,)
+                cursor.execute(user_query, user)
                 dbUserisProf = cursor.fetchone()
                 for user in dbUserisProf:
                     if user == False:
                         isProf = '0'
                         # print('student')
                         # check if the student is in the current group
-                        ingroup_query ="""SELECT class_code
+                        ingroup_query = """SELECT class_code
                                         FROM user_class_group
                                         WHERE username = %s AND group_code = %s;"""
-                        ingroup_val = (username,group_code)
-                        cursor.execute(ingroup_query,ingroup_val)
+                        ingroup_val = (username, group_code)
+                        cursor.execute(ingroup_query, ingroup_val)
                         dbExist = cursor.fetchone()
                         # print(dbExist)
-                        if dbExist== None:
+                        if dbExist == None:
                             isInGroup = '0'
                             # print('not exist')
                         else:
-                            isInGroup ='1'
+                            isInGroup = '1'
                     else:
                         isProf = '1'
                         isInGroup = '0'
@@ -75,14 +81,14 @@ def groupProfile():
                 group_query = """SELECT section_id, group_name, description
                         FROM our_group
                         WHERE group_code = %s AND class_code = %s;"""
-                val = (group_code,class_code)
+                val = (group_code, class_code)
                 cursor.execute(group_query, val)
                 dbGroup = cursor.fetchall()
 
                 for elem in dbGroup:
-                    section_id=elem[0]
-                    group_name=elem[1]
-                    desc=elem[2]
+                    section_id = elem[0]
+                    group_name = elem[1]
+                    desc = elem[2]
 
                 # fetch members info
                 member_query = """SELECT username, email
@@ -97,15 +103,14 @@ def groupProfile():
                 # put all members' info to the member list
                 for mem in dbMember:
                     memDict = {
-                        "username":mem[0],
-                        "email":mem[1]
+                        "username": mem[0],
+                        "email": mem[1]
                     }
                     members.append(memDict)
                 # print("result-----------")
-                
-                
-                response = jsonify(result="200", section_id = section_id, group_name= group_name, desc = desc,
-                                       membersList=members, username=username, isInGroup=isInGroup, isProf=isProf)
+
+                response = jsonify(result="200", section_id=section_id, group_name=group_name, desc=desc,
+                                   membersList=members, username=username, isInGroup=isInGroup, isProf=isProf)
                 # print(response)
 
             else:
@@ -124,7 +129,7 @@ def groupProfile():
                 newdesc_val = (new_desc, group_code)
                 cursor.execute(desc_query, newdesc_val)
                 cursor.connection.commit()
-                response = jsonify(result="desc updated", new_desc = new_desc)
+                response = jsonify(result="desc updated", new_desc=new_desc)
             elif data['post_type'] == "leave group":
                 sql1 = "UPDATE user_class_group SET group_code = NULL WHERE username = %s and group_code = %s"
                 val1 = (data['username'], data['group_code'])
@@ -139,7 +144,5 @@ def groupProfile():
 
     from .app import corsFix
     corsFix(response.headers)
-
-
 
     return response
