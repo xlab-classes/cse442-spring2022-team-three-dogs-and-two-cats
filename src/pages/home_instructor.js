@@ -62,7 +62,7 @@ const HomeInstructor = ({messageNumber}) => {
     }
     else{
       setShow(false);
-      axios.post('http://128.205.32.39:5100/home_instructor',{classname:classname, classsize:classsize}).then(
+      axios.post('http://128.205.32.39:5100/home_instructor',{reason: "create", classname:classname, classsize:classsize}).then(
       (response)=>{
         // sent another get request after the class is created
         axios.get('http://128.205.32.39:5100/home_instructor').then(

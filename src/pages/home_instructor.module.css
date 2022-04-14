@@ -238,6 +238,7 @@
   color: var(--dl-color-gray-white);
   font-size: 12px;
   align-self: center;
+  cursor: pointer;
 }
 .code{
   font-size: 12px;

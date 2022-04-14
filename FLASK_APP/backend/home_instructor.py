@@ -57,38 +57,59 @@ def home_inst():
                 response = jsonify(result="200")
             else:
                 if request.method == 'POST':
+                    
                     data = request.get_json()
-                    class_name = data['classname']
-                    class_size = data['classsize']
+                   
+                    if data['reason'] == "delete":
+                        classCode = data['classCode']
 
-                    if class_name == '':
-                        repsonse = jsonify(result="Class name cannot be empty")
+                        #Get list of groups in class to be deleted
+                        cursor.execute("SELECT group_code from user_class_group where class_code = %s", classCode)
+                        dbGroupResult = cursor.fetchall()
+
+                        #Delete entries from user_class_group
+                        cursor.execute("DELETE FROM user_class_group where class_code = %s", classCode)
+                        cursor.connection.commit()
+
+                        #Delete all groups from our_group
+                        for res in dbGroupResult:
+                            #Delete pending group invites
+                            cursor.execute("DELETE FROM message where group_code = %s", res[0])
+                            cursor.connection.commit()
+                            cursor.execute("DELETE FROM our_group where group_code = %s", res[0])
+                            cursor.connection.commit()
+                        
+                        #Delete class from class
+                        cursor.execute("DELETE FROM class where class_code = %s", classCode)
+                        cursor.connection.commit()
+                        response = jsonify(result = 200)
+                                                
                     else:
-                        if class_size == '':
-                            repsonse = jsonify(
-                                result="Class size cannot be empty")
-                        else:
-                            # Generate new class code
-                            newClassCode = ''.join(random.choice(
+                        class_name = data['classname']
+                        class_size = data['classsize']
+
+                    
+                        # Generate new class code
+                        newClassCode = ''.join(random.choice(
                                 string.ascii_letters) for i in range(8))
 
-                            cursor.execute(
+                        cursor.execute(
                                 "SELECT * FROM class WHERE class_code = %s", newClassCode)
-                            result = cursor.fetchone()
-                            # Prevent duplicate class codes
-                            while result:
-                                newClassCode = ''.join(random.choice(
+                        result = cursor.fetchone()
+                               # Prevent duplicate class codes
+                        while result:
+                            newClassCode = ''.join(random.choice(
                                     string.ascii_letters) for i in range(8))
 
-                                cursor.execute(
+                            cursor.execute(
                                     "SELECT * FROM class WHERE class_code = %s", newClassCode)
-                                result = cursor.fetchone()
+                            result = cursor.fetchone()
 
-                                # Create new class in DB
-                            cursor.execute("INSERT INTO class VALUES (%s,%s,%s, %s, %s)",
+                        # Create new class in DB
+                        cursor.execute("INSERT INTO class VALUES (%s,%s,%s, %s, %s)",
                                            (newClassCode, class_name, username, class_size, "0"))
-                            cursor.connection.commit()
-                            response = jsonify(result="Class created",
+                        cursor.connection.commit()
+                        response = jsonify(result="Class created",
                                                class_code=newClassCode)
 
 
