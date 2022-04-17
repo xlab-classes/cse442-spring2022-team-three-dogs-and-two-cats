@@ -83,7 +83,7 @@ def create_new_group():
             if group_name == '':
                 response['group_name_result'] = "group name cannot be empty"
             
-            if max_group_size == 0:
+            if max_group_size == '':
                 response['group_size_result'] = "group size cannot be empty"     
             return response
 
