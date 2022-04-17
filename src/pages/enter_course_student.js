@@ -59,12 +59,34 @@ const EnterCourseStudent = ({name, messageNumber}) => {
 
     axios.post('http://128.205.32.39:5100/enter_course_student',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
       (response)=>{
-        console.log(response.data.currentSize)
-      group={groupName:groupName,groupSize:groupSize,groupCode:response.data.group_code,currentSize:response.data.currentSize,sectionNumber:section,isPublic:isPublic}
-      console.log(group)
-      setGroups([...groups,group])
-      return(<Link to ={{pathname:'/group_profile',state:{code:response.data.group_code}}}></Link>)
-      //history.push({pathname:'/group_profile',state:{code:response.data.group_code}})
+      console.log(response)
+      if (response.data.result == "pass"){
+        group={groupName:groupName,groupSize:groupSize,groupCode:response.data.group_code,currentSize:response.data.currentSize,sectionNumber:section,isPublic:isPublic}
+        console.log(group)
+        setGroups([...groups,group])
+        history.push({pathname: "/group_profile", state: { groupcode: response.data.group_code, name: name, classcode: classCode }})
+      }
+      else{
+        if (response.data.section_result == "section cannot be empty"){
+          setSectionErr(true)
+          setError(true)
+          setShow(true)
+        }
+        if (response.data.group_name_result == "group name cannot be empty"){
+          setGroupNameErr(true)
+          setError(true)
+          setShow(true)
+        } 
+        if (response.data.group_size_result == "group size cannot be empty"){
+          setGroupSizeErr(true)
+          setError(true)
+          setShow(true)
+        } 
+        if (response.data.result == "you already in a group"){
+          window.alert("You already in a group")
+
+        }
+      }
       })
       .catch(err=>{ console.log(err)});
       }
@@ -101,7 +123,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
 
     const checksection=(e)=>{
       setSection(e.target.value);
-      if (e.target.value == ''){
+      if (e.target.value == ''|| e.target.value > 65535){
         console.log("empty section")
         setSectionErr(true);
         setError(true);
@@ -140,35 +162,39 @@ const EnterCourseStudent = ({name, messageNumber}) => {
       }
   }
 
-  function check(){
-    if (section == ''){
-      console.log("empty section")
-      setSectionErr(true);
-      setError(true);
-    }
-    if (groupName == ''){
-      setGroupNameErr(true);
-      setError(true);
-    }
-    if (groupSize < 2){
-      console.log("low size");
-      setGroupSizeErr(true);
-      setError(true);
-    }
-    if (isPrivate =='on'){
-      setPublic(false);
+  // function check(){
+  //   if (section == ''){
+  //     console.log("empty section")
+  //     setSectionErr(true);
+  //     setError(true);
+  //     setShow(true);
+  //   }
+  //   if (groupName == ''){
+  //     setGroupNameErr(true);
+  //     setError(true);
+  //     setShow(true);
+  //   }
+  //   if (groupSize < 2){
+  //     console.log("low size");
+  //     setGroupSizeErr(true);
+  //     setError(true);
+  //     setShow(true);
+  //   }
+  //   if (isPrivate =='on'){
+  //     setPublic(false);
+      
 
-    }
-    else{
-      setSectionErr(false);
-      setGroupNameErr(false);
-      setGroupSizeErr(false);
-      setError(false);
-      setShow(false);
-      setPublic(true);
-    }
+  //   }
+  //   else{
+  //     setSectionErr(false);
+  //     setGroupNameErr(false);
+  //     setGroupSizeErr(false);
+  //     setError(false);
+  //     setShow(false);
+  //     setPublic(true);
+  //   }
 
-  }
+  // }
 
   
 
@@ -217,6 +243,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
 
     <Modal show={show} onHide={handleClose}>
       <Form onSubmit={submitHandler}>
+      {/* <Form > */}
         <Modal.Header style={{color:'grey'}} closeButton>
           <Modal.Title>Create a new group</Modal.Title>
         </Modal.Header>
@@ -225,13 +252,14 @@ const EnterCourseStudent = ({name, messageNumber}) => {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Section number</Form.Label>
               <Form.Control
-                type="text"
+                type="number"
+                max="65535"
                 placeholder="Type your section number here"
                 onChange={(e)=>checksection(e)}
               />
               {sectionErr
               ?(<Form.Text style={{ color:"red" }}>
-                Section cannot be empty
+                Section cannot be empty or more than 65535
               </Form.Text>)
               :(<></>)
               }
@@ -261,7 +289,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
               />
               {groupSizeErr
               ?(<Form.Text style={{ color:"red" }}>
-                Group size cannot less than 2
+                Group size cannot be empty or less than 2
               </Form.Text>)
               :(<Form.Text>Please input number over than 2</Form.Text>)
               }
@@ -281,9 +309,9 @@ const EnterCourseStudent = ({name, messageNumber}) => {
             Close
           </Button>
           {error
-          ?(<Button variant="outline-info"  className={styles['savechangebutton']}>Save Changes</Button>)
+          ?(<Button variant="outline-info"  className={styles['savechangebutton'] }  disabled>Save Changes</Button>)
           :(
-          <Button variant="primary" type="submit" className={styles['savechangebutton']} onClick={()=>{check()}} >Save Changes</Button>)
+          <Button variant="primary" type ="submit" className={styles['savechangebutton']}  >Save Changes</Button>)
           }
          
         </Modal.Footer>

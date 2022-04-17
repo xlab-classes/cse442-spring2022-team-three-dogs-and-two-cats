@@ -1,4 +1,6 @@
 # from xxlimited import Null
+from tkinter import NO
+from xxlimited import Null
 from flask import Flask,request, jsonify, make_response
 from flask_cors import CORS, cross_origin
 
@@ -69,22 +71,56 @@ def create_new_group():
         ifpublic = data['isPublic']
         # print("ifpublic",ifpublic)
         class_code = data['classCode']
-       
-       
-        sql_insert_our_group = "INSERT INTO our_group (class_code,section_id,owner,max_group_size,current_group_size,is_public, description,group_name) VALUES ( %s, %s, %s, %s, %s,%s,%s,%s) "
-        val = ( class_code, section ,owner, max_group_size,current_group_size,ifpublic,"No description",group_name)
-        cursor.execute(sql_insert_our_group, val)
+        print("data------------------------------",data)
 
-        query_group_code = """ SELECT MAX(group_code) As max From our_group """
-        cursor.execute(query_group_code)
-        group_code = cursor.fetchone()[0]
-     
 
-        # print("max group_code is ",group_code)
+        response = {}
+        if section == ''  or group_name == '' or max_group_size == '':
+            if section == '':
+                print("data------------------------------",data)
+                response['section_result'] = "section cannot be empty"
 
-        sql_update_group_code = "UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s"
-        val = (group_code, owner,class_code)
-        cursor.execute(sql_update_group_code, val)  
+            if group_name == '':
+                response['group_name_result'] = "group name cannot be empty"
+            
+            if max_group_size == 0:
+                response['group_size_result'] = "group size cannot be empty"     
+            return response
+
+
+        else:
+            sql_check_group_code = "SELECT * from user_class_group WHERE username = %s AND class_code = %s"
+
+            val = (owner,class_code)
+            cursor.execute(sql_check_group_code, val)   
+            check_group_code = cursor.fetchone()
+            row_count = cursor.rowcount
+            print("==========================fechall",row_count)
+            print("==========================fechall",check_group_code)
+
+            if check_group_code[3] is None:
+                sql_insert_our_group = "INSERT INTO our_group (class_code,section_id,owner,max_group_size,current_group_size,is_public, description,group_name) VALUES ( %s, %s, %s, %s, %s,%s,%s,%s) "
+                val = ( class_code, section ,owner, max_group_size,current_group_size,ifpublic,"No description",group_name)
+                cursor.execute(sql_insert_our_group, val)
+
+                query_group_code = """ SELECT MAX(group_code) As max From our_group """
+                cursor.execute(query_group_code)
+                group_code = cursor.fetchone()[0]
+            
+
+                # print("max group_code is ",group_code)
+
+                sql_update_group_code = "UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s"
+                val = (group_code, owner,class_code)
+                cursor.execute(sql_update_group_code, val)  
+                response = jsonify({'result':'pass',"group_code":group_code,"currentSize":current_group_size}) 
+                
+
+            else:
+                response = jsonify({'result':'you already in a group'}) 
+
+
+
 
 
         # query = """ SELECT * from our_group WHERE class_code = %s"""
@@ -103,11 +139,12 @@ def create_new_group():
         #     print(x)
 
 
-        cursor.connection.commit()
-        response = jsonify({"group_code":group_code,"currentSize":current_group_size}) 
+            cursor.connection.commit()
+            
+            
         corsFix(response.headers)
         return response
         
+        
    
-    corsFix(response.headers)
-    return response
+  
