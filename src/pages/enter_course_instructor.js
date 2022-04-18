@@ -1,11 +1,108 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState,useEffect } from 'react'
+import { Link, useHistory,useLocation} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styles from './enter_course_instructor.module.css'
 
 import Dropdown from "../misc/dropdown"
+import ListGroup from 'react-bootstrap/ListGroup'
+import { Container,Col,Row,Form, Card} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
+import axios from 'axios';
 
-const EnterCourseInstructor = () => {
+const EnterCourseInstructor = ({name, messageNumber}) => {
+  let data = useLocation();
+  let classCode = data.state.code
+
+  const [groups,setGroups] = useState([]);
+
+  const history = useHistory();
+
+  //http://127.0.0.1:5000/enter_course_instructor'
+  //http://128.205.32.39:5100/enter_course_instructor
+
+  function submitHandler(group_code) {
+      const ver = confirm("Are you sure you want to delete this group?");
+      if(ver) {
+          axios.post('http://128.205.32.39:5100/enter_course_instructor', {
+          group_code: group_code, class_code: classCode
+          }).then( res => {
+              setGroups(res.data)
+          })
+          .catch(err => {
+              console.log(err);
+          });
+      }
+  }
+
+  React.useEffect(() => {
+    // set our variable to true
+    let isApiSubscribed = true;
+
+    axios.get('http://128.205.32.39:5100/enter_course_instructor',{params:{classCode:classCode}}).then(
+      res => {
+        if (isApiSubscribed) {
+        setGroups(res.data)
+      }
+    },
+   err => {
+      console.log(err);
+   }
+  )
+  return () => {
+    // cancel the subscription
+    isApiSubscribed = false;
+  };
+
+},[])
+
+  const Student_group_list = ({group}) => {
+    return(
+      (<ListGroup  key={group.groupCode}>
+        <ListGroup.Item className={styles['coursesection']}>
+        <Container >
+        <Row hidden> {group.groupCode} </Row>
+        <Row >
+          <Col md={7} > Group name: {group.groupName } </Col>
+          <Col  md={{ span: 2, offset: 2 }}>
+            <Button onClick={function() {submitHandler(group.groupCode)}} className = {styles['list_iterm_button']} variant="outline-secondary">Delete</Button>
+          </Col>
+        </Row>
+
+        <Row xs="auto">
+          <Col style={{fontSize:12}}>Group size: {group.groupSize}</Col>
+          <Col style={{fontSize:12}}>Current size: {group.currentSize}</Col>
+          <Col style={{fontSize:12}}>Section number: {group.sectionNumber} </Col>
+        </Row>
+
+        <Row >
+          <Col style={{fontSize:13}} md={8}className={styles['listcontainer']} > Description:</Col>
+        </Row>
+
+        <Row >
+          <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
+          <Col md={{ span: 2, offset: 3 }}>
+                <Link
+                  to={{ 
+                    pathname: "/group_profile", 
+                    state: { groupcode: group.groupCode, name: name, classcode: classCode } 
+                  }}
+                  style={{ color: "grey", fontSize: 10, textDecoration: 'none' }}>
+                  See more details
+                </Link>
+              </Col>
+        </Row>
+
+        </Container>
+          </ListGroup.Item>
+      </ListGroup>)
+  )
+}
+
+
+    const group_list = groups.map((group) =>
+    <Student_group_list key={group.groupCode} group={group}/>
+    );
+
   return (
     <div className={styles['container']}>
       <Helmet>
@@ -24,12 +121,13 @@ const EnterCourseInstructor = () => {
 
         {/* name dropdown */}
         <span className={styles['name']}>
-          <Dropdown/>
+          <Dropdown username={name} messageNumber = {messageNumber}/>
         </span>
-        
-      </div>
     </div>
-  )
-}
+    <div className={styles['center']}>
+      {group_list}
+    </div>
+  </div>
+  )}
 
 export default EnterCourseInstructor

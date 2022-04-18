@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Switch,BrowserRouter as Router, Route,useHistory,Redirect } from 'react-router-dom'
 import { browserHistory } from 'react-router'
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import './style.module.css'
@@ -14,18 +15,20 @@ import HomeLogin from './pages/home_login'
 import EnterCourseStudent from './pages/enter_course_student'
 import HomeStudent from './pages/home_student'
 import SignUp from './pages/sign_up'
+import GroupProfile from './pages/group_profile'
+import Message from './pages/message'
 
-
-axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 const App = () => {
   const [name,setName] = useState('');
   const [token, setToken] = useState(false);
   const [professor, setProfessor] = useState(false);
+  const [messageNumber, setMessageNumber] = useState(1);
   const history = useHistory();
   
   
   useEffect(() => {
-    axios.get('http://128.205.32.39:5100/').then(
+     axios.get('http://128.205.32.39:5100/').then(
+    //  axios.get('http://127.0.0.1:5000/ ').then(
       res => {
         console.log("This is the get request from login \n",res)
         console.log(localStorage.getItem('token'))
@@ -44,14 +47,23 @@ const App = () => {
         if (res.data.result == "Professor"){
           setProfessor(true)
           setToken(true)
+          setName(res.data.username)
+          setMessageNumber(res.data.message_number)
+          
         }
         else if (res.data.result == "Student"){
           setProfessor(false)
           setToken(true)
+          setName(res.data.username)
+          setMessageNumber(res.data.message_number)
+
+          console.log(messageNumber)
         }
         else{
           setToken(false)
         }
+        setName(res.data.username)
+        console.log(res.data.username)
        
       },
       err => {
@@ -67,36 +79,27 @@ const App = () => {
       {token ?(
           <Switch>
             {(professor)?(
-              <Switch>  
-                <Route exact component={EnterCourseInstructor} path="/enter_course_instructor" />
+              <Switch>
+                <Route exact path="/enter_course_instructor" component={()=><EnterCourseInstructor name={name} messageNumber={messageNumber}/>} />
+                <Route exact path='/group_profile' component = {GroupProfile} />
                 <Route exact component={ResetPassword} path="/reset_password" />
                 <Route exact component={RetrieveUsername} path="/retrieve_username" />
                 <Redirect exact from="/" to="/home_instructor" />
-                {/* <Route exact component={HomeLogin} path="/">
-                  <Redirect push to="/home_instructor" />
-                </Route> */}
-                <Route exact component={HomeInstructor} path="/home_instructor" />
+                <Route exact path="/home_instructor" component={()=><HomeInstructor messageNumber={messageNumber} />}/>
+                <Route exact path='/group_profile' component={()=><GroupProfile messageNumber={messageNumber} />} />
               </Switch>)
               
 
             :(
               <Switch>
-                {console.log(professor)}  
-                <Route exact component={ResetPassword} path="/reset_password" />
-                <Route exact component={RetrieveUsername} path="/retrieve_username" />
-                {console.log("student" + professor)}
-                <Route exact component={HomeStudent} path="/home_student" />
+                <Route exact path="/home_student" component={()=><HomeStudent messageNumber={messageNumber} />}/>
                 <Redirect exact from="/" to="/home_student" />
-                {/* <Route exact component={HomeLogin} path="/"> */}
-                  {/* <Redirect push to="/home_student" /> */}
-
-                  {/* <Redirect to="/home_student" /> */}
-                {/* </Route> */}
-                <Route exact component={EnterCourseStudent} path="/enter_course_student" />
-                <Route exact component={SignUp} path="/sign_up" />
+                <Route exact path="/enter_course_student" component={()=><EnterCourseStudent name={name} messageNumber={messageNumber}/>} />
+                <Route exact path='/group_profile' component={()=><GroupProfile messageNumber={messageNumber} />} />
+                <Route exact  path="/message" component={()=><Message name={name} messageNumber={messageNumber}/>} />
                 </Switch>)
           }
-          {/* {console.log("professor is true "+ professor)} */}
+          
           </Switch>
      )
       :(   
@@ -109,5 +112,8 @@ const App = () => {
   </Router>
   )
 }
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 ReactDOM.render(<App />, document.getElementById('app'))
+
+

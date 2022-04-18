@@ -9,28 +9,20 @@
 .name:hover {
     color: #00778e;
 }
-.dropdown {
+.dropdownMenu {
     margin-top: 10px;
     background-color: white;
     position: absolute;
-    width: 150px;
+    width: 145px;
     z-index: 2;
     border-radius: 3px;
     box-shadow: -3px 3px 5px 0px #c4c5c7;
     right: 0;
     margin-right: -5px;
 }
-ul {
-    list-style: none;
+.dropdown a {
+    padding: 10px;
 }
-li {
-    padding: 12px 12px;
-}
-li:hover {
-    background-color: rgba(0, 0, 0, 0.14);
-    border-radius: 3px;
-    cursor: pointer;
-}
-.logout {
-    color: #88cad9;
+.dropdown a:active {
+    background-color: #88cad9;
 }

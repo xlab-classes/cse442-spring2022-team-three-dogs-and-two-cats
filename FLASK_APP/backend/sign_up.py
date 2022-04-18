@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask_cors import CORS
 from flaskext.mysql import MySQL
 from .hash442 import *
-
+from flask_cors import cross_origin
 import re
 
 
@@ -17,9 +17,16 @@ su.config['MYSQL_DATABASE_DB'] = 'cse442_2022_spring_team_n_db'
 mysql.init_app(su)
 
 
-@sign_up.route("/sign_up", methods=['POST', 'GET'])
-# @cross_origin()
+@sign_up.route("/sign_up", methods=['POST', 'GET', 'OPTIONS'])
+
 def signup():
+    from .app import corsFix
+    if request.method == 'OPTIONS':
+        response = jsonify(result="200")
+        corsFix(response.headers)
+        return response
+        
+
     data = request.get_json()
     print(data)
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -64,6 +71,7 @@ def signup():
             cursor.execute(sql, val)
             conn3.commit()
             response = jsonify(result="Professor")
+            corsFix(response.headers)
             return response
         else:
             sql = "INSERT INTO user (username, password, salt, first_name, last_name, email, is_professor) VALUES (%s, %s, %s, %s, %s, %s, %s) "
@@ -72,5 +80,6 @@ def signup():
             cursor.execute(sql, val)
             conn3.commit()
             response = jsonify(result="Student")
+            corsFix(response.headers)
             return response
     return "Something went wrong"

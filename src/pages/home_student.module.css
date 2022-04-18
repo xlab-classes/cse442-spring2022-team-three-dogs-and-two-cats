@@ -67,6 +67,7 @@
 .yourcourses {
   font-size: 20px;
   align-self: flex-start;
+  color: gray;
 }
 .entercode {
   width: 135px;
@@ -90,9 +91,13 @@
   border-radius: var(--dl-radius-radius-radius8);
   justify-content: center;
   background-color: #88cad9;
+  cursor: pointer;
 }
 .joinbutton:hover {
   background-color: #7ebac7;
+}
+.joinbutton:active {
+  background-color: #88cad9;
 }
 .join {
   color: var(--dl-color-gray-white);
@@ -134,48 +139,41 @@
   margin-left: 5px;
   margin-bottom: auto;
 }
+/* --------------------- courses --------------------- */
 .coursesection {
   width: 643px;
   height: 90px;
-  display: flex;
-  position: relative;
-  align-self: center;
   box-shadow: 3px 3px 2px 0px #c4c5c7;
-  margin-top: 10px;
-  align-items: center;
   border-radius: var(--dl-radius-radius-radius8);
+  background-color: var(--dl-color-gray-white);
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: var(--dl-color-gray-white);
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .course {
+  width: 100%;
   display: flex;
-  align-self: center;
-  align-items: center;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-end;
 }
 .coursename {
-  font-size: 18px;
-  align-self: center;
-  margin-right: 360px;
-}
-.navlink {
-  display: contents;
+  font-size: 19px;
+  margin-right: auto;
+  margin-left: 20px;
+  font-weight: 500;
 }
 .enterbutton {
   width: 50px;
   height: 18px;
-  display: flex;
-  align-self: flex-end;
-  margin-top: 10px;
   transition: 0.3s;
-  align-items: center;
   border-radius: var(--dl-radius-radius-radius4);
-  flex-direction: row;
-  justify-content: center;
   text-decoration: none;
   background-color: #88cad9;
+  text-align: center;
+  margin-top: 10px;
 }
 .enterbutton:hover {
   background-color: #7ebac7;
@@ -183,26 +181,32 @@
 .enter {
   color: var(--dl-color-gray-white);
   font-size: 12px;
-  align-self: center;
-  margin-right: 0px;
 }
-.group {
+.group1, .group2 {
   width: 70px;
   height: 18px;
-  display: flex;
-  align-self: flex-end;
-  align-items: center;
-  margin-left: 10px;
-  border-color: #d98889;
   border-width: 1px;
   border-radius: var(--dl-radius-radius-radius4);
-  flex-direction: row;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+.group1 {
+  border-color: #d98889;
+}
+.group2 {
+  border-color: #C29EF0;
 }
 .nogroup {
   color: #d98889;
   font-size: 12px;
-  align-self: center;
+}
+.ingroup {
+  color: #C29EF0;
+  font-size: 12px;
 }
 .code {
   font-size: 12px;

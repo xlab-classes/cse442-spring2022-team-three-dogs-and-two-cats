@@ -25,7 +25,7 @@ const Signup = () => {
   const signup= (e) =>{
     e.preventDefault();
 
-    //http://128.205.32.39:5100, http://127.0.0.1:5000
+    //http://128.205.32.39:5100/sign_up, http://127.0.0.1:5000/sign_up
     axios.post('http://128.205.32.39:5100/sign_up',{email:email, username:username, firstname:firstname, lastname:lastname, password:password, password2:password2, professor:professor, student:student}).then(
 
       response=>{
@@ -168,7 +168,7 @@ const Signup = () => {
           </div>
         </div>
         <div className={styles['buttons']}>
-            <button type="submit" className={styles['signupbutton']} type="submit">
+            <button type="submit" className={styles['signupbutton']}>
                 <span className={styles['signuptext']}>Sign Up</span>
             </button>
           <Link to="/" className={styles['navlink1']}>

@@ -43,7 +43,7 @@
 }
 .createaccount {
   width: 375px;
-  height: 431px;
+  height: 460px;
   display: flex;
   margin-top: 4%;
   align-items: flex-start;
@@ -236,7 +236,7 @@
   height: 30px;
   display: flex;
   align-self: center;
-  margin-top: 10px;
+  margin-top: 20px;
   align-items: flex-start;
   margin-left: 0px;
   justify-content: flex-start;
@@ -253,6 +253,7 @@
   flex-direction: column;
   text-decoration: none;
   background-color: #88cad9;
+  cursor: pointer;
 }
 .signupbutton:hover {
   border: none;
