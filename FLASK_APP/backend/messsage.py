@@ -135,7 +135,7 @@ def login():
                         cursor.connection.commit()
                         
                         #Increase group count
-                        cursor.execte("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
+                        cursor.execute("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
                         cursor.connection.commit()
                     else:
                         #User has not joined class, add to both    
@@ -145,6 +145,7 @@ def login():
                         cursor.execute("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
                         cursor.connection.commit()
                         cursor.execute("UPDATE class set current_class_size = current_class_size +1 WHERE class_code = %s", classCode)
+                        cursor.connection.commit()
 
                     #Notify inviter that the invite was accepted
                     msg = username + " has accepted your invitation to join the group!"

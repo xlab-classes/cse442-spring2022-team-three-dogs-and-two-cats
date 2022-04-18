@@ -212,11 +212,18 @@ def groupProfile():
                 sql1 = "UPDATE user_class_group SET group_code = NULL WHERE username = %s and group_code = %s"
                 val1 = (data['username'], data['group_code'])
                 cursor.execute(sql1, val1)
+                cursor.connection.commit()
+                print("hi2")
                 sql2 = "UPDATE our_group SET current_group_size = current_group_size - 1 WHERE group_code = %s"
                 val2 = (data['group_code'])
-                cursor.execute(sql2, val2)
-                cursor.execute("DELETE FROM our_group WHERE current_group_size = 0")
+                cursor.execute(sql2, val2)  
                 cursor.connection.commit()
+                print("hi3")
+                cursor.execute("SELECT current_group_size from our_group WHERE group_code = %s",data['group_code'])
+                dbResult = cursor.fetchone()
+                if dbResult and dbResult[0] == 0:
+                    cursor.execute("DELETE FROM our_group WHERE group_code = %s", data['group_code'])
+                    cursor.connection.commit()
                 response = jsonify(result="left group")
     cursor.close()
 

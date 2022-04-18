@@ -73,10 +73,11 @@ def home_inst():
 
                         #Delete all groups from our_group
                         for res in dbGroupResult:
+                            group_code = res[0]
                             #Delete pending group invites
-                            cursor.execute("DELETE FROM message where group_code = %s", res[0])
+                            cursor.execute("DELETE FROM message where group_code = %s", group_code)
                             cursor.connection.commit()
-                            cursor.execute("DELETE FROM our_group where group_code = %s", res[0])
+                            cursor.execute("DELETE FROM our_group where group_code = %s", group_code)
                             cursor.connection.commit()
                         
                         #Delete class from class
