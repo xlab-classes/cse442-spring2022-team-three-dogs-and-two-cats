@@ -38,7 +38,7 @@ const GroupProfile = ({messageNumber}) => {
         console.log("GROUP CODE: " + group_code)
         console.log("CLASS CODE: " + classcode)
 
-        axios.get('http://128.205.32.39:5100/group_profile', { params: { group_code: group_code, classcode: classcode, reason: "load page" } }).then(
+        axios.get('http://127.0.0.1:5000/group_profile', { params: { group_code: group_code, classcode: classcode, reason: "load page" } }).then(
             response => {
                 console.log(response.data)
                 setNum(response.data.section_id)
@@ -53,7 +53,7 @@ const GroupProfile = ({messageNumber}) => {
                 }
             })
 
-        axios.options('http://128.205.32.39:5100/group_profile')
+        axios.options('http://127.0.0.1:5000/group_profile')
             .catch(err => { console.log(err) })
     }, [])
 
@@ -62,12 +62,12 @@ const GroupProfile = ({messageNumber}) => {
         event.preventDefault()
 
         if (event.target.desc.value != "" && isInGroup == true) {
-            axios.post('http://128.205.32.39:5100/group_profile', { group_code: group_code, desc: event.target.desc.value, reason: "edit description" }).then(
+            axios.post('http://127.0.0.1:5000/group_profile', { group_code: group_code, desc: event.target.desc.value, reason: "edit description" }).then(
                 response => {
                     window.location.reload()
                 })
 
-            axios.options('http://128.205.32.39:5100/group_profile')
+            axios.options('http://127.0.0.1:5000/group_profile')
                 .catch(err => { console.log(err) })
         }
         else if (event.target.desc.value != "" && isInGroup == false) {
@@ -89,7 +89,7 @@ const GroupProfile = ({messageNumber}) => {
             window.alert("Please insert a username.")
         }else{
             setInviteShow(false)
-            axios.post('http://128.205.32.39:5100/group_profile', {reason:'invite', usernameIn: inviteName, group: group_code}).then(
+            axios.post('http://127.0.0.1:5000/group_profile', {reason:'invite', usernameIn: inviteName, group: group_code}).then(
                 (response)=>{
                     //Verifications
                     if(response.data.result == "404"){
@@ -116,13 +116,13 @@ const GroupProfile = ({messageNumber}) => {
 
 
     function leaveGroup() {
-        axios.get('http://128.205.32.39:5100/group_profile', { params: {
+        axios.get('http://127.0.0.1:5000/group_profile', { params: {
             username: name, group_code: group_code, reason: "check group"
         }}).then( response => {
             if (response.data.result === "yes") {
                 const ver = confirm("Are you sure you want to leave this group?");
                 if (ver) {
-                    axios.post('http://128.205.32.39:5100/group_profile', {
+                    axios.post('http://127.0.0.1:5000/group_profile', {
                         username: name, group_code: group_code, reason: "leave group"
                     }).then(res => {
                         window.location.replace('/home_student');
