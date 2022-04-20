@@ -205,7 +205,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>enter_course_student - project</title>
+        <title>{className}</title>
         <meta property="og:title" content="enter_course_student - project" />
       </Helmet>
       <div className={styles['header']}>

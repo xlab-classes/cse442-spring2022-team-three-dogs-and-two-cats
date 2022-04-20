@@ -106,12 +106,12 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>enter_course_instructor - project</title>
+        <title>Groups</title>
         <meta property="og:title" content="enter_course_instructor - project" />
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['coursename']}>
-          <span>Course Name</span>
+          <span>Groups</span>
         </span>
         <Link to="/home_instructor" className={styles['navlink']}>
           <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>

@@ -84,7 +84,7 @@ const HomeInstructor = ({messageNumber}) => {
 
     <div className={styles['container']}>
       <Helmet>
-        <title>home_instructor - project</title>
+        <title>Home</title>
         <meta property="og:title" content="home_instructor - project" />
       </Helmet>
       <div className={styles['header']}>

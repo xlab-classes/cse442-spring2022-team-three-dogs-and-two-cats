@@ -199,7 +199,7 @@ const GroupProfile = ({messageNumber}) => {
 
             {/* navbar */}
             <Helmet>
-                <title>home_student - project</title>
+                <title>Group Profile</title>
                 <meta property="og:title" content="home_student - project" />
             </Helmet>
             <div className={styles['header']}>
