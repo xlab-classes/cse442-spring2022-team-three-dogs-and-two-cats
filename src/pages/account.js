@@ -49,7 +49,16 @@ const Account = ({ name, messageNumber }) => {
 
             {/* account section */}
             <form className='accountBox'>
-                {name}
+                <span className='accUsername'>{name}</span>
+                First Name
+                <input placeholder="f" />
+                Last Name
+                <input placeholder="l" />
+                Email Address
+                <input placeholder="e" />
+                Password
+                <input placeholder="p" />
+                <button type="submit">Submit Change</button>
             </form>
             {/* ------------------------------- */}
 
