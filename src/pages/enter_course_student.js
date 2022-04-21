@@ -116,8 +116,12 @@ const EnterCourseStudent = ({name, messageNumber}) => {
  
 },[])
 
+    const [requestJoinShow, setRequestJoinShow] = useState(false);
+    const requestJoinHandleClose = () => setRequestJoinShow(false);
+    const requestJoinHandleShow = () => setRequestJoinShow(true);
+
     const group_list = groups.map((group) =>
-    <Student_group_list key={group.groupCode} group={group} name={name} classcode={classCode}/>
+    <Student_group_list key={group.groupCode} group={group} name={name} classcode={classCode} requestJoinHandleShow={requestJoinHandleShow} />
     );
    
 
@@ -162,39 +166,16 @@ const EnterCourseStudent = ({name, messageNumber}) => {
       }
   }
 
-  // function check(){
-  //   if (section == ''){
-  //     console.log("empty section")
-  //     setSectionErr(true);
-  //     setError(true);
-  //     setShow(true);
-  //   }
-  //   if (groupName == ''){
-  //     setGroupNameErr(true);
-  //     setError(true);
-  //     setShow(true);
-  //   }
-  //   if (groupSize < 2){
-  //     console.log("low size");
-  //     setGroupSizeErr(true);
-  //     setError(true);
-  //     setShow(true);
-  //   }
-  //   if (isPrivate =='on'){
-  //     setPublic(false);
-      
+  function checkPrivate(){
+ 
+    if (isPrivate =='on'){
+      setPublic(false);
+    }
+    else{
+      setPublic(true);
+    }
+  }
 
-  //   }
-  //   else{
-  //     setSectionErr(false);
-  //     setGroupNameErr(false);
-  //     setGroupSizeErr(false);
-  //     setError(false);
-  //     setShow(false);
-  //     setPublic(true);
-  //   }
-
-  // }
 
   
 
@@ -311,11 +292,37 @@ const EnterCourseStudent = ({name, messageNumber}) => {
           {error
           ?(<Button variant="outline-info"  className={styles['savechangebutton'] }  disabled>Save Changes</Button>)
           :(
-          <Button variant="primary" type ="submit" className={styles['savechangebutton']}  >Save Changes</Button>)
+          <Button variant="primary" type ="submit" className={styles['savechangebutton']} onClick={checkPrivate} >Save Changes</Button>)
           }
          
         </Modal.Footer>
         </Form>
+      </Modal>
+
+
+      <Modal show={requestJoinShow} onHide={requestJoinHandleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Example textarea</Form.Label>
+              <Form.Control as="textarea" rows={3} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={requestJoinHandleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={requestJoinHandleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
       </Modal>
 
 
