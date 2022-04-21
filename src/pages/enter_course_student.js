@@ -57,7 +57,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     //   console.log(isPublic)
     // }
 
-    axios.post('http://127.0.0.1:5000/enter_course_student',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
+    axios.post('http://127.0.0.1:5000/enter_course_student',{reason:'create a group',name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
       (response)=>{
       console.log(response)
       if (response.data.result == "pass"){
@@ -117,9 +117,34 @@ const EnterCourseStudent = ({name, messageNumber}) => {
 },[])
 
     const [requestJoinShow, setRequestJoinShow] = useState(false);
-    const requestJoinHandleClose = () => setRequestJoinShow(false);
-    const requestJoinHandleShow = () => setRequestJoinShow(true);
+    const [groupCode, setGroupCode] = useState('')
+    const [message, setMessage] = useState('')
+    const requestJoinHandleClose = () => {
+      setRequestJoinShow(false);
 
+    }
+    const requestJoinHandleShow = (g) => {
+      setRequestJoinShow(true);
+      setGroupCode(g)
+    }
+
+    function sendMessage(e){
+      e.preventDefault()
+      console.log(message)
+      console.log(groupCode)
+      axios.post('http://127.0.0.1:5000/enter_course_student', {reason:'request to join', name:name, groupCode:groupCode, message:Message}).then(
+        (response)=>{
+          if (response.data.result == '200'){
+            window.alert("Send your request successfully")
+          }
+          else{
+            window.alert("404 error")
+          }                             
+        }
+    ).catch(err=>{ console.log(err) });
+  
+    }
+  
     const group_list = groups.map((group) =>
     <Student_group_list key={group.groupCode} group={group} name={name} classcode={classCode} requestJoinHandleShow={requestJoinHandleShow} />
     );
@@ -176,6 +201,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     }
   }
 
+  
 
   
 
@@ -301,28 +327,27 @@ const EnterCourseStudent = ({name, messageNumber}) => {
 
 
       <Modal show={requestJoinShow} onHide={requestJoinHandleClose}>
+      <Form onSubmit={sendMessage}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Request message</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form>
+        <Modal.Body>   
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label>Example textarea</Form.Label>
-              <Form.Control as="textarea" rows={3} />
-            </Form.Group>
-          </Form>
+              <Form.Control as="textarea" placeholder="Leave message here" rows={3} onChange={(e)=>{setMessage(e.target.value)}} />
+            </Form.Group>     
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={requestJoinHandleClose}>
+          <Button variant="outline-secondary" onClick={requestJoinHandleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={requestJoinHandleClose}>
-            Save Changes
+          <Button variant="primary" className={styles['savechangebutton']} type="submit" onClick={requestJoinHandleClose}>
+            Send Message
           </Button>
         </Modal.Footer>
+        </Form>
       </Modal>
 
 

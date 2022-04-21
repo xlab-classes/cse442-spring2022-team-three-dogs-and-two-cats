@@ -21,7 +21,7 @@ const Student_group_list = ({ group, name, classcode, requestJoinHandleShow}) =>
             <Row >
               <Col md={7} > Group name: {group.groupName} </Col>
               <Col md={{ span: 2, offset: 2 }}>
-                <Button className={styles['list_iterm_button']} variant="outline-secondary" onClick={requestJoinHandleShow}>Request to join</Button>
+                <Button className={styles['list_iterm_button']} variant="outline-secondary" onClick={()=>requestJoinHandleShow(group.groupCode)}>Request to join</Button>
               </Col>
             </Row>
 
