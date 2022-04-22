@@ -132,7 +132,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
       e.preventDefault()
       console.log(message)
       console.log(groupCode)
-      axios.post('http://127.0.0.1:5000/enter_course_student', {reason:'request to join', name:name, groupCode:groupCode, message:message}).then(
+      axios.post('http://127.0.0.1:5000/enter_course_student', {reason:'request to join', classcode: classCode, name:name, groupCode:groupCode, message:message}).then(
         (response)=>{
           if (response.data.result == '200'){
             window.alert("Send your request successfully")
