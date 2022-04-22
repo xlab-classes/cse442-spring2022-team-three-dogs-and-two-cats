@@ -15,12 +15,28 @@ const Account = ({ name, messageNumber }) => {
     const [lastname, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [password2, setPassword2] = useState('') //confirm password
 
 
-    //load at beginning of page
+    //load at beginning of page, get user's info
     useEffect(() => {
-        //
+        axios.get('http://127.0.0.1:5000/account').then(
+            response => {
+                console.log(response.data)
+                setFirstName(response.data.first_name)
+                setLastName(response.data.last_name)
+                setEmail(response.data.email)
+                setPassword(response.data.password)
+                setPassword2(response.data.password)
+            }
+        )
     }, [])
+
+
+    //submit form
+    function submitChange(event) {
+        event.preventDefault()
+    }
 
 
     return (
@@ -48,18 +64,18 @@ const Account = ({ name, messageNumber }) => {
             {/* ------------------------------- */}
 
             {/* account section */}
-            <form className='accountBox'>
+            <form className='accountBox' onSubmit={submitChange}>
                 <span className='accUsername'>{name}</span>
                 First Name
-                <input placeholder="first name" />
+                <input placeholder={firstname} />
                 Last Name
-                <input placeholder="last name" />
+                <input placeholder={lastname} />
                 Email Address
-                <input placeholder="email address" />
+                <input placeholder={email} />
                 Password
-                <input placeholder="password" type="password"/>
+                <input placeholder={password} type="password"/>
                 Confirm New Password
-                <input placeholder="confirm new password" type="password"/>
+                <input placeholder={password2} type="password"/>
                 <button type="submit">Submit Change</button>
             </form>
             {/* ------------------------------- */}
