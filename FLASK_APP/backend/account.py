@@ -28,6 +28,7 @@ def accountPage():
         if request.method == 'GET':
             
             if token:
+                # print(username)
                 first_name =''
                 last_name =''
                 email=''
@@ -38,11 +39,11 @@ def accountPage():
                 user=(username,)
                 cursor.execute(user_query,user)
                 dbUser = cursor.fetchone()
-                for elem in dbUser:
-                    first_name=elem[0]
-                    last_name=elem[1]
-                    email=elem[2]
-                    password=elem[3]
+                # print(dbUser)
+                first_name=dbUser[0]
+                last_name=dbUser[1]
+                email=dbUser[2]
+                password=dbUser[3]
                 response = jsonify(result="200", first_name = first_name, last_name= last_name, email = email,
                                        password=password, username=username)
             else:
