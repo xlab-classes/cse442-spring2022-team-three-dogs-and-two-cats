@@ -67,12 +67,41 @@ def accountPage():
                 return jsonify(result="firstname")
             elif new_last_name.strip().replace(" ", "") == "":
                 return jsonify(result="lastname")
-            elif new_password == "":
-                return jsonify(result="password")
-            elif new_password2 == "":
-                return jsonify(result="password2")
             elif new_password != new_password2:
                 return jsonify(result="passwords do not match")
+            elif new_password == "":
+                conn1 = mysql.connect()
+                checkemails = conn1.cursor()
+                checkemails.execute("SELECT email FROM user")
+                emails = checkemails.fetchall()
+                for x in emails:
+                    if data['email'].lower() == x[0].lower():
+                        print("Email is already in use.")
+                        return "Enter new email"
+
+                # update new information
+                account_query = """UPDATE user
+                            SET first_name = %s, last_name = %s, email = %s
+                            WHERE username = %s ;"""
+                newaccount_val = (new_first_name, new_last_name, new_email, username )
+                cursor.execute(account_query, newaccount_val)  
+                cursor.connection.commit()
+
+                password=''
+                user_query ="""SELECT password
+                        FROM user
+                        WHERE username = %s ;"""
+                user=(username,)
+                cursor.execute(user_query,user)
+                dbUser = cursor.fetchone()
+                # print(dbUser)
+                password=dbUser[0]
+
+                response = jsonify(result="account info updated", new_first_name = new_first_name, new_last_name=new_last_name, new_email=new_email, new_password=password)
+                return response
+            #     return jsonify(result="password")
+            # elif new_password2 == "":
+            #     return jsonify(result="password2")
             else:
                 # check if the email is already in used
                 conn1 = mysql.connect()
