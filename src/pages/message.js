@@ -34,7 +34,7 @@ const Message = ({name, messageNumber}) => {
     const accept = (a) =>{
         // e.preventDefault();
         console.log(a)
-        axios.post('http://127.0.0.1:5000/message',{reason:"accept",message_id:a.message_id}).then(
+        axios.post('http://127.0.0.1:5000/message',{reason:"inv_accept",message_id:a.message_id}).then(
             (response)=>{
             if(response.data.result == 200){
                 window.alert("You have joined the group successfully")

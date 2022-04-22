@@ -57,7 +57,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     //   console.log(isPublic)
     // }
 
-    axios.post('http://127.0.0.1:5000/enter_course_student',{reason:'create a group',name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
+    axios.post('http://127.0.0.1:5000/enter_course_student',{reason:'create',name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
       (response)=>{
       console.log(response)
       if (response.data.result == "pass"){
@@ -132,13 +132,13 @@ const EnterCourseStudent = ({name, messageNumber}) => {
       e.preventDefault()
       console.log(message)
       console.log(groupCode)
-      axios.post('http://127.0.0.1:5000/enter_course_student', {reason:'request to join', classcode: classCode, name:name, groupCode:groupCode, message:message}).then(
+      axios.post('http://127.0.0.1:5000/enter_course_student', {reason:'request', name:name, groupCode:groupCode, message:message}).then(
         (response)=>{
           if (response.data.result == '200'){
             window.alert("Send your request successfully")
           }
           else{
-            window.alert("404 error")
+            window.alert(response.data.result + " error") 
           }                             
         }
     ).catch(err=>{ console.log(err) });
