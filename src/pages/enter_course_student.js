@@ -136,7 +136,12 @@ const EnterCourseStudent = ({name, messageNumber}) => {
         (response)=>{
           if (response.data.result == '200'){
             window.alert("Send your request successfully")
+          }else if(response.data.result == -5){
+            window.alert("Group is full.")
           }
+          else if(response.data.result == -4){
+            window.alert("You already have a request pending.")
+        }
           else{
             window.alert(response.data.result + " error") 
           }                             

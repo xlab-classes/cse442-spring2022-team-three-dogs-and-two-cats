@@ -61,9 +61,10 @@ def create_new_group():
 
 
 
-    else:
+    elif request.method == 'POST':
         data = request.get_json()
-        if data['reason'] == 'create a group':
+
+        if data['reason'] == "create":
             owner = data['name']
             section = data['section']
             group_name = data['groupName']
@@ -72,18 +73,18 @@ def create_new_group():
             ifpublic = data['isPublic']
             # print("ifpublic",ifpublic)
             class_code = data['classCode']
-            print("data------------------------------",data)
+            #print("data------------------------------",data)
 
 
             response = {}
             if section == ''  or group_name == '' or max_group_size == '':
                 if section == '':
-                    print("data------------------------------",data)
+                    #print("data------------------------------",data)
                     response['section_result'] = "section cannot be empty"
 
                 if group_name == '':
                     response['group_name_result'] = "group name cannot be empty"
-                
+            
                 if max_group_size == '':
                     response['group_size_result'] = "group size cannot be empty"     
                 return response
@@ -96,8 +97,8 @@ def create_new_group():
                 cursor.execute(sql_check_group_code, val)   
                 check_group_code = cursor.fetchone()
                 row_count = cursor.rowcount
-                print("==========================fechall",row_count)
-                print("==========================fechall",check_group_code)
+            #print("==========================fechall",row_count)
+            #print("==========================fechall",check_group_code)
 
                 if check_group_code[3] is None:
                     sql_insert_our_group = "INSERT INTO our_group (class_code,section_id,owner,max_group_size,current_group_size,is_public, description,group_name) VALUES ( %s, %s, %s, %s, %s,%s,%s,%s) "
@@ -107,20 +108,83 @@ def create_new_group():
                     query_group_code = """ SELECT MAX(group_code) As max From our_group """
                     cursor.execute(query_group_code)
                     group_code = cursor.fetchone()[0]
-                
+            
 
-                    # print("max group_code is ",group_code)
+                # print("max group_code is ",group_code)
 
                     sql_update_group_code = "UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s"
                     val = (group_code, owner,class_code)
                     cursor.execute(sql_update_group_code, val)  
                     response = jsonify({'result':'pass',"group_code":group_code,"currentSize":current_group_size}) 
-                    
+                
 
                 else:
                     response = jsonify({'result':'you already in a group'}) 
+            cursor.connection.commit()
 
+        elif data['reason'] == "request":
+                groupCode = data['groupCode']
+                msg = data['message']
+                username = data['name']
+                
+
+                #Get group owner username, group name, class code, group size
+                cursor.execute("SELECT owner, group_name, class_code, current_group_size, max_group_size from our_group WHERE group_code = %s", groupCode)
+                dbResult = cursor.fetchone()
+                toUser = dbResult[0]
+                group_name = dbResult[1]
+                class_code = dbResult[2]
+
+                
+                #validate group is not full
+                if dbResult[3] == dbResult[4]:
+                    response = jsonify(result = -5)
+                    corsFix(response.headers)
+                    return response
+
+              
+
+                #validate no pending request
+                cursor.execute("SELECT message_id from message WHERE reciever_id = %s AND sender_id = %s AND group_code = %s", (toUser, username, groupCode))
+                if cursor.fetchone():
+                    response = jsonify(result = -4)
+                    corsFix(response.headers)
+                    return response
+
+                cursor.execute("SELECT class_name from class where class_code = %s", class_code)
+                dbResult = cursor.fetchone()
+                class_name = dbResult[0]
+
+                if msg == "":
+                    msg = username + " has requested to join group " + group_name + " in class " + class_name + "."
+
+                #Insert message into the database
+                msgTuple = (username, toUser, msg, '1', '1', groupCode, '1')
+                cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite, group_code, is_request) values (%s, %s , %s, %s, %s, %s, %s)", msgTuple)
                 cursor.connection.commit()
+
+                response = jsonify(result = "200")   
+
+
+
+
+        # query = """ SELECT * from our_group WHERE class_code = %s"""
+        # tuple1 = class_code
+        # cursor.execute(query,tuple1)
+        # myresult = list(cursor.fetchall())
+        # for x in myresult:
+        #     print(x)
+
+        # query = """ SELECT * From user_class_group"""
+        # tuple1 = class_code
+        # cursor.execute(query)
+        # myresult = list(cursor.fetchall())
+        
+        # for x in myresult:
+        #     print(x)
+
+
+            
             
             
         corsFix(response.headers)
