@@ -3,7 +3,6 @@
 # from xxlimited import Null
 from flask import Flask,request, jsonify, make_response
 from flask_cors import CORS, cross_origin
-
 import uuid
 
 from flask import Blueprint
@@ -27,8 +26,9 @@ def create_new_group():
         
     if request.method == 'GET':
         class_code = request.args.get("classCode")
+        name = request.args.get("name")
         print("opt_param is",class_code)
-        
+        print("name is ", name)
         
         query = """ SELECT * from our_group WHERE class_code = %s"""
         tuple1 = class_code
@@ -55,7 +55,15 @@ def create_new_group():
         cursor.execute(query,tuple2)
         class_name = cursor.fetchone()
 
-        response = jsonify({"response_list":response_list,"className":class_name})
+        query_group_code = "SELECT * FROM user_class_group WHERE username = %s AND class_code = %s"
+        val = (name,class_code)
+        cursor.execute(query_group_code, val)  
+        class_group = cursor.fetchone()
+        group_code = -1
+        if class_group is not None and class_group[3]is not None:
+            group_code = class_group[3]
+    
+        response = jsonify({"response_list":response_list,"className":class_name,"group_code":group_code})
         corsFix(response.headers)
         return response
 

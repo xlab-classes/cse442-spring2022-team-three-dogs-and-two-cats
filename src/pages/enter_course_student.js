@@ -95,14 +95,16 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     // set our variable to true
     let isApiSubscribed = true;
 
-    axios.get('http://127.0.0.1:5000/enter_course_student',{params:{classCode:classCode}}).then(
+    axios.get('http://127.0.0.1:5000/enter_course_student',{params:{classCode:classCode,name:name}}).then(
       res => {
         if (isApiSubscribed) {
         console.log(res)
-        console.log(res.data[0])
         setGroups(res.data.response_list)
         setClassName(res.data.className)
-        console.log(groups)
+        console.log(res.data.group_code)
+        if (res.data.group_code != -1){
+          history.push({pathname: "/group_profile", state: { groupcode: res.data.group_code, name: name, classcode: classCode }})
+        }
       }
     },
    err => {
