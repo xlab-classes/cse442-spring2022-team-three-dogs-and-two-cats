@@ -34,33 +34,23 @@ const Account = ({ name, messageNumber }) => {
     //submit form
     function submitChange(event) {
         event.preventDefault()
-
-        if (event.target.firstname.value != "") {
-            setFirstName(event.target.firstname.value)
-        }
-        if (event.target.lastname.value != "") {
-            setLastName(event.target.lastname.value)
-        }
-        if (event.target.email.value != "") {
-            setEmail(event.target.email.value)
-        }
-        if (event.target.password.value != "") {
-            setPassword(event.target.password.value)
-        }
-        if (event.target.password2.value != "") {
-            setPassword2(event.target.password2.value)
-        }
-
+        //console.log(first_name)
+        //console.log(last_name)
+        //console.log(email)
+        //console.log(password)
+        //console.log(password2)
         axios.post('http://127.0.0.1:5000/account', { username: name, first_name: first_name, last_name: last_name, email: email, password: password, password2: password2 }).then(
             response => {
-                console.log(response.data)
-                console.log(response.data.result)
-                
+                //console.log(response.data)
+                //console.log(response.data.result)
                 if (response.data.result == "Enter new email") {
                     window.alert("Email is already in use.")
                 }
+                if (response.data.result == "passwords do not match") {
+                    window.alert("Password and confirm password does not match.")
+                }
                 if (response.data.result == "account info updated") {
-                    window.alert("Account info updated.")
+                    window.location.reload()
                 }
             }
         )
@@ -96,15 +86,15 @@ const Account = ({ name, messageNumber }) => {
                 <span className='accUsername'>{name}</span>
 
                 First Name
-                <input placeholder={first_name} name="firstname" />
+                <input placeholder={first_name} onChange={e => setFirstName(e.target.value)} />
                 Last Name
-                <input placeholder={last_name} name="lastname" />
+                <input placeholder={last_name} onChange={e => setLastName(e.target.value)} />
                 Email Address
-                <input placeholder={email} name="email" />
+                <input placeholder={email} onChange={e => setEmail(e.target.value)} />
                 Password
-                <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" name="password" />
+                <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" onChange={e => setPassword(e.target.value)} />
                 Confirm New Password
-                <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" name="password2" />
+                <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" onChange={e => setPassword2(e.target.value)} />
 
                 <button type="submit">Submit Change</button>
             </form>
