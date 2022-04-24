@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import projectStyles from '../style.module.css'
 import styles from './home_student.module.css'
 import Dropdown from "../misc/dropdown"
 import axios from 'axios'
 import './account.css'
-import Modal from 'react-bootstrap/Modal'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 
 const Account = ({ name, messageNumber }) => {
-    const [firstname, setFirstName] = useState('')
-    const [lastname, setLastName] = useState('')
+    const location = useLocation()
+    const [first_name, setFirstName] = useState('')
+    const [last_name, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('') //confirm password
@@ -22,7 +19,6 @@ const Account = ({ name, messageNumber }) => {
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/account').then(
             response => {
-                console.log(response.data)
                 setFirstName(response.data.first_name)
                 setLastName(response.data.last_name)
                 setEmail(response.data.email)
@@ -30,12 +26,44 @@ const Account = ({ name, messageNumber }) => {
                 setPassword2(response.data.password)
             }
         )
+        axios.options('http://127.0.0.1:5000/group_profile')
+            .catch(err => { console.log(err) })
     }, [])
 
 
     //submit form
     function submitChange(event) {
         event.preventDefault()
+
+        if (event.target.firstname.value != "") {
+            setFirstName(event.target.firstname.value)
+        }
+        if (event.target.lastname.value != "") {
+            setLastName(event.target.lastname.value)
+        }
+        if (event.target.email.value != "") {
+            setEmail(event.target.email.value)
+        }
+        if (event.target.password.value != "") {
+            setPassword(event.target.password.value)
+        }
+        if (event.target.password2.value != "") {
+            setPassword2(event.target.password2.value)
+        }
+
+        axios.post('http://127.0.0.1:5000/account', { username: name, first_name: first_name, last_name: last_name, email: email, password: password, password2: password2 }).then(
+            response => {
+                console.log(response.data)
+                console.log(response.data.result)
+                
+                if (response.data.result == "Enter new email") {
+                    window.alert("Email is already in use.")
+                }
+                if (response.data.result == "account info updated") {
+                    window.alert("Account info updated.")
+                }
+            }
+        )
     }
 
 
@@ -66,16 +94,18 @@ const Account = ({ name, messageNumber }) => {
             {/* account section */}
             <form className='accountBox' onSubmit={submitChange}>
                 <span className='accUsername'>{name}</span>
+
                 First Name
-                <input placeholder={firstname} />
+                <input placeholder={first_name} name="firstname" />
                 Last Name
-                <input placeholder={lastname} />
+                <input placeholder={last_name} name="lastname" />
                 Email Address
-                <input placeholder={email} />
+                <input placeholder={email} name="email" />
                 Password
-                <input placeholder={password} type="password"/>
+                <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" name="password" />
                 Confirm New Password
-                <input placeholder={password2} type="password"/>
+                <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" name="password2" />
+
                 <button type="submit">Submit Change</button>
             </form>
             {/* ------------------------------- */}

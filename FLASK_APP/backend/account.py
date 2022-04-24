@@ -77,7 +77,7 @@ def accountPage():
                 for x in emails:
                     if data['email'].lower() == x[0].lower():
                         print("Email is already in use.")
-                        return "Enter new email"
+                        return jsonify(result="Enter new email")
 
                 # update new information
                 account_query = """UPDATE user
@@ -111,7 +111,7 @@ def accountPage():
                 for x in emails:
                     if data['email'].lower() == x[0].lower():
                         print("Email is already in use.")
-                        return "Enter new email"
+                        return jsonify(result="Enter new email")
 
                 # update new information
                 hashed = toHash(new_password)
