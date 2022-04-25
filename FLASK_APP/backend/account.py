@@ -24,7 +24,7 @@ def accountPage():
     username = ''
     if token:
         username = check_token(token)
-        # print("python ---------------")
+
         if request.method == 'GET':
             
             if token:
@@ -51,8 +51,10 @@ def accountPage():
         elif request.method == 'OPTIONS':
             response = jsonify(result="200")
         elif request.method == 'POST':
+            # print("post----------------------")
             
             data = request.get_json()
+            print(data)
             regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
             username = data['username']
             new_first_name = data['first_name']
@@ -60,6 +62,17 @@ def accountPage():
             new_email = data['email']
             new_password = data['password']
             new_password2 = data['password2']
+
+            # find the user's current password
+            user_query ="""SELECT password
+                        FROM user
+                        WHERE username = %s ;"""
+            user=(username,)
+            cursor.execute(user_query,user)
+            dbUser = cursor.fetchone()
+            old_password=dbUser[0]
+
+            
 
             if not re.fullmatch(regex, new_email):
                 return jsonify(result="email")
@@ -69,10 +82,17 @@ def accountPage():
                 return jsonify(result="lastname")
             elif new_password != new_password2:
                 return jsonify(result="passwords do not match")
-            elif new_password == "":
+            elif old_password == new_password:
+                # if the user didnt input anything in the password section
+
+                # check emails
                 conn1 = mysql.connect()
                 checkemails = conn1.cursor()
-                checkemails.execute("SELECT email FROM user")
+                emails_query ="""SELECT email
+                        FROM user
+                        WHERE username != %s ;"""
+                user=(username,)
+                checkemails.execute(emails_query,user)
                 emails = checkemails.fetchall()
                 for x in emails:
                     if data['email'].lower() == x[0].lower():
@@ -87,33 +107,25 @@ def accountPage():
                 cursor.execute(account_query, newaccount_val)  
                 cursor.connection.commit()
 
-                password=''
-                user_query ="""SELECT password
-                        FROM user
-                        WHERE username = %s ;"""
-                user=(username,)
-                cursor.execute(user_query,user)
-                dbUser = cursor.fetchone()
-                # print(dbUser)
-                password=dbUser[0]
-
-                response = jsonify(result="account info updated", new_first_name = new_first_name, new_last_name=new_last_name, new_email=new_email, new_password=password)
+                response = jsonify(result="account info updated", new_first_name = new_first_name, new_last_name=new_last_name, new_email=new_email, new_password=old_password)
                 return response
-            #     return jsonify(result="password")
-            # elif new_password2 == "":
-            #     return jsonify(result="password2")
+
             else:
                 # check if the email is already in used
                 conn1 = mysql.connect()
                 checkemails = conn1.cursor()
-                checkemails.execute("SELECT email FROM user")
+                emails_query ="""SELECT email
+                        FROM user
+                        WHERE username != %s ;"""
+                user=(username,)
+                checkemails.execute(emails_query,user)
                 emails = checkemails.fetchall()
                 for x in emails:
                     if data['email'].lower() == x[0].lower():
                         print("Email is already in use.")
                         return jsonify(result="Enter new email")
 
-                # update new information
+                # update new information (including password)
                 hashed = toHash(new_password)
                 account_query = """UPDATE user
                             SET first_name = %s, last_name = %s, email = %s, password = %s, salt=%s
@@ -121,7 +133,17 @@ def accountPage():
                 newaccount_val = (new_first_name, new_last_name, new_email,digest(hashed[0]), hashed[1], username )
                 cursor.execute(account_query, newaccount_val)  
                 cursor.connection.commit()
-                response = jsonify(result="account info updated", new_first_name = new_first_name, new_last_name=new_last_name, new_email=new_email, new_password=new_password)
+
+                # findout the user's new hashed password 
+                password=''
+                user_query ="""SELECT password
+                        FROM user
+                        WHERE username = %s ;"""
+                cursor.execute(user_query,user)
+                dbUser = cursor.fetchone()
+                password=dbUser[0]
+
+                response = jsonify(result="account info updated", new_first_name = new_first_name, new_last_name=new_last_name, new_email=new_email, new_password=password)
                 return response
 
     cursor.close()

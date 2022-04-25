@@ -15,6 +15,7 @@ const Account = ({ name, messageNumber }) => {
     const [password2, setPassword2] = useState('') //confirm password
 
 
+
     //load at beginning of page, get user's info
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/account').then(
@@ -37,8 +38,8 @@ const Account = ({ name, messageNumber }) => {
         //console.log(first_name)
         //console.log(last_name)
         //console.log(email)
-        //console.log(password)
-        //console.log(password2)
+        console.log(password)
+        console.log(password2)
         axios.post('http://127.0.0.1:5000/account', { username: name, first_name: first_name, last_name: last_name, email: email, password: password, password2: password2 }).then(
             response => {
                 //console.log(response.data)
@@ -46,6 +47,15 @@ const Account = ({ name, messageNumber }) => {
                 if (response.data.result == "Enter new email") {
                     window.alert("Email is already in use.")
                 }
+                if (response.data.result === 'email'){
+                    window.alert("Please input a valid email address");
+                }
+                if (response.data.result === 'firstname'){
+                    window.alert("Please input a valid first name");
+                }
+                else if (response.data.result === 'lastname'){
+                    window.alert("Please input a valid last name");
+                 }
                 if (response.data.result == "passwords do not match") {
                     window.alert("Password and confirm password does not match.")
                 }
@@ -92,7 +102,8 @@ const Account = ({ name, messageNumber }) => {
                 Email Address
                 <input placeholder={email} onChange={e => setEmail(e.target.value)} />
                 Password
-                <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" onChange={e => setPassword(e.target.value)} />
+                <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" onChange={e => 
+                    setPassword(e.target.value)} />
                 Confirm New Password
                 <input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" type="password" onChange={e => setPassword2(e.target.value)} />
 
