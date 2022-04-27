@@ -119,7 +119,23 @@ const GroupProfile = ({messageNumber}) => {
     }
 
     function deleteMember() {
-
+        if(!deleteName.trim()){
+            window.alert("Please enter a username.")
+        }else{
+            setDeleteShow(false)
+            axios.post('http://127.0.0.1:5000/group_profile', {reason:'delete member', username: deleteName, group_code: group_code}).then(
+                (response)=>{
+                    if(response.data.result == "invalid"){
+                        window.alert("User is not in this group")
+                    }else if(response.data.result == "member deleted"){
+                        window.alert("Member deleted")
+                        window.location.reload()
+                    }else{
+                        window.alert("Something went wrong")
+                    }
+                }
+            )
+        }
     }
 
     function leaveGroup() {
