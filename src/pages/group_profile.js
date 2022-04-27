@@ -31,6 +31,10 @@ const GroupProfile = ({messageNumber}) => {
     const inviteHandleClose = () => setInviteShow(false);
     const inviteHandleShow = () => setInviteShow(true);
 
+    const deleteHandleClose = () => setDeleteShow(false);
+    const deleteHandleShow = () => setDeleteShow(true);
+    const [deleteShow, setDeleteShow] = useState(false);
+
 
     //load at beginning of page
     useEffect(() => {
@@ -114,6 +118,9 @@ const GroupProfile = ({messageNumber}) => {
         }
     }
 
+    function deleteMember() {
+
+    }
 
     function leaveGroup() {
         axios.get('http://127.0.0.1:5000/group_profile', { params: {
@@ -166,7 +173,7 @@ const GroupProfile = ({messageNumber}) => {
     else if (isProf == true) {
         buttons =
             <div className='profileButtons'>
-                <button className='b'>Delete Member</button>
+                <button className='del' onClick={deleteHandleShow}>Delete Member</button>
             </div>
         homeButton =
             <Link to="/home_instructor" className={styles['navlink']}>
@@ -184,6 +191,9 @@ const GroupProfile = ({messageNumber}) => {
             </>
     }
 
+
+    //temporary solution
+    const [deleteName,setDeleteName] = useState('')
 
     const [inviteName,setInviteName] = useState('')
     const handleSubmit=(e)=>{
@@ -261,7 +271,33 @@ const GroupProfile = ({messageNumber}) => {
                     </Button>
                     </Modal.Footer>
                 </Form>
-            </Modal>    
+            </Modal>
+
+            <Modal show={deleteShow} onHide={deleteHandleClose}>
+                <Form onSubmit={handleSubmit}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Delete Member</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlTextarea1"
+                        >
+                        <Form.Label>Please enter username</Form.Label>
+                        <Form.Control type="text" placeholder="Type username of the student you want to remove here" rows={3} onChange={(e)=>{
+                        setDeleteName(e.target.value)}}/>
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="outline-secondary" onClick={deleteHandleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary"  type="submit" className = "savechangebutton" onClick={deleteMember}>
+                        Delete Member
+                    </Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
 
         </div>
     )
