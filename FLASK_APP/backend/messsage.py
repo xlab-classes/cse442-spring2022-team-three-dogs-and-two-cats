@@ -1,3 +1,4 @@
+from tokenize import group
 from flask import Flask,request, jsonify, make_response
 from flask_cors import CORS, cross_origin
 import jwt
@@ -19,6 +20,7 @@ def login():
     cursor = mysql.connect().cursor()
 
     #token = request.headers['Authorization']
+    response = jsonify(result = 404)
     token = None
     for (key,val) in request.headers.items():
        if key == "Authorization":
@@ -102,57 +104,81 @@ def login():
             if data['reason'] == "accept":
                 messageId = data['message_id']
                 #Get group code of group user was invited to
-                cursor.execute("SELECT group_code, sender_id FROM message where message_id = %s", messageId )
+                cursor.execute("SELECT group_code, sender_id, is_request FROM message where message_id = %s", messageId )
                 dbResult = cursor.fetchone()
 
                 if dbResult:
                     groupCode = dbResult[0]
                     sender_id = dbResult[1]
+                    isRequest = dbResult[2]
+
+                      #Delete invite from message
+                    cursor.execute("DELETE FROM message WHERE message_id = %s", messageId)
+                    cursor.connection.commit()
 
                     #Verify group isnt already full
-                    cursor.execute("SELECT current_group_size, max_group_size FROM our_group WHERE group_code = %s", groupCode)
+                    cursor.execute("SELECT current_group_size, max_group_size, class_code FROM our_group WHERE group_code = %s", groupCode)
                     dbResult = cursor.fetchone()
                     if dbResult[0] == dbResult[1]:
                        response = jsonify(result = -1)
                        corsFix(response.headers)
                        return response
-                    
-                    #Delete invite from message
-                    cursor.execute("DELETE FROM message WHERE message_id = %s", messageId)
-                    cursor.connection.commit()
 
-                    #Get class code from our_group 
-                    cursor.execute("SELECT class_code FROM our_group WHERE group_code = %s", groupCode)
-                    dbResult = cursor.fetchone()
-                    classCode = dbResult[0]
-                    #Determine if user is already in the class or not
-                    cursor.execute("SELECT * FROM user_class_group WHERE username = %s AND class_code = %s", (username, classCode))
-                    dbResult = cursor.fetchone()
+                    classCode = dbResult[2]
+                  
 
-                    if dbResult:
-                        #User is already in class, just add to group.
-                        cursor.execute("UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s", (groupCode, username, classCode))
+                    #You must be in a class to request to join, so we can skip below code for requests
+                    if isRequest == 1:
+                           #Validate requester is not in group
+                        cursor.execute("SELECT group_code FROM user_class_group WHERE username = %s AND class_code = %s", (sender_id, classCode))
+                        if cursor.fetchone()[0] is not None:
+                            response = jsonify(result = -2)
+                            corsFix(response.headers)
+                            return response
+                        
+                        cursor.execute("UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s", (groupCode, sender_id, classCode))
                         cursor.connection.commit()
                         
                         #Increase group count
                         cursor.execute("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
                         cursor.connection.commit()
-                    else:
-                        #User has not joined class, add to both    
-                        cursor.execute("INSERT INTO user_class_group (username, class_code, group_code) values (%s,%s, %s)", (username, classCode, groupCode))
+                        
+                        msg = username + " has accepted your request to join the group!"
+                        accTuple = ('Admin', sender_id, msg, '1', '0')
+                        cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite) values (%s,%s,%s,%s,%s)", accTuple)
                         cursor.connection.commit()
-                        #Increase group and class count
-                        cursor.execute("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
-                        cursor.connection.commit()
-                        cursor.execute("UPDATE class set current_class_size = current_class_size +1 WHERE class_code = %s", classCode)
-                        cursor.connection.commit()
+                        response = jsonify(result = 201)
 
-                    #Notify inviter that the invite was accepted
-                    msg = username + " has accepted your invitation to join the group!"
-                    accTuple = ('Admin', sender_id, msg, '1', '0')
-                    cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite) values (%s,%s,%s,%s,%s)", accTuple)
-                    cursor.connection.commit()
-                    response = jsonify(result = 200)
+                    else:    
+
+                       #Determine if user is already in the class or not
+                        cursor.execute("SELECT * FROM user_class_group WHERE username = %s AND class_code = %s", (username, classCode))
+                        dbResult = cursor.fetchone()
+
+                        if dbResult:
+                            #User is already in class, just add to group.
+                            cursor.execute("UPDATE user_class_group SET group_code = %s WHERE username = %s AND class_code = %s", (groupCode, username, classCode))
+                            cursor.connection.commit()
+                        
+                            #Increase group count
+                            cursor.execute("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
+                            cursor.connection.commit()
+                        else:
+                             #User has not joined class, add to both    
+                            cursor.execute("INSERT INTO user_class_group (username, class_code, group_code) values (%s,%s, %s)", (username, classCode, groupCode))
+                            cursor.connection.commit()
+                            #Increase group and class count
+                            cursor.execute("UPDATE our_group set current_group_size = current_group_size +1 WHERE group_code = %s", groupCode)
+                            cursor.connection.commit()
+                            cursor.execute("UPDATE class set current_class_size = current_class_size +1 WHERE class_code = %s", classCode)
+                            cursor.connection.commit()
+
+                        #Notify inviter that the invite was accepted
+                        msg = username + " has accepted your invitation to join the group!"
+                        accTuple = ('Admin', sender_id, msg, '1', '0')
+                        cursor.execute("INSERT INTO message (sender_id, reciever_id, content, is_unread, is_invite) values (%s,%s,%s,%s,%s)", accTuple)
+                        cursor.connection.commit()
+                        response = jsonify(result = 200)
                 else:
                     response = jsonify(result = 404)
            

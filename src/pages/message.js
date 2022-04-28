@@ -39,11 +39,17 @@ const Message = ({name, messageNumber}) => {
             if(response.data.result == 200){
                 window.alert("You have joined the group successfully")
             }
+            else if(response.data.result == 201){
+                window.alert("You have accepted the request.")
+            }
             else if(response.data.result == -1){
                 window.alert("Group is full.")
             }
-            else
-            {
+            else if(response.data.result == -2){
+                window.alert("User has joined another group.")
+            }
+           else
+            {   
                 window.alert("404 error")
             }
               
