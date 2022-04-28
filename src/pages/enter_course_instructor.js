@@ -23,7 +23,7 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
   function submitHandler(group_code) {
       const ver = confirm("Are you sure you want to delete this group?");
       if(ver) {
-          axios.post('http://128.205.32.39:5100/enter_course_instructor', {
+          axios.post('http://127.0.0.1:5000/enter_course_instructor', {
           group_code: group_code, class_code: classCode
           }).then( res => {
               setGroups(res.data)
@@ -38,7 +38,7 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
     // set our variable to true
     let isApiSubscribed = true;
 
-    axios.get('http://128.205.32.39:5100/enter_course_instructor',{params:{classCode:classCode}}).then(
+    axios.get('http://127.0.0.1:5000/enter_course_instructor',{params:{classCode:classCode}}).then(
       res => {
         if (isApiSubscribed) {
         setGroups(res.data)
@@ -81,15 +81,15 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
         <Row >
           <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
           <Col md={{ span: 2, offset: 3 }}>
-                <Link
-                  to={{ 
-                    pathname: "/group_profile", 
-                    state: { groupcode: group.groupCode, name: name, classcode: classCode } 
-                  }}
-                  style={{ color: "grey", fontSize: 10, textDecoration: 'none' }}>
-                  See more details
-                </Link>
-              </Col>
+            <Link
+              to={{ 
+                pathname: "/group_profile", 
+                state: { groupcode: group.groupCode, name: name, classcode: classCode } 
+              }}
+              style={{ color: "grey", fontSize: 9, textDecoration: 'none' }}>
+              See more details
+            </Link>
+          </Col>
         </Row>
 
         </Container>
@@ -106,12 +106,12 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>enter_course_instructor - project</title>
+        <title>Groups</title>
         <meta property="og:title" content="enter_course_instructor - project" />
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['coursename']}>
-          <span>Course Name</span>
+          <span>Groups</span>
         </span>
         <Link to="/home_instructor" className={styles['navlink']}>
           <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>

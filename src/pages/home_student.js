@@ -18,13 +18,13 @@ const HomeStudent = ({messageNumber}) => {
 
   //load user's classes
   useEffect(() => {
-    axios.post('http://128.205.32.39:5100/home_student', { class_code: class_code }).then(
+    axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
       response => {
         setUsername(response.data.username)
         setClasses(response.data.classeslst)
         console.log(response.data.classeslst)
       })
-    axios.options('http://128.205.32.39:5100/home_student')
+    axios.options('http://127.0.0.1:5000/home_student')
       .catch(err => { console.log(err) })
   }, [])
 
@@ -37,7 +37,7 @@ const HomeStudent = ({messageNumber}) => {
       window.alert("No class code entered.")
     }
 
-    axios.post('http://128.205.32.39:5100/home_student', { class_code: class_code }).then(
+    axios.post('http://127.0.0.1:5000/home_student', { class_code: class_code }).then(
       response => {
         const resp = response.data.result
         console.log(resp)
@@ -51,7 +51,7 @@ const HomeStudent = ({messageNumber}) => {
           window.location.reload()
         }
       })  
-    axios.options('http://128.205.32.39:5100/home_student')
+    axios.options('http://127.0.0.1:5000/home_student')
       .catch(err => { console.log(err) })
   }
 
@@ -59,7 +59,7 @@ const HomeStudent = ({messageNumber}) => {
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>home_student - project</title>
+        <title>Home</title>
         <meta property="og:title" content="home_student - project" />
       </Helmet>
       <div className={styles['header']}>

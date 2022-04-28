@@ -57,7 +57,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     //   console.log(isPublic)
     // }
 
-    axios.post('http://128.205.32.39:5100/enter_course_student',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
+    axios.post('http://127.0.0.1:5000/enter_course_student',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
       (response)=>{
       console.log(response)
       if (response.data.result == "pass"){
@@ -95,7 +95,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     // set our variable to true
     let isApiSubscribed = true;
 
-    axios.get('http://128.205.32.39:5100/enter_course_student',{params:{classCode:classCode}}).then(
+    axios.get('http://127.0.0.1:5000/enter_course_student',{params:{classCode:classCode}}).then(
       res => {
         if (isApiSubscribed) {
         console.log(res)
@@ -205,7 +205,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>enter_course_student - project</title>
+        <title>{className}</title>
         <meta property="og:title" content="enter_course_student - project" />
       </Helmet>
       <div className={styles['header']}>

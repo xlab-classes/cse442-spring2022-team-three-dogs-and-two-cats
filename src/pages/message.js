@@ -18,7 +18,7 @@ const Message = ({name, messageNumber}) => {
 
 
     useEffect(() => {
-        axios.get('http://128.205.32.39:5100/message').then(
+        axios.get('http://127.0.0.1:5000/message').then(
             res => {
                 console.log(res.data)
                 setReadList(res.data.readList)
@@ -34,7 +34,7 @@ const Message = ({name, messageNumber}) => {
     const accept = (a) =>{
         // e.preventDefault();
         console.log(a)
-        axios.post('http://128.205.32.39:5100/message',{reason:"accept",message_id:a.message_id}).then(
+        axios.post('http://127.0.0.1:5000/message',{reason:"accept",message_id:a.message_id}).then(
             (response)=>{
             if(response.data.result == 200){
                 window.alert("You have joined the group successfully")
@@ -55,7 +55,7 @@ const Message = ({name, messageNumber}) => {
 
     const decline = (d) =>{
         console.log(d)
-        axios.post('http://128.205.32.39:5100/message',{reason:"decline",message_id:d.message_id}).then(
+        axios.post('http://127.0.0.1:5000/message',{reason:"decline",message_id:d.message_id}).then(
             (response)=>{
                 if(response.data.result == 200){
                     window.alert("You have declined the request")
@@ -72,7 +72,7 @@ const Message = ({name, messageNumber}) => {
 
     const markRead = (m) =>{
         console.log(m)
-        axios.post('http://128.205.32.39:5100/message',{reason:"read",message_id:m.message_id}).then(
+        axios.post('http://127.0.0.1:5000/message',{reason:"read",message_id:m.message_id}).then(
             (response)=>{
                 if(response.data.result == 200){
                     
@@ -93,14 +93,14 @@ const Message = ({name, messageNumber}) => {
 
             {/* navbar */}
             <Helmet>
-                <title>home_student - project</title>
+                <title>Message</title>
                 <meta property="og:title" content="home_student - project" />
             </Helmet>
             <div className={styles['header']}>
                 <span className={styles['webname']}>
                     <span>Message</span>
                 </span>
-                <Link to="/home_student" className={styles['navlink']}>
+                <Link to="/" className={styles['navlink']}>
                     <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
                         <path d="M512 128c0 0-263.936 227.84-411.435 351.232-8.661 7.851-15.232 19.285-15.232 32.768 0 23.595 19.072 42.667 42.667 42.667h85.333v298.667c0 23.595 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.115 42.667-42.667v-170.667h170.667v170.667c0 23.552 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.072 42.667-42.667v-298.667h85.333c23.595 0 42.667-19.072 42.667-42.667 0-13.483-6.571-24.917-16.341-32.768-146.475-123.392-410.325-351.232-410.325-351.232z"></path>
                     </svg>

@@ -172,8 +172,9 @@
   border-radius: var(--dl-radius-radius-radius4);
   text-decoration: none;
   background-color: #88cad9;
-  text-align: center;
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 .enterbutton:hover {
   background-color: #7ebac7;
