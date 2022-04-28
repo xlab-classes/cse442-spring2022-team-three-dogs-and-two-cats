@@ -33,7 +33,7 @@ const HomeInstructor = ({messageNumber}) => {
 
   // sent get request when you opens the page
   useEffect(() => {
-    axios.get('http://128.205.32.39:5100/home_instructor').then(
+    axios.get('http://127.0.0.1:5000/home_instructor').then(
       (response) => {
         setClasses(response.data.listOut)
         setUsername(response.data.userOut)
@@ -62,10 +62,10 @@ const HomeInstructor = ({messageNumber}) => {
     }
     else{
       setShow(false);
-      axios.post('http://128.205.32.39:5100/home_instructor',{reason: "create", classname:classname, classsize:classsize}).then(
+      axios.post('http://127.0.0.1:5000/home_instructor',{reason: "create", classname:classname, classsize:classsize}).then(
       (response)=>{
         // sent another get request after the class is created
-        axios.get('http://128.205.32.39:5100/home_instructor').then(
+        axios.get('http://127.0.0.1:5000/home_instructor').then(
           (response) => {
             setClasses(response.data.listOut)
             setUsername(response.data.userOut)
