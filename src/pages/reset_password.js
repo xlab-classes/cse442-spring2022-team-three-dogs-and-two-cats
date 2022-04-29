@@ -23,12 +23,12 @@ const ResetPassword = () => {
     axios.post('http://127.0.0.1:5000/reset_password',{email:email}).then(
       response=>{
         if (response.data.result == "account info updated"){
-          window.alert("You will receive a temporary password in the mailbox");
+          window.alert("You will receive a temporary password in your mailbox.");
           history.push("/");
           
         }
         else{
-          window.alert("Email is not exist. Please enter a valid email address");
+          window.alert("Email does not exist. Please create an account first or enter a valid email address.");
         }
           console.log(response)
 
@@ -57,7 +57,7 @@ const ResetPassword = () => {
         <span className={styles['desc']}>
           <span>Enter the email address you used and we will</span>
           <br></br>
-          <span>send you a link to reset your password.</span>
+          <span>send you a temporary password.</span>
         </span>
         <span className={styles['email']}>Email</span>
         <input
@@ -70,7 +70,7 @@ const ResetPassword = () => {
         
         <div className={styles['buttons']}>
           <button type="submit" className={styles['resetbutton']}>
-            <span className={styles['resettext']}>Send</span>
+            <span className={styles['resettext']}>Sent</span>
           </button>
           <Link to="/" className={styles['navlink1']}>
             <button className={styles['cancelbutton']}>
