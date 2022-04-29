@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import axios from "axios";
 import { Helmet } from 'react-helmet'
 
@@ -9,6 +9,7 @@ import styles from './reset_password.module.css'
 
 const ResetPassword = () => {
   const [email,setEmail] = useState('');
+  const history = useHistory();
 
   const SendEmail= (e) =>{
 
@@ -20,8 +21,15 @@ const ResetPassword = () => {
     // axios.post('http://128.205.32.39:5100/',{email:email}).then(
     //local
     axios.post('http://127.0.0.1:5000/reset_password',{email:email}).then(
-
       response=>{
+        if (response.data.result == "account info updated"){
+          window.alert("You will receive a temporary password in the mailbox");
+          history.push("/");
+          
+        }
+        else{
+          window.alert("Email is not exist. Please enter a valid email address");
+        }
           console.log(response)
 
       })

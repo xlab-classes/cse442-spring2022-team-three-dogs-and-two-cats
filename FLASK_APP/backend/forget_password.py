@@ -78,22 +78,30 @@ def password():
         data = request.get_json()
         email = data['email']
         print(email)
-        new_password = ''.join(random.choice(
-                                string.ascii_letters) for i in range(8))
 
-        hashed = toHash(new_password)
-        reset_query = """UPDATE user
-                    SET password = %s, salt=%s
-                    WHERE email = %s ;"""
-        reset_val = (digest(hashed[0]), hashed[1], email )
-        cursor.execute(reset_query, reset_val)  
-        cursor.connection.commit()
+        email_query = """SELECT * from user WHERE email = %s"""
+        tuple_email = (email)
+        cursor.execute(email_query,tuple_email)
+        check_email = cursor.fetchone()   
+        if check_email:
+            new_password = ''.join(random.choice(
+                                    string.ascii_letters) for i in range(8))
 
-        msg = Message('Hello from the other side!', sender =   '3dogs.2cats.reset@gmail.com', recipients = [email])
-        msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"+ new_password
-        mail.send(msg)
+            hashed = toHash(new_password)
+            reset_query = """UPDATE user
+                        SET password = %s, salt=%s
+                        WHERE email = %s ;"""
+            reset_val = (digest(hashed[0]), hashed[1], email )
+            cursor.execute(reset_query, reset_val)  
+            cursor.connection.commit()
 
-        response = jsonify(result="account info updated", email=email, new_password=new_password)
+            msg = Message('Hello from the other side!', sender =   '3dogs.2cats.reset@gmail.com', recipients = [email])
+            msg.body = "Here is the temporary password: "+ new_password +". If you want to reset password please login and change it in account setting."
+            mail.send(msg)
+
+            response = jsonify(result="account info updated", email=email, new_password=new_password)
+        else:
+            response = jsonify(result="email not exist")
 
         cursor.close()
 
