@@ -18,6 +18,7 @@ import SignUp from './pages/sign_up'
 import GroupProfile from './pages/group_profile'
 import Message from './pages/message'
 import Account from './pages/account'
+import ForgotPassword from './pages/reset_password'
 
 const App = () => {
   const [name,setName] = useState('');
@@ -110,6 +111,7 @@ const App = () => {
       <Switch>
         <Route exact component={HomeLogin} path="/"/>
         <Route exact component={SignUp} path="/sign_up" />
+        <Route exact component={ForgotPassword} path="/reset_password" />
       </Switch> )
   }
     </div>

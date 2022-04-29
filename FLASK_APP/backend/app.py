@@ -11,6 +11,7 @@ from .home_student import home_student
 from .group_profile import group_profile
 from .messsage import message
 from .account import account
+from .forget_password import reset_password
 
 from flaskext.mysql import MySQL
 
@@ -50,6 +51,8 @@ app.register_blueprint(group_profile)
 app.register_blueprint(message)
 
 app.register_blueprint(account)
+
+app.register_blueprint(reset_password)
 
 
 if __name__ == '__main__':

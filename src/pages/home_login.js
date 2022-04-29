@@ -146,10 +146,11 @@ const HomeLogin = () => {
       
         />
 
+
       {/* Here is for reset password */}
-        {/* <Link to="/reset_password" className={styles['forgotpassword']}>
+        <Link to="/reset_password" className={styles['forgotpassword']}>
           Forgot Password?
-        </Link> */}
+        </Link>
 
       {/* Here id rememberme */}
         {/* <div className={styles['rememberme']}>

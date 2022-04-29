@@ -36,8 +36,8 @@ const RetrieveUsername = () => {
           className={` ${styles['emailtextbox']} ${projectStyles['input']} `}
         />
         <div className={styles['buttons']}>
-          <div className={styles['retrievebutton']}>
-            <span className={styles['retrievetext']}>Retrieve</span>
+          <div className={styles['retrievebutton']}>Retrieve
+            <span className={styles['retrievetext']}></span>
           </div>
           <Link to="/" className={styles['navlink1']}>
             <div className={styles['cancelbutton']}>

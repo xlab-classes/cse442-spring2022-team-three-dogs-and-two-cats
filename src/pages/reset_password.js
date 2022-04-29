@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import axios from "axios";
 import { Helmet } from 'react-helmet'
 
 import projectStyles from '../style.module.css'
 import styles from './reset_password.module.css'
 
+
 const ResetPassword = () => {
+  const [email,setEmail] = useState('');
+
+  const SendEmail= (e) =>{
+
+    e.preventDefault();
+
+    console.log(email)
+
+    //server
+    // axios.post('http://128.205.32.39:5100/',{email:email}).then(
+    //local
+    axios.post('http://127.0.0.1:5000/reset_password',{email:email}).then(
+
+      response=>{
+          console.log(response)
+
+      })
+  .catch(error=>{ console.log(error) })
+  }
+
   return (
     <div className={styles['container']}>
       <Helmet>
@@ -23,7 +44,7 @@ const ResetPassword = () => {
           </svg>
         </Link>
       </div>
-      <div className={styles['resetpassword']}>
+      <form className={styles['resetpassword']} onSubmit={SendEmail}>
         <span className={styles['title']}>Reset Password</span>
         <span className={styles['desc']}>
           <span>Enter the email address you used and we will</span>
@@ -32,20 +53,24 @@ const ResetPassword = () => {
         </span>
         <span className={styles['email']}>Email</span>
         <input
-          type="text"
+          type="email"
           className={` ${styles['emailtextbox']} ${projectStyles['input']} `}
+          onChange={(e)=>{
+            setEmail(e.target.value);
+          }}
         />
+        
         <div className={styles['buttons']}>
-          <div className={styles['resetbutton']}>
-            <span className={styles['resettext']}>Reset</span>
-          </div>
+          <button type="submit" className={styles['resetbutton']}>
+            <span className={styles['resettext']}>Send</span>
+          </button>
           <Link to="/" className={styles['navlink1']}>
-            <div className={styles['cancelbutton']}>
+            <button className={styles['cancelbutton']}>
               <span className={styles['canceltext']}>Cancel</span>
-            </div>
+            </button>
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   )
 }
