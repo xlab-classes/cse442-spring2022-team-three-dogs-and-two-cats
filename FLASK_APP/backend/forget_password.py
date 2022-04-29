@@ -1,11 +1,14 @@
 from flask import Flask,request, jsonify, make_response
 from flask_cors import CORS, cross_origin
+
 import jwt
 import datetime
 
 from flask import Blueprint
 # from FLASK_APP import  hash442
 from .hash442 import *
+from flask_mail import Mail,Message
+
 
 
 
@@ -18,6 +21,8 @@ def password():
     print(request.method)
     from .app import mysql, corsFix
     cursor = mysql.connect().cursor()
+
+    from .app import mail
 
 
     if request.method == 'OPTIONS':
@@ -69,55 +74,30 @@ def password():
 
     else:
         # print('Post request is',request.headers)
+        response = jsonify({"result":"Email Send"})
         data = request.get_json()
         email = data['email']
         print(email)
-        response = jsonify({"result":"Email Send"})
-        # password = data['password']
-    
+        new_password = ''.join(random.choice(
+                                string.ascii_letters) for i in range(8))
 
-        # if username == '' or password == '':
-        #     response = jsonify(result="username or password cannot be empty")
+        hashed = toHash(new_password)
+        reset_query = """UPDATE user
+                    SET password = %s, salt=%s
+                    WHERE email = %s ;"""
+        reset_val = (digest(hashed[0]), hashed[1], email )
+        cursor.execute(reset_query, reset_val)  
+        cursor.connection.commit()
 
-        # else:
-            
-        #     query = """ SELECT * from user WHERE username = %s """
-        #     tuple1 = (username)
-        #     cursor.execute(query,tuple1)
-        #     check_username = cursor.fetchone()
-        #     print(check_username)
-            
-        #     #check if this user is exist
-        #     if check_username is None:
-        #         print("Invalid username or password")
-        #         response = jsonify({"result":"Invalid username or password"})
+        msg = Message('Hello from the other side!', sender =   '3dogs.2cats.reset@gmail.com', recipients = [email])
+        msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"+ new_password
+        mail.send(msg)
 
-        #     else :
-        #         #check if username and password are matched
-        #         if compareUserHash(password, username):
-        #             token = create_jwt(data['username'])
-        #             print("here is token",token)
-                    
-        #         #comfirm if the user is a prof or student
-        #             if check_username[6] == 1:
-        #                 # response = jsonify({"result":"Professor", "username":username, "token":token})
-        #                 response = make_response(jsonify({"result":"Professor", "username":username,"token":token}))
-
-        #             else:
-        #                 response = jsonify({"result":"Student", "username":username,"token":token})
-
-        #             # response.set_cookie("name", token)
-        #             print(response.headers)
-
-
-        #         else:
-        #             print("Invalid username or password")
-        #             response = jsonify({"result":"Invalid username or password"})
-
-                
-        print(data) 
+        response = jsonify(result="account info updated", email=email, new_password=new_password)
 
         cursor.close()
+
+      
 
    
 
