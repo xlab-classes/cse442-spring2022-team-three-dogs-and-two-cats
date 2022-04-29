@@ -33,44 +33,6 @@ def password():
 
     if request.method == 'GET':
         print("get")
-        # #IDK why this line doesnt work, but it doesnt so I had to replace it with the for-loop
-        # #token = request.headers['Authorizaton']
-        # token = None
-        # for (key,val) in request.headers.items():
-        #    if key == "Authorization":
-        #       token = val
-
-        # print("get token",token)
-        # if token and token != 'null':
-        #     username = check_token(token)
-        #     print(username)
-
-        #     query = """ SELECT * from user WHERE username = %s """
-        #     tuple1 = (username)
-        #     cursor.execute(query,tuple1)
-        #     check_prof = cursor.fetchone()
-        #     print("query",check_prof)
-
-        #     query_message = """SELECT COUNT(message_id) FROM message WHERE reciever_id = %s AND is_unread = %s"""
-        #     message_tuple = (username, True)
-        #     cursor.execute(query_message,message_tuple)
-        #     cnt=cursor.fetchone()
-        #     message_number = -1
-        #     if cnt:
-        #         message_number = cnt[0]
-            
-        #     if check_prof and check_prof[6] == 1:
-        #         response = jsonify({'result':"Professor", 'username':username, 'message_number': message_number})
-        #     else:
-        #         response = jsonify({'result':"Student", 'username':username, 'message_number': message_number})
-        # else:
-        #     response = jsonify(result="not logged in")
-        # print("get response", response.data)
-        # corsFix(response.headers)
-        # return response
-        # print('Get request is', cookie)
-        
-        # return f" this is {cookie}"
 
     else:
         # print('Post request is',request.headers)
@@ -96,7 +58,9 @@ def password():
             cursor.connection.commit()
 
             msg = Message('Hello from the other side!', sender =   '3dogs.2cats.reset@gmail.com', recipients = [email])
-            msg.body = "Here is the temporary password: "+ new_password +". If you want to reset password please login and change it in account setting."
+            msg.body = "Here is your temporary password: "+ new_password +". You can now login with it!  If you want to reset your password then please login and change it in account setting."
+            msg.html = "Here is your temporary password: <b> "+ new_password +".</b> You can now login with it! If you want to reset your password then please login and change it in account setting."
+
             mail.send(msg)
 
             response = jsonify(result="account info updated", email=email, new_password=new_password)
