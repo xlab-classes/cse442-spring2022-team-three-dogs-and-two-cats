@@ -89,7 +89,7 @@ const HomeInstructor = ({messageNumber}) => {
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['webname']}>
-          <span>&lt;Webname&gt;</span>
+          <span>Groupo</span>
         </span>
         <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
           <path d="M512 128c0 0-263.936 227.84-411.435 351.232-8.661 7.851-15.232 19.285-15.232 32.768 0 23.595 19.072 42.667 42.667 42.667h85.333v298.667c0 23.595 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.115 42.667-42.667v-170.667h170.667v170.667c0 23.552 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.072 42.667-42.667v-298.667h85.333c23.595 0 42.667-19.072 42.667-42.667 0-13.483-6.571-24.917-16.341-32.768-146.475-123.392-410.325-351.232-410.325-351.232z"></path>
@@ -107,19 +107,6 @@ const HomeInstructor = ({messageNumber}) => {
             <Button onClick={handleShow} className={styles['createclassbutton']}>
               Create New Class
             </Button>
-          </div>
-
-          <div className={styles['sort']}>
-            <span className={styles['sortby']}>Sort By</span>
-            <div className={styles['sortoptions']}>
-              <span className={styles['newtoold']}>
-                New to Old
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: ' ',
-                  }} />
-              </span>
-            </div>
           </div>
 
         {/* display all classes */}

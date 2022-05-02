@@ -84,12 +84,12 @@ const Signup = () => {
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>sign_up - project</title>
+        <title>Sign Up</title>
         <meta property="og:title" content="sign_up - project" />
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['webname']}>
-          <span>&lt;Webname&gt;</span>
+          <span>Groupo</span>
         </span>
         <Link to="/" className={styles['navlink']}>
           <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
