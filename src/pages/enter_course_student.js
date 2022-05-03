@@ -137,7 +137,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
       axios.post('http://127.0.0.1:5000/enter_course_student', {reason:'request', name:name, groupCode:groupCode, message:message}).then(
         (response)=>{
           if (response.data.result == '200'){
-            window.alert("Send your request successfully")
+            window.alert("Sent your request successfully.")
           }else if(response.data.result == -5){
             window.alert("Group is full.")
           }

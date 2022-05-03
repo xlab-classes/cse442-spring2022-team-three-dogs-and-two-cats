@@ -62,8 +62,8 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
         <Container >
         <Row hidden> {group.groupCode} </Row>
         <Row >
-          <Col md={7} > Group name: {group.groupName } </Col>
-          <Col  md={{ span: 2, offset: 2 }}>
+            <Col xs ={7} sm={7} md = {6}> Group name: {group.groupName} </Col>
+            <Col xs  ="auto"sm = {{span:2 , offset:2 }} md ={{ span: 2, offset: 3 }} >
             <Button onClick={function() {submitHandler(group.groupCode)}} className = {styles['list_iterm_button']} variant="outline-secondary">Delete</Button>
           </Col>
         </Row>
@@ -79,8 +79,8 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
         </Row>
 
         <Row >
-          <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
-          <Col md={{ span: 2, offset: 3 }}>
+           <Col style={{ fontSize: 13 }} xs ={5} sm = {5} md = {5} className={styles['listcontainer']}> {group.description}</Col>
+            <Col xs ={{ span: 4, offset: 3 }} sm = {{span:3, offset:4}} md   = {{span:2, offset:5}} className={styles['listcontainer']}>
             <Link
               to={{ 
                 pathname: "/group_profile", 

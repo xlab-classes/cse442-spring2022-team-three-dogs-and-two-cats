@@ -162,3 +162,19 @@
   background-color: #94a5a800;
   border-color: #94a5a888;
 }
+/* --------------------- responsive --------------------- */
+@media (max-width: 660px) {
+  .coursesection {
+    height: fit-content;
+    width: 95vw;
+  }
+ 
+
+}
+@media (min-width:661px) and (max-width: 767px) {
+  .coursesection {
+    height: fit-content;
+    width: 590px;
+  }
+
+}
