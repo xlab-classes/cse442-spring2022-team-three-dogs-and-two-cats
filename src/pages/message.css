@@ -61,3 +61,17 @@
   height: 35px;
 }
 
+/* --------------------- responsive --------------------- */
+
+@media (max-width: 660px) {
+  .coursesection {
+    width: 95vw;
+    height: fit-content;
+  }
+  .readbutton {
+    float: right;
+  }
+  .acceptbutton {
+    float: right;
+  }
+}

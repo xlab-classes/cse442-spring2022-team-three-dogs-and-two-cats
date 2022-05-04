@@ -45,7 +45,7 @@
   width: 375px;
   height: 460px;
   display: flex;
-  margin-top: 4%;
+  margin-top: 20px;
   align-items: flex-start;
   margin-left: auto;
   margin-right: auto;
@@ -96,18 +96,14 @@
   height: auto;
   display: flex;
   margin-top: 10px;
-  align-items: flex-start;
   margin-left: 35px;
-  justify-content: flex-start;
 }
 .firstname {
   font-size: 14px;
-  align-self: flex-start;
 }
 .lastname {
   font-size: 14px;
-  align-self: flex-start;
-  margin-left: 94px;
+  margin-left: 99px;
 }
 .namestextbox {
   flex: 0 0 auto;
@@ -295,4 +291,59 @@
   align-self: center;
   margin-top: 7px;
   margin-left: 0px;
+}
+
+/* --------------------- responsive --------------------- */
+
+/*The screen shouldn't be getting any smaller than 375 px so all of this is pointless but...*/
+@media (max-width: 375px) {
+  .createaccount {
+    width: 100%;
+  }
+  .email {
+    margin-left: 9%;
+  }
+  .emailtextbox {
+    width: 82%;
+  }
+  .username {
+    margin-left: 9%;
+  }
+  .usernametextbox {
+    width: 82%;
+  }
+  .password {
+    margin-left: 9%;
+  }
+  .passwordtextbox {
+    width: 82%;
+  }
+  .retypepass {
+    margin-left: 9%;
+  }
+  .retypepasstextbox {
+    width: 82%;
+  }
+  .firstnametextbox {
+    width: 37.33%;
+  }
+  .lastnametextbox {
+    width: 37.33%;
+    margin-left: 6.67%;
+  }
+  .namestextbox {
+    width: auto;
+    margin-left: 0;
+    justify-content: center;
+  }
+  .names {
+    width: 100%;
+    margin-left: 9%;
+    justify-content: flex-start;
+  }
+  .lastname {
+    font-size: 14px;
+    margin-left: 26.4%;
+    justify-content: flex-start;
+  }
 }

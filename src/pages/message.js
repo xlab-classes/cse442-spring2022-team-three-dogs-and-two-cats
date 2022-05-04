@@ -127,15 +127,15 @@ const Message = ({name, messageNumber}) => {
                     <Container>    
                         <Row> 
                             
-                            <Col xs={8}>
+                            <Col xs={6}>
                                 From: {message.sender_id}
                             </Col>
-                            <Col>
+                            <Col xs={2}>
                                 <Button className='acceptbutton' variant="outline-success" onClick={()=>accept(message)}>Accept </Button>
                             </Col>
                             <Col>
                                 <Button className='acceptbutton' variant="outline-danger" onClick={()=>decline(message)}>Decline</Button>
-                            </Col> 
+                            </Col>
                         </Row>
                         <Row>
                             <Col>Message: {message.content}</Col>
@@ -150,7 +150,7 @@ const Message = ({name, messageNumber}) => {
                 <ListGroup.Item className='coursesection'>
                     <Container>    
                         <Row>   
-                            <Col xs={9}>
+                            <Col xs={7}>
                                 From: {message.sender_id}
                             </Col>
                             <Col>
@@ -175,7 +175,7 @@ const Message = ({name, messageNumber}) => {
                     <ListGroup.Item className='coursesection' style={{color:'grey'}}>
                     <Container>
                         <Row> 
-                            <Col xs={10}>
+                            <Col xs={9}>
                                 From: {message.sender_id}
                             </Col>
                             
