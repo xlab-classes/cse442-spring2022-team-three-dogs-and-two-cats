@@ -23,8 +23,8 @@ const ResetPassword = () => {
     axios.post('http://127.0.0.1:5000/reset_password',{email:email}).then(
       response=>{
         if (response.data.result == "account info updated"){
-          window.alert("You will receive a temporary password in your mailbox.");
-          history.push("/");
+          // window.alert("You will receive a temporary password in your mailbox.");
+          // history.push("/");
           
         }
         else{
