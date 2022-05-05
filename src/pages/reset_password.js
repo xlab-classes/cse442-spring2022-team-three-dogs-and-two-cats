@@ -18,9 +18,9 @@ const ResetPassword = () => {
     console.log(email)
 
     //server
-    // axios.post('http://128.205.32.39:5100/',{email:email}).then(
+     axios.post('http://128.205.32.39:5100/',{email:email}).then(
     //local
-    axios.post('http://127.0.0.1:5000/reset_password',{email:email}).then(
+    //axios.post('http://127.0.0.1:5000/reset_password',{email:email}).then(
       response=>{
         if (response.data.result == "account info updated"){
           window.alert("You will receive a temporary password in your mailbox.");

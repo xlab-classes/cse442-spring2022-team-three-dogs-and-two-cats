@@ -57,7 +57,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     //   console.log(isPublic)
     // }
 
-    axios.post('http://127.0.0.1:5000/enter_course_student',{reason:'create',name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
+    axios.post('http://128.205.32.39:5100/enter_course_student',{reason:'create',name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
       (response)=>{
       console.log(response)
       if (response.data.result == "pass"){
@@ -95,7 +95,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     // set our variable to true
     let isApiSubscribed = true;
 
-    axios.get('http://127.0.0.1:5000/enter_course_student',{params:{classCode:classCode,name:name}}).then(
+    axios.get('http://128.205.32.39:5100/enter_course_student',{params:{classCode:classCode,name:name}}).then(
       res => {
         if (isApiSubscribed) {
         console.log(res)
@@ -134,7 +134,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
       e.preventDefault()
       console.log(message)
       console.log(groupCode)
-      axios.post('http://127.0.0.1:5000/enter_course_student', {reason:'request', name:name, groupCode:groupCode, message:message}).then(
+      axios.post('http://128.205.32.39:5100/enter_course_student', {reason:'request', name:name, groupCode:groupCode, message:message}).then(
         (response)=>{
           if (response.data.result == '200'){
             window.alert("Sent your request successfully.")

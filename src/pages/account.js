@@ -20,7 +20,7 @@ const Account = ({ name, messageNumber }) => {
     // server: http://128.205.32.39:5100/account
     // local:http://127.0.0.1:5000/account
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/account').then(
+        axios.get('http://128.205.32.39:5100/account').then(
             response => {
                 setFirstName(response.data.first_name)
                 setLastName(response.data.last_name)
@@ -29,7 +29,7 @@ const Account = ({ name, messageNumber }) => {
                 setPassword2(response.data.password)
             }
         )
-        axios.options('http://127.0.0.1:5000/group_profile')
+        axios.options('http://128.205.32.39:5100/group_profile')
             .catch(err => { console.log(err) })
     }, [])
 
@@ -42,7 +42,7 @@ const Account = ({ name, messageNumber }) => {
         //console.log(email)
         console.log(password)
         console.log(password2)
-        axios.post('http://127.0.0.1:5000/account', { username: name, first_name: first_name, last_name: last_name, email: email, password: password, password2: password2 }).then(
+        axios.post('http://128.205.32.39:5100/account', { username: name, first_name: first_name, last_name: last_name, email: email, password: password, password2: password2 }).then(
             response => {
                 //console.log(response.data)
                 //console.log(response.data.result)
