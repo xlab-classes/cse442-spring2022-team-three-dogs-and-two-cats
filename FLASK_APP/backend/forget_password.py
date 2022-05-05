@@ -8,6 +8,7 @@ from flask import Blueprint
 # from FLASK_APP import  hash442
 from .hash442 import *
 from flask_mail import Mail,Message
+import time
 
 
 
@@ -44,8 +45,14 @@ def password():
         email_query = """SELECT * from user WHERE email = %s"""
         tuple_email = (email)
         cursor.execute(email_query,tuple_email)
-        check_email = cursor.fetchone()   
+        check_email = cursor.fetchone()
+        print(check_email)
+        
+
         if check_email:
+            old_password = check_email[1]
+            old_salt = check_email[2]
+
             new_password = ''.join(random.choice(
                                     string.ascii_letters) for i in range(8))
 
@@ -58,16 +65,39 @@ def password():
             cursor.connection.commit()
 
             msg = Message('Hello from the other side!', sender =   '3dogs.2cats.reset@gmail.com', recipients = [email])
-            msg.body = "Here is your temporary password: "+ new_password +". You can now login with it!  If you want to reset your password then please login and change it in account setting."
-            msg.html = "Here is your temporary password: <b> "+ new_password +".</b> You can now login with it! If you want to reset your password then please login and change it in account setting."
+            msg.body = "Here is your temporary password: "+ new_password +". This will expires in 5 minutes!  If you want to reset your password then please login within 5 minutes and change it in account setting."
+            msg.html = "Here is your temporary password: <b> "+ new_password +".</b> This will expires in <b>5 minutes</b>!  If you want to reset your password then please login within 5 minutes and change it in account setting."
 
             mail.send(msg)
 
-            response = jsonify(result="account info updated", email=email, new_password=new_password)
+            
+            print("timing start")
+
+            time.sleep(300)
+
+            pw_query = """SELECT * from user WHERE email = %s"""
+            tuple_email = (email)
+            cursor.execute(pw_query,tuple_email)
+            check_pw = cursor.fetchone()
+            check_password = check_pw[1]
+            check_salt = check_pw[2]
+
+            if check_password ==digest(hashed[0]) and check_salt ==hashed[1]:
+                re_query = """UPDATE user
+                            SET password = %s, salt=%s
+                            WHERE email = %s ;"""
+                re_val = (old_password, old_salt, email )
+                cursor.execute(re_query, re_val)  
+                cursor.connection.commit()
+
+            print("changed back to old password")
+
         else:
             response = jsonify(result="email not exist")
+            return response
 
         cursor.close()
+        response = jsonify(result="account info updated", email=email, new_password=new_password)
 
       
 
