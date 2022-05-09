@@ -8,15 +8,12 @@ const name_dropdown = (props) => {
   
   const [visible, setVisible] = React.useState(false)
 
-  
   const logout =()=>{
     console.log("Logout")
     localStorage.clear()
     }
    
 
-    
-  
   return (
     <div className='dropdown_container'>
       
@@ -32,7 +29,7 @@ const name_dropdown = (props) => {
       <div className="dropdownMenu">
       
           <Dropdown>
-              <Dropdown.Item >Account Settings</Dropdown.Item>
+              <Dropdown.Item href="/account">Account Settings</Dropdown.Item>
               <Dropdown.Item href="/message">Messages  
                 <Badge pill bg="danger">
                 {props.messageNumber > 0 && props.messageNumber}

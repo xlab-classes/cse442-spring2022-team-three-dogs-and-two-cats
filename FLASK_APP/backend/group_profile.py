@@ -207,23 +207,66 @@ def groupProfile():
                 cursor.execute(desc_query, newdesc_val)
                 cursor.connection.commit()
                 response = jsonify(result="desc updated", new_desc=new_desc)
+            elif data['reason'] == "delete member":
+                user = data['username']
+                group_code = data['group_code']
+                cursor.execute(
+                    "SELECT * FROM user_class_group WHERE username = %s AND group_code = %s",
+                    (user, group_code))
+                if cursor.fetchone() is None:
+                    response = jsonify(result="invalid")
+                    corsFix(response.headers)
+                    return response
+                else:
+                    sql1 = "UPDATE user_class_group SET group_code = NULL WHERE username = %s and group_code = %s"
+                    val1 = (data['username'], data['group_code'])
+                    cursor.execute(sql1, val1)
+                    cursor.connection.commit()
+                    sql2 = "UPDATE our_group SET current_group_size = current_group_size - 1 WHERE group_code = %s"
+                    val2 = (data['group_code'])
+                    cursor.execute(sql2, val2)
+                    cursor.connection.commit()
+                    cursor.execute("SELECT current_group_size from our_group WHERE group_code = %s", data['group_code'])
+                    dbResult = cursor.fetchone()
+                    if dbResult and dbResult[0] == 0:
+                        cursor.execute("DELETE FROM our_group WHERE group_code = %s", data['group_code'])
+                        cursor.connection.commit()
+                    else:
+                        # Check if leaver is owner
+                        cursor.execute("SELECT owner from our_group WHERE group_code = %s", data['group_code'])
+                        if user == cursor.fetchone()[0]:
+                            # Owner is leaving, assign new owner
+                            cursor.execute("SELECT username from user_class_group where group_code = %s",
+                                           data['group_code'])
+                            res = cursor.fetchone()
+                            cursor.execute("UPDATE our_group set owner = %s WHERE group_code = %s",
+                                           (res[0], data['group_code']))
+                            cursor.connection.commit()
+                    response = jsonify(result="member deleted")
             elif data['reason'] == "leave group":
-                print("hi")
                 sql1 = "UPDATE user_class_group SET group_code = NULL WHERE username = %s and group_code = %s"
                 val1 = (data['username'], data['group_code'])
                 cursor.execute(sql1, val1)
-                cursor.connection.commit()
-                print("hi2")
+                cursor.connection.commit()            
                 sql2 = "UPDATE our_group SET current_group_size = current_group_size - 1 WHERE group_code = %s"
                 val2 = (data['group_code'])
                 cursor.execute(sql2, val2)  
                 cursor.connection.commit()
-                print("hi3")
                 cursor.execute("SELECT current_group_size from our_group WHERE group_code = %s",data['group_code'])
                 dbResult = cursor.fetchone()
                 if dbResult and dbResult[0] == 0:
                     cursor.execute("DELETE FROM our_group WHERE group_code = %s", data['group_code'])
                     cursor.connection.commit()
+                else:
+                    #Check if leaver is owner
+                    cursor.execute("SELECT owner from our_group WHERE group_code = %s", data['group_code'])
+                    if username == cursor.fetchone()[0]:
+                    #Owner is leaving, assign new owner
+                        cursor.execute("SELECT username from user_class_group where group_code = %s", data['group_code'])
+                        res = cursor.fetchone()
+                        cursor.execute("UPDATE our_group set owner = %s WHERE group_code = %s", (res[0], data['group_code']))
+                        cursor.connection.commit()
+
                 response = jsonify(result="left group")
     cursor.close()
 

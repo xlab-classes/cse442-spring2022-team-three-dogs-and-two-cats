@@ -17,6 +17,8 @@ import HomeStudent from './pages/home_student'
 import SignUp from './pages/sign_up'
 import GroupProfile from './pages/group_profile'
 import Message from './pages/message'
+import Account from './pages/account'
+import ForgotPassword from './pages/reset_password'
 
 const App = () => {
   const [name,setName] = useState('');
@@ -27,8 +29,8 @@ const App = () => {
   
   
   useEffect(() => {
-     axios.get('http://128.205.32.39:5100/').then(
-    //  axios.get('http://127.0.0.1:5000/ ').then(
+     //axios.get('http://127.0.0.1:5000/').then(
+     axios.get('http://128.205.32.39:5100/ ').then(
       res => {
         console.log("This is the get request from login \n",res)
         console.log(localStorage.getItem('token'))
@@ -87,6 +89,8 @@ const App = () => {
                 <Redirect exact from="/" to="/home_instructor" />
                 <Route exact path="/home_instructor" component={()=><HomeInstructor messageNumber={messageNumber} />}/>
                 <Route exact path='/group_profile' component={()=><GroupProfile messageNumber={messageNumber} />} />
+                <Route exact  path="/message" component={()=><Message name={name} messageNumber={messageNumber}/>} />
+                <Route exact path='/account' component={()=><Account name={name} messageNumber={messageNumber} />} />
               </Switch>)
               
 
@@ -97,6 +101,7 @@ const App = () => {
                 <Route exact path="/enter_course_student" component={()=><EnterCourseStudent name={name} messageNumber={messageNumber}/>} />
                 <Route exact path='/group_profile' component={()=><GroupProfile messageNumber={messageNumber} />} />
                 <Route exact  path="/message" component={()=><Message name={name} messageNumber={messageNumber}/>} />
+                <Route exact path='/account' component={()=><Account name={name} messageNumber={messageNumber} />} />
                 </Switch>)
           }
           
@@ -106,6 +111,7 @@ const App = () => {
       <Switch>
         <Route exact component={HomeLogin} path="/"/>
         <Route exact component={SignUp} path="/sign_up" />
+        <Route exact component={ForgotPassword} path="/reset_password" />
       </Switch> )
   }
     </div>

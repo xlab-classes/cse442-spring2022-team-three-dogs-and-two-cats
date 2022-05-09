@@ -17,8 +17,8 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
 
   const history = useHistory();
 
-  //http://127.0.0.1:5000/enter_course_instructor'
-  //http://128.205.32.39:5100/enter_course_instructor
+  //http://128.205.32.39:5100/enter_course_instructor'
+  //http://127.0.0.1:5000/enter_course_instructor
 
   function submitHandler(group_code) {
       const ver = confirm("Are you sure you want to delete this group?");
@@ -62,8 +62,8 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
         <Container >
         <Row hidden> {group.groupCode} </Row>
         <Row >
-          <Col md={7} > Group name: {group.groupName } </Col>
-          <Col  md={{ span: 2, offset: 2 }}>
+            <Col xs ={7} sm={7} md = {6}> Group name: {group.groupName} </Col>
+            <Col xs  ="auto"sm = {{span:2 , offset:2 }} md ={{ span: 2, offset: 3 }} >
             <Button onClick={function() {submitHandler(group.groupCode)}} className = {styles['list_iterm_button']} variant="outline-secondary">Delete</Button>
           </Col>
         </Row>
@@ -79,17 +79,17 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
         </Row>
 
         <Row >
-          <Col style={{fontSize:13}} md={7}className={styles['listcontainer']}> {group.description}</Col>
-          <Col md={{ span: 2, offset: 3 }}>
-                <Link
-                  to={{ 
-                    pathname: "/group_profile", 
-                    state: { groupcode: group.groupCode, name: name, classcode: classCode } 
-                  }}
-                  style={{ color: "grey", fontSize: 10, textDecoration: 'none' }}>
-                  See more details
-                </Link>
-              </Col>
+           <Col style={{ fontSize: 13 }} xs ={5} sm = {5} md = {5} className={styles['listcontainer']}> {group.description}</Col>
+            <Col xs ={{ span: 4, offset: 3 }} sm = {{span:3, offset:4}} md   = {{span:2, offset:5}} className={styles['listcontainer']}>
+            <Link
+              to={{ 
+                pathname: "/group_profile", 
+                state: { groupcode: group.groupCode, name: name, classcode: classCode } 
+              }}
+              style={{ color: "grey", fontSize: 9, textDecoration: 'none' }}>
+              See more details
+            </Link>
+          </Col>
         </Row>
 
         </Container>
@@ -106,12 +106,12 @@ const EnterCourseInstructor = ({name, messageNumber}) => {
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>enter_course_instructor - project</title>
+        <title>Groups</title>
         <meta property="og:title" content="enter_course_instructor - project" />
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['coursename']}>
-          <span>Course Name</span>
+          <span>Groups</span>
         </span>
         <Link to="/home_instructor" className={styles['navlink']}>
           <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>

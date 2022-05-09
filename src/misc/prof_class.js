@@ -12,7 +12,9 @@ const ProfClass = (props) => {
     const deleteClass= (e)=>{
         //e.preventDefault();
         if(window.confirm("Are you sure you want to delete " + props.class_name +"? This cannot be undone."))
-        axios.post("http://128.205.32.39:5100/home_instructor", {reason: "delete", classCode : props.class_code}).then(
+        // http://128.205.32.39:5100/
+        // http://127.0.0.1:5000/
+        axios.post("http://127.0.0.1:5000/home_instructor", {reason: "delete", classCode : props.class_code}).then(
             (response) =>{
                 if(response.data.result == 200){
                     setShow(false)

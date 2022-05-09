@@ -9,6 +9,7 @@ import axios from 'axios'
 import './message.css'
 
 // const endPoint = "http://127.0.0.1:5000/message";
+// http://128.205.32.39:5100/
 
 // const socket = io.connect(endPoint);
 
@@ -39,11 +40,17 @@ const Message = ({name, messageNumber}) => {
             if(response.data.result == 200){
                 window.alert("You have joined the group successfully")
             }
+            else if(response.data.result == 201){
+                window.alert("You have accepted the request.")
+            }
             else if(response.data.result == -1){
                 window.alert("Group is full.")
             }
-            else
-            {
+            else if(response.data.result == -2){
+                window.alert("User has joined another group.")
+            }
+           else
+            {   
                 window.alert("404 error")
             }
               
@@ -93,14 +100,14 @@ const Message = ({name, messageNumber}) => {
 
             {/* navbar */}
             <Helmet>
-                <title>home_student - project</title>
+                <title>Message</title>
                 <meta property="og:title" content="home_student - project" />
             </Helmet>
             <div className={styles['header']}>
                 <span className={styles['webname']}>
                     <span>Message</span>
                 </span>
-                <Link to="/home_student" className={styles['navlink']}>
+                <Link to="/" className={styles['navlink']}>
                     <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
                         <path d="M512 128c0 0-263.936 227.84-411.435 351.232-8.661 7.851-15.232 19.285-15.232 32.768 0 23.595 19.072 42.667 42.667 42.667h85.333v298.667c0 23.595 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.115 42.667-42.667v-170.667h170.667v170.667c0 23.552 19.072 42.667 42.667 42.667h128c23.595 0 42.667-19.072 42.667-42.667v-298.667h85.333c23.595 0 42.667-19.072 42.667-42.667 0-13.483-6.571-24.917-16.341-32.768-146.475-123.392-410.325-351.232-410.325-351.232z"></path>
                     </svg>
@@ -120,15 +127,15 @@ const Message = ({name, messageNumber}) => {
                     <Container>    
                         <Row> 
                             
-                            <Col xs={8}>
+                            <Col xs={6}>
                                 From: {message.sender_id}
                             </Col>
-                            <Col>
+                            <Col xs={2}>
                                 <Button className='acceptbutton' variant="outline-success" onClick={()=>accept(message)}>Accept </Button>
                             </Col>
                             <Col>
                                 <Button className='acceptbutton' variant="outline-danger" onClick={()=>decline(message)}>Decline</Button>
-                            </Col> 
+                            </Col>
                         </Row>
                         <Row>
                             <Col>Message: {message.content}</Col>
@@ -143,7 +150,7 @@ const Message = ({name, messageNumber}) => {
                 <ListGroup.Item className='coursesection'>
                     <Container>    
                         <Row>   
-                            <Col xs={9}>
+                            <Col xs={7}>
                                 From: {message.sender_id}
                             </Col>
                             <Col>
@@ -168,7 +175,7 @@ const Message = ({name, messageNumber}) => {
                     <ListGroup.Item className='coursesection' style={{color:'grey'}}>
                     <Container>
                         <Row> 
-                            <Col xs={10}>
+                            <Col xs={9}>
                                 From: {message.sender_id}
                             </Col>
                             

@@ -31,6 +31,11 @@ const GroupProfile = ({messageNumber}) => {
     const inviteHandleClose = () => setInviteShow(false);
     const inviteHandleShow = () => setInviteShow(true);
 
+    const deleteHandleClose = () => setDeleteShow(false);
+    const deleteHandleShow = () => setDeleteShow(true);
+    const [deleteShow, setDeleteShow] = useState(false);
+    // http://128.205.32.39:5100/
+
 
     //load at beginning of page
     useEffect(() => {
@@ -114,6 +119,25 @@ const GroupProfile = ({messageNumber}) => {
         }
     }
 
+    function deleteMember() {
+        if(!deleteName.trim()){
+            window.alert("Please enter a username.")
+        }else{
+            setDeleteShow(false)
+            axios.post('http://128.205.32.39:5100/group_profile', {reason:'delete member', username: deleteName, group_code: group_code}).then(
+                (response)=>{
+                    if(response.data.result == "invalid"){
+                        window.alert("User is not in this group")
+                    }else if(response.data.result == "member deleted"){
+                        window.alert("Member deleted")
+                        window.location.reload()
+                    }else{
+                        window.alert("Something went wrong")
+                    }
+                }
+            )
+        }
+    }
 
     function leaveGroup() {
         axios.get('http://128.205.32.39:5100/group_profile', { params: {
@@ -166,7 +190,7 @@ const GroupProfile = ({messageNumber}) => {
     else if (isProf == true) {
         buttons =
             <div className='profileButtons'>
-                <button className='b'>Delete Member</button>
+                <button className='del' onClick={deleteHandleShow}>Delete Member</button>
             </div>
         homeButton =
             <Link to="/home_instructor" className={styles['navlink']}>
@@ -185,6 +209,9 @@ const GroupProfile = ({messageNumber}) => {
     }
 
 
+    //temporary solution
+    const [deleteName,setDeleteName] = useState('')
+
     const [inviteName,setInviteName] = useState('')
     const handleSubmit=(e)=>{
         e.preventDefault();
@@ -199,7 +226,7 @@ const GroupProfile = ({messageNumber}) => {
 
             {/* navbar */}
             <Helmet>
-                <title>home_student - project</title>
+                <title>Group Profile</title>
                 <meta property="og:title" content="home_student - project" />
             </Helmet>
             <div className={styles['header']}>
@@ -261,7 +288,33 @@ const GroupProfile = ({messageNumber}) => {
                     </Button>
                     </Modal.Footer>
                 </Form>
-            </Modal>    
+            </Modal>
+
+            <Modal show={deleteShow} onHide={deleteHandleClose}>
+                <Form onSubmit={handleSubmit}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Delete Member</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlTextarea1"
+                        >
+                        <Form.Label>Please enter username</Form.Label>
+                        <Form.Control type="text" placeholder="Type username of the student you want to remove here" rows={3} onChange={(e)=>{
+                        setDeleteName(e.target.value)}}/>
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="outline-secondary" onClick={deleteHandleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary"  type="submit" className = "savechangebutton" onClick={deleteMember}>
+                        Delete Member
+                    </Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
 
         </div>
     )

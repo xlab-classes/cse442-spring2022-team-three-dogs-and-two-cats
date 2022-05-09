@@ -16,7 +16,7 @@ const Studentcourse = (props) => {
                 <span className={styles['nogroup']}>No Group</span>
             </div>
         enterButton =
-            <Link to={{ pathname: "/enter_course_student", state: { code: props.class_code } }}>
+            <Link to={{ pathname: "/enter_course_student", state: { code: props.class_code }}} style={{ textDecoration:'none' }}>
                 <div className={styles['enterbutton']}>
                     <span className={styles['enter']}>Enter</span>
                 </div>
@@ -29,7 +29,7 @@ const Studentcourse = (props) => {
                 <span className={styles['ingroup']}>In Group</span>
             </div>
         enterButton =
-            <Link to={{ pathname: "/group_profile", state: { groupcode: props.group_code, name: props.name, classcode: props.class_code } }}>
+            <Link to={{ pathname: "/group_profile", state: { groupcode: props.group_code, name: props.name, classcode: props.class_code }}} style={{ textDecoration:'none' }}>
                 <div className={styles['enterbutton']}>
                     <span className={styles['enter']}>Enter</span>
                 </div>

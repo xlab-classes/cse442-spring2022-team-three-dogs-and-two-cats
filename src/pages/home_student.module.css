@@ -19,7 +19,7 @@
 .webname {
   font-size: 24px;
   margin-left: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 .homebutton {
   fill: #88cad9;
@@ -31,7 +31,7 @@
   margin-left: 10px;
   border-width: 0px;
   border-radius: 0px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 .homebutton:hover {
   fill: #7ebac7;
@@ -172,8 +172,9 @@
   border-radius: var(--dl-radius-radius-radius4);
   text-decoration: none;
   background-color: #88cad9;
-  text-align: center;
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 .enterbutton:hover {
   background-color: #7ebac7;
@@ -212,4 +213,22 @@
   font-size: 12px;
   align-self: flex-start;
   margin-left: 20px;
+}
+/* --------------------- responsive --------------------- */
+@media (max-width: 660px) {
+  .coursesection {
+    width: 95vw;
+  }
+  .coursesheader {
+    width: 95vw;
+    flex-direction: row;
+  }
+  .yourcourses {
+    margin-right: auto; 
+    margin-left: 0;
+  }
+  .entercode {
+    margin-left: auto; 
+    margin-right: 0;
+  }
 }

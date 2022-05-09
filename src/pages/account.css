@@ -1,0 +1,31 @@
+.accountBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 60vw;
+    margin-top: 2%;
+}
+.accUsername {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+.accountBox input{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    width: 100%;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+.accountBox button {
+    align-self: flex-end;
+    border-radius: 10px;
+    background-color: #88cad9;
+    color: white;
+    padding: 5px 15px 5px 15px;
+    margin-top: 5px;
+}
+.accountBox button:hover {
+    background-color: #7ebac7;
+}

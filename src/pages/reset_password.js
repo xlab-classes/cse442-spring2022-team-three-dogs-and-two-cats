@@ -1,21 +1,50 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-
+import React, { useState } from 'react'
+import {Link, useHistory} from 'react-router-dom'
+import axios from "axios";
 import { Helmet } from 'react-helmet'
 
 import projectStyles from '../style.module.css'
 import styles from './reset_password.module.css'
 
+
 const ResetPassword = () => {
+  const [email,setEmail] = useState('');
+  const history = useHistory();
+
+  const SendEmail= (e) =>{
+
+    e.preventDefault();
+
+    console.log(email)
+
+    //server
+     axios.post('http://128.205.32.39:5100/reset_password',{email:email}).then(
+    //local
+    //axios.post('http://127.0.0.1:5000/reset_password',{email:email}).then(
+      response=>{
+        if (response.data.result == "account info updated"){
+//           window.alert("You will receive a temporary password in your mailbox.");
+//           history.push("/");
+          
+        }
+        else{
+          window.alert("Email does not exist. Please create an account first or enter a valid email address.");
+        }
+          console.log(response)
+
+      })
+  .catch(error=>{ console.log(error) })
+  }
+
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>reset_password - project</title>
+        <title>Forgot Password</title>
         <meta property="og:title" content="reset_password - project" />
       </Helmet>
       <div className={styles['header']}>
         <span className={styles['webname']}>
-          <span>&lt;Webname&gt;</span>
+          <span>Groupo</span>
         </span>
         <Link to="/" className={styles['navlink']}>
           <svg viewBox="0 0 1024 1024" className={styles['homebutton']}>
@@ -23,29 +52,33 @@ const ResetPassword = () => {
           </svg>
         </Link>
       </div>
-      <div className={styles['resetpassword']}>
+      <form className={styles['resetpassword']} onSubmit={SendEmail}>
         <span className={styles['title']}>Reset Password</span>
         <span className={styles['desc']}>
           <span>Enter the email address you used and we will</span>
           <br></br>
-          <span>send you a link to reset your password.</span>
+          <span>send you a temporary password.</span>
         </span>
         <span className={styles['email']}>Email</span>
         <input
-          type="text"
+          type="email"
           className={` ${styles['emailtextbox']} ${projectStyles['input']} `}
+          onChange={(e)=>{
+            setEmail(e.target.value);
+          }}
         />
+        
         <div className={styles['buttons']}>
-          <div className={styles['resetbutton']}>
-            <span className={styles['resettext']}>Reset</span>
-          </div>
+          <button type="submit" className={styles['resetbutton']}>
+            <span className={styles['resettext']}>Sent</span>
+          </button>
           <Link to="/" className={styles['navlink1']}>
-            <div className={styles['cancelbutton']}>
+            <button className={styles['cancelbutton']}>
               <span className={styles['canceltext']}>Cancel</span>
-            </div>
+            </button>
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   )
 }

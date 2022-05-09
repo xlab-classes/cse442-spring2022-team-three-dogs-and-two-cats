@@ -41,10 +41,10 @@
 }
 .login {
   width: 375px;
-  height: 270px;
+  height: 300px;
   display: flex;
   align-self: center;
-  margin-top: 6%;
+  margin-top: 20px;
   align-items: flex-start;
   border-radius: var(--dl-radius-radius-radius8);
   flex-direction: column;
@@ -205,4 +205,36 @@
 
 .closebtn:hover {
   color: black;
+}
+
+/* --------------------- responsive --------------------- */
+
+/*The screen shouldn't be getting any smaller than 375 px so all of this is pointless but...*/
+@media (max-width: 375px) {
+  .login {
+    width: 100%;
+  }
+  .usernametextbox {
+    width: 82%;
+  }
+  .passwordtextbox {
+    width: 82%;
+  }
+  .forgotpassword {
+    align-self: center;
+    margin-right: 0;
+  }
+  .loginbutton {
+    width: 82%;
+  }
+  .signup {
+    margin-left: 0;
+    align-self: center;
+  }
+}
+
+@media (max-width: 200px) {
+  .login {
+    height: 320px;
+  }
 }

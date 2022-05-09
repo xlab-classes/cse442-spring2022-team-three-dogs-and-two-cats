@@ -57,7 +57,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     //   console.log(isPublic)
     // }
 
-    axios.post('http://128.205.32.39:5100/enter_course_student',{name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
+    axios.post('http://128.205.32.39:5100/enter_course_student',{reason:'create',name:name,section:section, groupName:groupName, groupSize:groupSize, isPublic:isPublic, classCode:classCode}).then(
       (response)=>{
       console.log(response)
       if (response.data.result == "pass"){
@@ -95,14 +95,16 @@ const EnterCourseStudent = ({name, messageNumber}) => {
     // set our variable to true
     let isApiSubscribed = true;
 
-    axios.get('http://128.205.32.39:5100/enter_course_student',{params:{classCode:classCode}}).then(
+    axios.get('http://128.205.32.39:5100/enter_course_student',{params:{classCode:classCode,name:name}}).then(
       res => {
         if (isApiSubscribed) {
         console.log(res)
-        console.log(res.data[0])
         setGroups(res.data.response_list)
         setClassName(res.data.className)
-        console.log(groups)
+        console.log(res.data.group_code)
+        if (res.data.group_code != -1){
+          history.push({pathname: "/group_profile", state: { groupcode: res.data.group_code, name: name, classcode: classCode }})
+        }
       }
     },
    err => {
@@ -116,8 +118,42 @@ const EnterCourseStudent = ({name, messageNumber}) => {
  
 },[])
 
+    const [requestJoinShow, setRequestJoinShow] = useState(false);
+    const [groupCode, setGroupCode] = useState('')
+    const [message, setMessage] = useState('')
+    const requestJoinHandleClose = () => {
+      setRequestJoinShow(false);
+
+    }
+    const requestJoinHandleShow = (g) => {
+      setRequestJoinShow(true);
+      setGroupCode(g)
+    }
+
+    function sendMessage(e){
+      e.preventDefault()
+      console.log(message)
+      console.log(groupCode)
+      axios.post('http://128.205.32.39:5100/enter_course_student', {reason:'request', name:name, groupCode:groupCode, message:message}).then(
+        (response)=>{
+          if (response.data.result == '200'){
+            window.alert("Sent your request successfully.")
+          }else if(response.data.result == -5){
+            window.alert("Group is full.")
+          }
+          else if(response.data.result == -4){
+            window.alert("You already have a request pending.")
+        }
+          else{
+            window.alert(response.data.result + " error") 
+          }                             
+        }
+    ).catch(err=>{ console.log(err) });
+  
+    }
+  
     const group_list = groups.map((group) =>
-    <Student_group_list key={group.groupCode} group={group} name={name} classcode={classCode}/>
+    <Student_group_list key={group.groupCode} group={group} name={name} classcode={classCode} requestJoinHandleShow={requestJoinHandleShow} />
     );
    
 
@@ -162,39 +198,17 @@ const EnterCourseStudent = ({name, messageNumber}) => {
       }
   }
 
-  // function check(){
-  //   if (section == ''){
-  //     console.log("empty section")
-  //     setSectionErr(true);
-  //     setError(true);
-  //     setShow(true);
-  //   }
-  //   if (groupName == ''){
-  //     setGroupNameErr(true);
-  //     setError(true);
-  //     setShow(true);
-  //   }
-  //   if (groupSize < 2){
-  //     console.log("low size");
-  //     setGroupSizeErr(true);
-  //     setError(true);
-  //     setShow(true);
-  //   }
-  //   if (isPrivate =='on'){
-  //     setPublic(false);
-      
+  function checkPrivate(){
+ 
+    if (isPrivate =='on'){
+      setPublic(false);
+    }
+    else{
+      setPublic(true);
+    }
+  }
 
-  //   }
-  //   else{
-  //     setSectionErr(false);
-  //     setGroupNameErr(false);
-  //     setGroupSizeErr(false);
-  //     setError(false);
-  //     setShow(false);
-  //     setPublic(true);
-  //   }
-
-  // }
+  
 
   
 
@@ -205,7 +219,7 @@ const EnterCourseStudent = ({name, messageNumber}) => {
   return (
     <div className={styles['container']}>
       <Helmet>
-        <title>enter_course_student - project</title>
+        <title>{className}</title>
         <meta property="og:title" content="enter_course_student - project" />
       </Helmet>
       <div className={styles['header']}>
@@ -311,9 +325,34 @@ const EnterCourseStudent = ({name, messageNumber}) => {
           {error
           ?(<Button variant="outline-info"  className={styles['savechangebutton'] }  disabled>Save Changes</Button>)
           :(
-          <Button variant="primary" type ="submit" className={styles['savechangebutton']}  >Save Changes</Button>)
+          <Button variant="primary" type ="submit" className={styles['savechangebutton']} onClick={checkPrivate} >Save Changes</Button>)
           }
          
+        </Modal.Footer>
+        </Form>
+      </Modal>
+
+
+      <Modal show={requestJoinShow} onHide={requestJoinHandleClose}>
+      <Form onSubmit={sendMessage}>
+        <Modal.Header closeButton>
+          <Modal.Title>Request message</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>   
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Control as="textarea" placeholder="Leave message here" rows={3} onChange={(e)=>{setMessage(e.target.value)}} />
+            </Form.Group>     
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-secondary" onClick={requestJoinHandleClose}>
+            Close
+          </Button>
+          <Button variant="primary" className={styles['savechangebutton']} type="submit" onClick={requestJoinHandleClose}>
+            Send Message
+          </Button>
         </Modal.Footer>
         </Form>
       </Modal>
